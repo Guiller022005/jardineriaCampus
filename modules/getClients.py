@@ -24,14 +24,23 @@ def getAllClientCreditoCiudad(limiteCredit, ciudad):
             clienteCredic.append(val)
     return clienteCredic
 
-def getAllClientPaisRegionCiudad(pais,region=None,ciudad=None):
+"""def getAllClientPaisRegionCiudad(pais,region=None,ciudad=None):
     clientZone = list()
     for val in cli.clientes:
         if(
             val.get('pais') == pais and
-            (val.get('region') == region or val.get('region') == None) or
+            (val.get('region') == region and val.get('region') == None) or
             (val.get('ciudad') == ciudad or val.get('ciudad') == None)
         ):
 
             clientZone.append(val)
     return clientZone
+"""
+def getAllClientsDirreccion2(direccion2):
+    ClientDireccion = []
+    for val in cli.clientes:
+        ClientDireccion.append({
+            "nombre_cliente": val.get('nombre_cliente'),
+            "linea_direccion2": val.get('linea_direccion2'),
+        })
+    return ClientDireccion
