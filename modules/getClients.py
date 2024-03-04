@@ -62,12 +62,12 @@ def getAllClientsFax(Fax):
     return ClientFax
 
 def getAllClientsCodigoEmpleado(CodigoEmpleado):
-    codigoEmpleado = []
+    CodigoEmpleado = []
     for val in cli.clientes:
-        codigoEmpleado.append({
+        CodigoEmpleado.append({
             "codigo_empleado_rep_ventas": val.get('codigo_empleado_rep_ventas')
         })
-    return codigoEmpleado
+    return CodigoEmpleado
 
 def getAllClientsCodigoPostal(Postal):
     ClientPostal = []

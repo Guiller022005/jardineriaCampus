@@ -1,4 +1,4 @@
 import modules.getClients as cliente
 
-print(cliente.getAllClientsTelefono('telefono'))
+print(cliente.getAllClientsTelefono('5552323129'))
  
