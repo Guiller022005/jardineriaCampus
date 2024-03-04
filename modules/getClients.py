@@ -44,3 +44,18 @@ def getAllClientsDirreccion2(direccion2):
             "linea_direccion2": val.get('linea_direccion2'),
         })
     return ClientDireccion
+
+#def getAllContarUsuarios(UsuarioXCiudad):
+    NumeroClient = 0
+    for val in cli.clientes:
+        if val.get("codigo_cliente"):
+            NumeroClient += 1
+    return NumeroClient
+
+def getAllClientsFax(Fax):
+    ClientFax =[]
+    for val in cli.clientes:
+        ClientFax.append({
+            "fax": val.get('fax')
+        })
+    return ClientFax
