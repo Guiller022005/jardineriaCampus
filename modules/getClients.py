@@ -24,18 +24,21 @@ def getAllClientCreditoCiudad(limiteCredit, ciudad):
             clienteCredic.append(val)
     return clienteCredic
 
-"""def getAllClientPaisRegionCiudad(pais,region=None,ciudad=None):
+def getAllClientPaisRegionCiudad(pais,region=None,ciudad=None):
     clientZone = list()
     for val in cli.clientes:
-        if(
-            val.get('pais') == pais and
-            (val.get('region') == region and val.get('region') == None) or
-            (val.get('ciudad') == ciudad or val.get('ciudad') == None)
-        ):
 
-            clientZone.append(val)
+        if(val.get('pais') == pais):
+            if (val.get('region') == region) or region == None:
+                if (val.get('ciudad') == ciudad) or ciudad == None:
+                    userInZone = dict({
+                    "pais":{val.get('pais')},
+                    "ciudad":{val.get('ciudad')},
+                    "region":{val.get('region')}
+                    })
+                    clientZone.append(userInZone)
     return clientZone
-"""
+
 def getAllClientsDirreccion2(direccion2):
     ClientDireccion = []
     for val in cli.clientes:
@@ -45,12 +48,18 @@ def getAllClientsDirreccion2(direccion2):
         })
     return ClientDireccion
 
-#def getAllContarUsuarios(UsuarioXCiudad):
-    NumeroClient = 0
+def getAllContarUsuarios(ciudad):
+    contador = 0
     for val in cli.clientes:
-        if val.get("codigo_cliente"):
-            NumeroClient += 1
-    return NumeroClient
+        if val.get('ciudad') == ciudad:
+            contador = contador + 1
+    return contador
+"""def getAllContarUsuarios(ciudad):
+    NumeroClientes = 0  # Inicializamos el contador fuera del bucle
+    for val in cli.clientes:
+        if val.get('ciudad') == ciudad:  # Verificamos si el cliente tiene la ciudad especificada
+            NumeroClientes += 1  # Incrementamos el contador si el cliente tiene la ciudad especificada
+    return NumeroClientes"""
 
 def getAllClientsFax(Fax):
     ClientFax = []

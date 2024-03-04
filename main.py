@@ -1,4 +1,5 @@
 import modules.getClients as cliente
+from tabulate import tabulate
 
-print(cliente.getAllClientsTelefono('5552323129'))
+print(cliente.getAllContarUsuarios('Madrid'))
  
