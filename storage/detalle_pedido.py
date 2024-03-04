@@ -1,3 +1,4 @@
+#
 detalle_pedido = [
     {
         "codigo_producto": 0,

@@ -1,3 +1,4 @@
+#
 empleados = [
     {
         "codigo_empleado": 1,
