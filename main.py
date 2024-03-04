@@ -1,4 +1,4 @@
 import modules.getClients as cliente
 
-print(cliente.getAllClientsFax("fax"))
+print(cliente.getAllClientsCodigoEmpleado("codigo_empleado_rep_ventas"))
  
