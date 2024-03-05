@@ -48,7 +48,7 @@ def getAllClientsDirreccion2(direccion2):
         })
     return ClientDireccion
 
-def getAllContarUsuarios(ciudad):
+def getAllContarClientes(ciudad):
     contador = 0
     for val in cli.clientes:
         if val.get('ciudad') == ciudad:
@@ -60,7 +60,12 @@ def getAllContarUsuarios(ciudad):
         if val.get('ciudad') == ciudad:  # Verificamos si el cliente tiene la ciudad especificada
             NumeroClientes += 1  # Incrementamos el contador si el cliente tiene la ciudad especificada
     return NumeroClientes"""
-
+def getAllContarCliPais(pais):
+    contador = 0
+    for val in cli.clientes:
+        if val.get('pais') == pais:
+            contador = contador + 1
+    return contador
 def getAllClientsFax(Fax):
     ClientFax = []
     for val in cli.clientes:
