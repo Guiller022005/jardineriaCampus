@@ -16,14 +16,14 @@ def getOneClientCodigo(codigo):
             "codigo_cliente": val.get('codigo_cliente'),
             "nombre_cliente": val.get('nombre_cliente'),
         }
-    
+# Filtro para limite de credito ciudad
 def getAllClientCreditoCiudad(limiteCredit, ciudad):
     clienteCredic = list()
     for val in cli.clientes:
         if(val.get('limite_credito') >= limiteCredit and val.get('ciudad') == ciudad):
             clienteCredic.append(val)
     return clienteCredic
-
+# Filtro por pais, ciudad y region
 def getAllClientPaisRegionCiudad(pais,region=None,ciudad=None):
     clientZone = list()
     for val in cli.clientes:
@@ -38,6 +38,19 @@ def getAllClientPaisRegionCiudad(pais,region=None,ciudad=None):
                     })
                     clientZone.append(userInZone)
     return clientZone
+# Filtro q permita buscar nombres q coincidad parcialmente con los de los clientes
+def getAllClientsCoincide(nombre_busqueda):
+    clients_info = []
+    for cliente in cli.clientes:
+        nombre_cliente = cliente.get("nombre_contacto")
+        codigo_cliente = cliente.get("codigo_cliente")
+        if nombre_busqueda.lower() in nombre_cliente.lower():  # Verifica si el término de búsqueda está contenido en el nombre del cliente
+            info = {
+                "nombre_contacto": nombre_cliente,
+                "codigo_cliente": codigo_cliente
+            }
+            clients_info.append(info)
+    return clients_info
 
 def getAllClientsDirreccion2(direccion2):
     ClientDireccion = []
@@ -54,12 +67,7 @@ def getAllContarClientes(ciudad):
         if val.get('ciudad') == ciudad:
             contador = contador + 1
     return contador
-"""def getAllContarUsuarios(ciudad):
-    NumeroClientes = 0  # Inicializamos el contador fuera del bucle
-    for val in cli.clientes:
-        if val.get('ciudad') == ciudad:  # Verificamos si el cliente tiene la ciudad especificada
-            NumeroClientes += 1  # Incrementamos el contador si el cliente tiene la ciudad especificada
-    return NumeroClientes"""
+
 def getAllContarCliPais(pais):
     contador = 0
     for val in cli.clientes:
