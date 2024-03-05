@@ -23,6 +23,15 @@ def getAllClientCreditoCiudad(limiteCredit, ciudad):
         if(val.get('limite_credito') >= limiteCredit and val.get('ciudad') == ciudad):
             clienteCredic.append(val)
     return clienteCredic
+
+# Filtro para limite de credito por region
+def getAllClientCreditoPais(limiteCredit, pais):
+    clienteCredit = list()
+    for val in cli.clientes:
+        if(val.get('limite_credito') >= limiteCredit and val.get('pais') == pais):
+            clienteCredit.append(val)
+    return clienteCredit
+
 # Filtro por pais, ciudad y region
 def getAllClientPaisRegionCiudad(pais,region=None,ciudad=None):
     clientZone = list()
@@ -51,7 +60,7 @@ def getAllClientsCoincide(nombre_busqueda):
             }
             clients_info.append(info)
     return clients_info
-
+# Filtro para buscar Direccion2 de todos los clientes
 def getAllClientsDirreccion2(direccion2):
     ClientDireccion = []
     for val in cli.clientes:
@@ -61,6 +70,7 @@ def getAllClientsDirreccion2(direccion2):
         })
     return ClientDireccion
 
+# Filtro para contar la cantidad de clientes en una determinada ciudad
 def getAllContarClientes(ciudad):
     contador = 0
     for val in cli.clientes:
@@ -68,12 +78,17 @@ def getAllContarClientes(ciudad):
             contador = contador + 1
     return contador
 
+# Filtro para contar la cantidad de clientes en un determinado pais
 def getAllContarCliPais(pais):
     contador = 0
     for val in cli.clientes:
-        if val.get('pais') == pais:
+        if val.get("pais") == pais:
             contador = contador + 1
     return contador
+
+
+
+# Filtro para Fax de clientes
 def getAllClientsFax(Fax):
     ClientFax = []
     for val in cli.clientes:
@@ -83,26 +98,34 @@ def getAllClientsFax(Fax):
         })
     return ClientFax
 
-def getAllClientsCodigoEmpleado(CodigoEmpleado):
+# Filtro para codigo de empleado
+def getAllClientsCodigoEmpleado(CodigoEmp):
     CodigoEmpleado = []
     for val in cli.clientes:
         CodigoEmpleado.append({
-            "codigo_empleado_rep_ventas": val.get('codigo_empleado_rep_ventas')
+            "nombre_cliente": val.get('nombre_cliente'),
+             "codigo_empleado_rep_ventas": val.get('codigo_empleado_rep_ventas')
         })
     return CodigoEmpleado
-
+    
+# Filtro para codigo postal
 def getAllClientsCodigoPostal(Postal):
     ClientPostal = []
     for val in cli.clientes:
         ClientPostal.append({
+            "nombre_cliente": val.get('nombre_cliente'),
             "codigo_postal": val.get('codigo_postal')
         })
     return ClientPostal
 
+# Filtro para telefono clientes
 def getAllClientsTelefono(Telefono):
     TelefonoEmpleado = []
     for val in cli.clientes:
         TelefonoEmpleado.append({
+            "nombre_cliente": val.get('nombre_cliente'),
             "telefono": val.get('telefono')
         })
     return TelefonoEmpleado
+
+#
