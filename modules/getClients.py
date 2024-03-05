@@ -128,4 +128,3 @@ def getAllClientsTelefono(Telefono):
         })
     return TelefonoEmpleado
 
-#
