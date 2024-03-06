@@ -6,4 +6,5 @@ import modules.getPedido as pedido
 import modules.getPagos as pago
 #print(tabulate(oficina.getAllCiudadTelefono('Australia')))
 
-print(tabulate(pago.getAllCodigoClienteFecha(), tablefmt="grid"))
+#print(tabulate(pedido.getAllEstadosPedido(), tablefmt="grid"))
+print(tabulate(pedido.getAllEstadosPedido()))

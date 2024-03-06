@@ -2,10 +2,9 @@ import storage.pedido as pedido
 
 # Devuleve un listado con los distintos estados por los q puede pasar un pedido
 def getAllEstadosPedido():
-    pedidoEstado = []
+    estados = set()
     for val in pedido.pedido:
-        pedidoEstado.append({
-            "codigo_pedido": val.get('codigo_pedido'),
-            "estado": val.get('estado')
-        })
-    return pedidoEstado
+        estado = val.get("estado")
+        if estado not in estados:
+            estados.add(estado)
+    return estados
