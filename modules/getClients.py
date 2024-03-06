@@ -128,3 +128,12 @@ def getAllClientsTelefono(Telefono):
         })
     return TelefonoEmpleado
 
+# Devuelve un listado con el nombre de los todos los clientes españoles
+def getAllClientsSpain(pais):
+    clientSpain = []
+    for val in cli.clientes:
+        if(val.get("pais")) == "Spain":
+            clientSpain.append({
+                "nombre_cliente": val.get('nombre_cliente'),
+            })
+    return clientSpain
