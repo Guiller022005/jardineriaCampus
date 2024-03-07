@@ -1,12 +1,6 @@
 import storage.pago as pagos
+
 # Devuelve un listado con el codigo de cliente de aquellos clientes q realizaron algun pago en 2008. Tenga en cuenta q debera eliminar aquellos codigos de cliente q aparezcan repetidos.
-"""def getAllCodigoClienteFecha():
-     = []
-    for val in pagos.pago:
-        if(val.get("fecha_pago"))== "2008":
-            CodigoFecha.append({
-                "codigo_cliente": val.get("codigo_cliente")
-            })"""
 def getAllCodigoClienteFecha():
     CodigoFecha = []
     codigos_vistos = set()  # Usamos un conjunto para evitar duplicados
@@ -23,3 +17,17 @@ def getAllCodigoClienteFecha():
         )
         codigos_vistos.add("codigo_cliente")
     return CodigoFecha
+
+# Devuelve un listado con todos los pagos q se realizaron en en el año 2008 mediante paypal, ordena el resultado de mayor a menor
+def getAllPagosFecha():
+    pagosFecha = []
+    for val in pagos.pago:
+        if("2008") in val.get("fecha_pago") and val.get("forma_pago") is ("PayPal"):
+            pagosFecha.append({
+                    "codigo_de_cliente": val.get("codigo_cliente"),
+                    "fecha_pago": val.get("fecha_pago"),
+                    "forma_pago": val.get("forma_pago"),
+                    "total": val.get("total")
+                })
+    pagosFecha = sorted(pagosFecha, key=lambda x: x ["total"], reverse=True)
+    return pagosFecha
