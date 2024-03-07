@@ -31,3 +31,12 @@ def getAllPagosFecha():
                 })
     pagosFecha = sorted(pagosFecha, key=lambda x: x ["total"], reverse=True)
     return pagosFecha
+
+# Devuelve un listadocon todas las formas de pago q aparecen en la tabla pago. Tenga en cuenta q no deben aparecer formas de pago repetidas
+def getAllFormasDePago():
+    tipoPago = set()
+    for val in pagos.pago:
+        formaPago = val.get("forma_pago")
+        if formaPago not in tipoPago:
+            tipoPago.add(formaPago)
+    return tipoPago
