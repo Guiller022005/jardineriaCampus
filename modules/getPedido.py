@@ -1,14 +1,14 @@
 import storage.pedido as pe
 from datetime import datetime
 # Devuleve un listado con los distintos estados por los q puede pasar un pedido
-"""def getAllEstadosPedido():
+def getAllEstadosPedido():
     estados = set()
-    for val in pedido.pedido:
+    for val in pe.pedido:
         estado = val.get("estado")
         if estado not in estados:
             estados.add(estado)
     return estados
-"""
+
 # Devuelve un listado con el codigo de pedido,
 # codigo de cliente, fecha esperada y
 # fecha de entrega de los pedidos q no
@@ -69,3 +69,22 @@ def getAllPedidosRechazados():
                     "estado_pedido": val.get("estado")
                 })
     return pedidosRechazados
+
+# Devuelve un listado de todos los pedidos q han sido entregados en el mes de enero de cualquier año
+def getAllPedidosEntregadosEnero():
+    pedidosEntregadosMes = []
+    for val in pe.pedido:
+        fecha_entrega = val.get("fecha_entrega")
+        if fecha_entrega:
+            date_1 = "/".join(val.get("fecha_entrega").split("-")[::-1])
+            start = datetime.strptime(date_1, "%d/%m/%Y")
+            if start.month == 1 and val.get("estado") == "Entregado":
+                pedidosEntregadosMes.append({
+                    "codigo_pedido": val.get("codigo_pedido"),
+                    "codigo_de_cliente": val.get("codigo_cliente"),
+                    "fecha_de_entrega": val.get("fecha_entrega"),
+                    "estado_pedido": val.get("estado")
+                })
+    return pedidosEntregadosMes
+
+
