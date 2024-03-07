@@ -40,3 +40,6 @@ def getAllFormasDePago():
         if formaPago not in tipoPago:
             tipoPago.add(formaPago)
     return tipoPago
+
+# Devuelve un listado con todos los productos q pertenecen a la gama Ornamentales y q tienen mas de 100 unidades en shok.
+# El listado debera estar ordenado por su precio de venta, mostrarlo en primer lugar los de mayor precio
