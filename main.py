@@ -2,9 +2,9 @@ from tabulate import tabulate
 import modules.getClients as cliente
 import modules.getOficina as oficina
 import modules.getEmpleado as empleado
-import modules.getPedido as pedido
+import modules.getPedido as pedidos
 import modules.getPagos as pago
 #print(tabulate(oficina.getAllCiudadTelefono('Australia')))
 
-#print(tabulate(pedido.getAllEstadosPedido(), tablefmt="grid"))
-print(tabulate(pedido.getAllEstadosPedido()))
+print(tabulate(pedidos.getAllPedidosEntregadosAtrasadosDeTiempo(), tablefmt="grid"))
+#print(tabulate(pago.getAllCodigoClienteFecha()))
