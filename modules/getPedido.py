@@ -58,3 +58,14 @@ def getAllPedidosEntregadosAtrasadosDeTiempo():
 
 
 #Devuelve el listado de todos los pedidos q fueron rechazados en 2009 
+def getAllPedidosRechazados():
+    pedidosRechazados = []
+    for val in pe.pedido:
+        if("2009") in val.get("fecha_pedido") and val.get("estado") is ("Rechazado"):
+            pedidosRechazados.append({
+                    "codigo_pedido": val.get("codigo_pedido"),
+                    "codigo_de_cliente": val.get("codigo_cliente"),
+                    "fecha_pedido": val.get("fecha_pedido"),
+                    "estado_pedido": val.get("estado")
+                })
+    return pedidosRechazados

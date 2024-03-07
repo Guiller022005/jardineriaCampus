@@ -1,4 +1,3 @@
-#
 pedido = [
     {
         "codigo_pedido": 1,
