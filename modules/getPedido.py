@@ -1,5 +1,6 @@
 import storage.pedido as pe
 from datetime import datetime
+from tabulate import tabulate
 # Devuleve un listado con los distintos estados por los q puede pasar un pedido
 def getAllEstadosPedido():
     estados = set()
@@ -61,7 +62,7 @@ def getAllPedidosEntregadosAtrasadosDeTiempo():
 def getAllPedidosRechazados():
     pedidosRechazados = []
     for val in pe.pedido:
-        if("2009") in val.get("fecha_pedido") and val.get("estado") is ("Rechazado"):
+        if("2009") in val.get("fecha_pedido") and val.get("estado") == ("Rechazado"):
             pedidosRechazados.append({
                     "codigo_pedido": val.get("codigo_pedido"),
                     "codigo_de_cliente": val.get("codigo_cliente"),
@@ -96,8 +97,14 @@ def menu():
     / _, _/  __/ /_/ / /_/ / /  / /_/  __(__  )  / /_/ /  __/  / /_/ /  __/ /_/ / / /_/ / /_/ (__  ) 
    /_/ |_|\___/ .___/\____/_/   \__/\___/____/   \__,_/\___/  / .___/\___/\__,_/_/\__,_/\____/____/  
    ___       /_/___            __                            /_/                             
-                            1. Obtener todos los clientes (codigo y nombre)
-                            2. Obtenerun cliente por su codigo (codigo y nombre)
+                            1. Obtener todos los pedidos atrasados de tiempo
+                            2. Obtener todos los pedidos retrasados
                             3. Obtener toda la informacion de un cliente segun su limite de credito y ciudad que pertenece (ejem: 3000.0, San Francisco)
-    """)
-
+        """)
+    opcion = int(input("\nSeleccione una de las opciones: "))
+    if(opcion == 1):
+        print(tabulate(getAllPedidosEntregadosAtrasadosDeTiempo(), headers="keys", tablefmt="fancy_grid"))
+    elif(opcion == 2):
+        print(tabulate(getAllPedidosRechazados(), headers="keys", tablefmt="github"))
+    elif(opcion == 3):
+        print(tabulate(getAllPedidosEntregadosEnero(), headers="keys", tablefmt="github"))
