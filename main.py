@@ -6,7 +6,6 @@ import modules.getPedido as pedidos
 import modules.getPagos as pago
 import sys
 
-
 if(__name__ == "__main__"):
         #https://patorjk.com/software/taag/#p=display&h=2&v=2&f=Slant&t=Men%C3%BA%20principal%0A1.%20cliente%0A2.%20oficina%0A3.%20empleado%0A4.%20pedidos%0A
         print("""
