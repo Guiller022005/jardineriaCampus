@@ -1,4 +1,5 @@
 import storage.cliente as cli
+from datetime import datetime
 from tabulate import tabulate
 
 def getAllClientesName():
@@ -131,7 +132,7 @@ def getAllClientsCodigoPostal(Postal):
     return ClientPostal
 
 # Filtro para telefono clientes
-def getAllClientsTelefono(Telefono):
+def getAllClientsTelefono():
     TelefonoEmpleado = []
     for val in cli.clientes:
         TelefonoEmpleado.append({
@@ -160,13 +161,28 @@ def menu():
   <  /    /_/__/ (_)__  ____  / /____                                                                 
           
                             1. Obtener todos los clientes (codigo y nombre)
-                            2. Obtenerun cliente por su codigo (codigo y nombre)
+                            2. Obtener un cliente por su codigo (codigo y nombre)
                             3. Obtener toda la informacion de un cliente segun su limite de credito y ciudad que pertenece (ejem: 3000.0, San Francisco)
+                            4. Obtener toda la informacion de un cliente segun su limite de credito y pais que pertenece (ejem: 3000.0, Spain)
+                            5. Busca un nombre y obten la coincidencia
+                            6. Obten informacion por el numero de telefono          
         """)
     opcion = int(input("\nSeleccione una de las opciones: "))
     if(opcion == 1):
-        print(tabulate(getAllClientesName(), headers="keys", tablefmt="github"))
+        print(tabulate(getAllClientesName(), headers="keys", tablefmt="fancy_grid"))
     elif(opcion == 2):
         codigoCliente = int(input("Ingresa el codigo cliente: "))
         print(tabulate(getOneClientCodigo(codigoCliente), headers="keys", tablefmt="github"))
-  
+    elif(opcion == 3):
+        limiteCredito = float(input("Ingresa el limite de credito"))
+        ciudad = str(input("Ingresa la ciudad")) 
+        print(tabulate(getAllClientCreditoCiudad(limiteCredito, ciudad), headers="keys", tablefmt="github"))
+    elif(opcion == 4):
+        limiteCredito = float(input("Ingresa el limite de credito"))
+        pais = str(input("Ingresa el pais")) 
+        print(tabulate(getAllClientCreditoPais(limiteCredito, pais), headers="keys", tablefmt="grid"))
+    elif(opcion == 5):
+        ContarXCiudad = str(input("Ingresa la ciudad"))
+        print(getAllContarClientes(ContarXCiudad))
+    elif(opcion == 6):
+        print(tabulate(getAllClientsTelefono(), headers="keys", tablefmt="grid"))
