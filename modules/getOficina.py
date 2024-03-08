@@ -1,4 +1,6 @@
 import storage.oficina as of
+from datetime import datetime
+from tabulate import tabulate
 #Devuelve un listado con el codigo de
 #oficina y la ciudad donde hat oficinas
 
@@ -39,3 +41,14 @@ def menu():
                             2. Obtenerun cliente por su codigo (codigo y nombre)
                             3. Obtener toda la informacion de un cliente segun su limite de credito y ciudad que pertenece (ejem: 3000.0, San Francisco)
     """)
+    opcion = int(input("\nSeleccione una de las opciones: "))
+# Falta arreglart
+    # if(opcion == 1):
+    #     codigoJefe = int(input("Ingresa el codigo del jefe"))
+    #     print(tabulate(getAllNombreApellidoEmailJefe(codigoJefe), headers="keys", tablefmt="fancy_grid"))
+    
+    # elif(opcion == 2):
+    #     print(tabulate(getAllPuestoNombreApellidosEmailJefe(), headers="keys", tablefmt="github"))
+    
+    # elif(opcion == 3):
+    #     print(tabulate(getAllPuestoRepresentanteDeVentas(), headers="keys", tablefmt="grid"))
