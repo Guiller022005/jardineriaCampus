@@ -43,3 +43,17 @@ def getAllFormasDePago():
 
 # Devuelve un listado con todos los productos q pertenecen a la gama Ornamentales y q tienen mas de 100 unidades en shok.
 # El listado debera estar ordenado por su precio de venta, mostrarlo en primer lugar los de mayor precio
+
+def menu():
+    print("""
+                
+       ____                        __                   __                                    
+      / __ \___  ____  ____  _____/ /____  _____   ____/ /__     ____  ____ _____ _____  _____
+     / /_/ / _ \/ __ \/ __ \/ ___/ __/ _ \/ ___/  / __  / _ \   / __ \/ __ `/ __ `/ __ \/ ___/
+    / _, _/  __/ /_/ / /_/ / /  / /_/  __(__  )  / /_/ /  __/  / /_/ / /_/ / /_/ / /_/ (__  ) 
+   /_/ |_|\___/ .___/\____/_/   \__/\___/____/   \__,_/\___/  / .___/\__,_/\__, /\____/____/  
+   ___       /_/___            __                            /_/          /____/   
+                            1. Obtener todos los clientes (codigo y nombre)
+                            2. Obtenerun cliente por su codigo (codigo y nombre)
+                            3. Obtener toda la informacion de un cliente segun su limite de credito y ciudad que pertenece (ejem: 3000.0, San Francisco)
+    """)

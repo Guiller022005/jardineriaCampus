@@ -47,4 +47,19 @@ def getAllPuestoRepresentanteDeVentas():
         )
     return puestoRepresentanteVentas
 
-# Devuelve un listado con el codigo de cliente de aquellos clientes q realizaron algun pago en 2008. Tenga en cuenta q debera eliminar aquellos codigos de cliente q aparezcan repetidos.
+
+def menu():
+    print("""
+                
+       ____                        __                   __                             __               __          
+      / __ \___  ____  ____  _____/ /____  _____   ____/ /__     ___  ____ ___  ____  / /__  ____ _____/ /___  _____
+     / /_/ / _ \/ __ \/ __ \/ ___/ __/ _ \/ ___/  / __  / _ \   / _ \/ __ `__ \/ __ \/ / _ \/ __ `/ __  / __ \/ ___/
+    / _, _/  __/ /_/ / /_/ / /  / /_/  __(__  )  / /_/ /  __/  /  __/ / / / / / /_/ / /  __/ /_/ / /_/ / /_/ (__  ) 
+   /_/ |_|\___/ .___/\____/_/   \__/\___/____/   \__,_/\___/   \___/_/ /_/ /_/ .___/_/\___/\__,_/\__,_/\____/____/  
+   ___       /_/___            __                                           /_/                                     
+  <  /    _____/ (_)__  ____  / /____                                                                                                      
+
+                            1. Obtener todos los clientes (codigo y nombre)
+                            2. Obtenerun cliente por su codigo (codigo y nombre)
+                            3. Obtener toda la informacion de un cliente segun su limite de credito y ciudad que pertenece (ejem: 3000.0, San Francisco)
+    """)

@@ -25,3 +25,17 @@ def getAllCiudadTelefono(pais):
         })
     return ciudadTelefono
 
+def menu():
+    print("""
+                
+                                                   ____                        __                   __        ____  _____      _                
+      / __ \___  ____  ____  _____/ /____  _____   ____/ /__     / __ \/ __(_)____(_)___  ____ _    
+     / /_/ / _ \/ __ \/ __ \/ ___/ __/ _ \/ ___/  / __  / _ \   / / / / /_/ / ___/ / __ \/ __ `/    
+    / _, _/  __/ /_/ / /_/ / /  / /_/  __(__  )  / /_/ /  __/  / /_/ / __/ / /__/ / / / / /_/ /     
+   /_/ |_|\___/ .___/\____/_/   \__/\___/____/   \__,_/\___/   \____/_/ /_/\___/_/_/ /_/\__,_/      
+   ___       /_/___            __                                                                                   
+
+                            1. Obtener todos los clientes (codigo y nombre)
+                            2. Obtenerun cliente por su codigo (codigo y nombre)
+                            3. Obtener toda la informacion de un cliente segun su limite de credito y ciudad que pertenece (ejem: 3000.0, San Francisco)
+    """)

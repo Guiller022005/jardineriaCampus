@@ -1,4 +1,5 @@
 import storage.cliente as cli
+from tabulate import tabulate
 
 def getAllClientesName():
     clienteName = []
@@ -12,16 +13,27 @@ def getAllClientesName():
 def getOneClientCodigo(codigo):
     for val in cli.clientes:
         if(val.get('codigo_cliente') == codigo):
-            return {
+            return [{
             "codigo_cliente": val.get('codigo_cliente'),
             "nombre_cliente": val.get('nombre_cliente'),
-        }
+        }]
+
 # Filtro para limite de credito ciudad
 def getAllClientCreditoCiudad(limiteCredit, ciudad):
     clienteCredic = list()
     for val in cli.clientes:
         if(val.get('limite_credito') >= limiteCredit and val.get('ciudad') == ciudad):
-            clienteCredic.append(val)
+            clienteCredic.append({
+                "Codigo": val.get('codigo_cliente'),
+                "Responsable": val.get('nombre_cliente'),
+                "Director": val.get('nombre_contacto'),
+                "Telefono": val.get('telefono'),
+                "Fax": val.get('fax'),
+                "Direcciones": f"{val.get('linea_direccion1')}{('linea_direccion')}",
+                "Origen": f"{val.get('pais')}{val.get('region')}{val.get('ciudad')}{val.get('codigo_postal')}",
+                "Codigo del asesor": val.get('codigo_empleado_rep_ventas'),
+                "Credito": val.get('limite_credito'),
+            })
     return clienteCredic
 
 # Filtro para limite de credito por region
@@ -137,3 +149,24 @@ def getAllClientsSpain(pais):
                 "nombre_cliente": val.get('nombre_cliente'),
             })
     return clientSpain
+
+def menu():
+    print("""
+              ____                        __                   __        __                   ___            __           
+   / __ \___  ____  ____  _____/ /____  _____   ____/ /__     / /___  _____   _____/ (_)__  ____  / /____  _____
+  / /_/ / _ \/ __ \/ __ \/ ___/ __/ _ \/ ___/  / __  / _ \   / / __ \/ ___/  / ___/ / / _ \/ __ \/ __/ _ \/ ___/
+ / _, _/  __/ /_/ / /_/ / /  / /_/  __(__  )  / /_/ /  __/  / / /_/ (__  )  / /__/ / /  __/ / / / /_/  __(__  ) 
+/_/_|_|\___/ .___/\____/_/   \__/\___/____/   \__,_/\___/  /_/\____/____/   \___/_/_/\___/_/ /_/\__/\___/____/  
+  <  /    /_/__/ (_)__  ____  / /____                                                                 
+          
+                            1. Obtener todos los clientes (codigo y nombre)
+                            2. Obtenerun cliente por su codigo (codigo y nombre)
+                            3. Obtener toda la informacion de un cliente segun su limite de credito y ciudad que pertenece (ejem: 3000.0, San Francisco)
+        """)
+    opcion = int(input("\nSeleccione una de las opciones: "))
+    if(opcion == 1):
+        print(tabulate(getAllClientesName(), headers="keys", tablefmt="github"))
+    elif(opcion == 2):
+        codigoCliente = int(input("Ingresa el codigo cliente: "))
+        print(tabulate(getOneClientCodigo(codigoCliente), headers="keys", tablefmt="github"))
+  
