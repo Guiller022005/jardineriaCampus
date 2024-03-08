@@ -1,4 +1,6 @@
 import storage.empleado as em
+from datetime import datetime
+from tabulate import tabulate
 #Devuelve un listado con el nombre, apellidos y email
 #de los empleados cuyo jefe tiene de jefe igual a 7
 
@@ -32,20 +34,39 @@ def getAllPuestoNombreApellidosEmailJefe():
         )
     return puestoNombreApellidoEmail
 
+
+
+
+
+
+
+
+
+
 # Devuelve un listado con el nombre, apellidos y puesto de aquellos empleados q no sean representantes de ventas
 def getAllPuestoRepresentanteDeVentas():
     puestoRepresentanteVentas = []
-    for val in em.empleados:
-        if(val.get("puesto")) != "Representante Ventas":
+    for vente in em.empleados:
+        if vente.get("puesto") != "Representante Ventas":
             puestoRepresentanteVentas.append(
                 {
-                "nombre": val.get("nombre"),
-                "apellidos": f'{val.get("apellido1")} {val.get("apellido2")}',
-                "email": val.get("email"),
-                "puesto": val.get("puesto")
-            }
-        )
+                "nombre": vente.get("nombre"),
+                "apellidos": f"{vente.get('apellido1')}{vente.get('apellido2')}",
+                "email": vente.get("email"),
+                "puesto": vente.get("puesto")
+        })
     return puestoRepresentanteVentas
+    
+
+
+
+
+
+
+
+
+
+
 
 
 def menu():
@@ -59,7 +80,20 @@ def menu():
    ___       /_/___            __                                           /_/                                     
   <  /    _____/ (_)__  ____  / /____                                                                                                      
 
-                            1. Obtener todos los clientes (codigo y nombre)
-                            2. Obtenerun cliente por su codigo (codigo y nombre)
-                            3. Obtener toda la informacion de un cliente segun su limite de credito y ciudad que pertenece (ejem: 3000.0, San Francisco)
+                            1. Obtener informacion de nombre, email del jefe
+                            2. Obtener informacion de jefe de la empresa
+                            3. Obtener un listado con el nombre, apellidos y puesto de aquellos empleados q no sean representantes de ventas
     """)
+
+
+    opcion = int(input("\nSeleccione una de las opciones: "))
+    
+    if(opcion == 1):
+        codigoJefe = int(input("Ingresa el codigo del jefe"))
+        print(tabulate(getAllNombreApellidoEmailJefe(codigoJefe), headers="keys", tablefmt="fancy_grid"))
+    
+    elif(opcion == 2):
+        print(tabulate(getAllPuestoNombreApellidosEmailJefe(), headers="keys", tablefmt="github"))
+    
+    elif(opcion == 3):
+        print(tabulate(getAllPuestoRepresentanteDeVentas(), headers="keys", tablefmt="grid"))
