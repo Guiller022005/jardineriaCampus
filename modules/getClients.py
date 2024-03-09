@@ -61,18 +61,18 @@ def getAllClientPaisRegionCiudad(pais,region=None,ciudad=None):
                     clientZone.append(userInZone)
     return clientZone
 # Filtro q permita buscar nombres q coincidad parcialmente con los de los clientes
-def getAllClientsCoincide(nombre_busqueda):
+def getAllClientsCoincide(nombre):
     clients_info = []
     for cliente in cli.clientes:
         nombre_cliente = cliente.get("nombre_contacto")
-        codigo_cliente = cliente.get("codigo_cliente")
-        if nombre_busqueda.lower() in nombre_cliente.lower():  # Verifica si el término de búsqueda está contenido en el nombre del cliente
+        if nombre.lower() in nombre_cliente.lower():  # Verifica si el término de búsqueda está contenido en el nombre del cliente
             info = {
-                "nombre_contacto": nombre_cliente,
-                "codigo_cliente": codigo_cliente
+                "nombre_cliente": ("nombre_cliente"),
+                "codigo_cliente": ("codigo_cliente")
             }
             clients_info.append(info)
     return clients_info
+
 # Filtro para buscar Direccion2 de todos los clientes
 def getAllClientsDirreccion2(direccion2):
     ClientDireccion = []
@@ -122,7 +122,7 @@ def getAllClientsCodigoEmpleado(CodigoEmp):
     return CodigoEmpleado
     
 # Filtro para codigo postal
-def getAllClientsCodigoPostal(Postal):
+def getAllClientsCodigoPostal():
     ClientPostal = []
     for val in cli.clientes:
         ClientPostal.append({
@@ -164,8 +164,10 @@ def menu():
                             2. Obtener un cliente por su codigo (codigo y nombre)
                             3. Obtener toda la informacion de un cliente segun su limite de credito y ciudad que pertenece (ejem: 3000.0, San Francisco)
                             4. Obtener toda la informacion de un cliente segun su limite de credito y pais que pertenece (ejem: 3000.0, Spain)
-                            5. Busca un nombre y obten la coincidencia
-                            6. Obten informacion por el numero de telefono          
+                            5. Obtener informacion de cuantos clientes hay por ciudad
+                            6. Obtener informacion por el numero de telefono   
+                            7. Obtener Fax de clientes
+                            8. Obtener informacion por pais, ciudad y region
         """)
     opcion = int(input("\nSeleccione una de las opciones: "))
     if(opcion == 1):
@@ -176,13 +178,23 @@ def menu():
     elif(opcion == 3):
         limiteCredito = float(input("Ingresa el limite de credito"))
         ciudad = str(input("Ingresa la ciudad")) 
-        print(tabulate(getAllClientCreditoCiudad(limiteCredito, ciudad), headers="keys", tablefmt="github"))
+        print(tabulate(getAllClientCreditoCiudad(limiteCredito, ciudad), headers="keys", tablefmt="grid"))
     elif(opcion == 4):
         limiteCredito = float(input("Ingresa el limite de credito"))
         pais = str(input("Ingresa el pais")) 
-        print(tabulate(getAllClientCreditoPais(limiteCredito, pais), headers="keys", tablefmt="grid"))
+        print(tabulate(getAllClientCreditoPais(limiteCredito, pais),  headers='firstrow', 
+               tablefmt='fancy_grid',
+               stralign='center',
+               floatfmt='.0f'))
     elif(opcion == 5):
         ContarXCiudad = str(input("Ingresa la ciudad"))
         print(getAllContarClientes(ContarXCiudad))
     elif(opcion == 6):
         print(tabulate(getAllClientsTelefono(), headers="keys", tablefmt="grid"))
+    elif(opcion == 7):
+        print(tabulate(getAllClientsCodigoPostal(), headers="keys", tablefmt="grid"))
+    elif(opcion == 8):
+        pais = input("Ingresa el pais")
+        print(tabulate(getAllClientPaisRegionCiudad(pais), headers="keys", tablefmt="grid"))
+    
+    
