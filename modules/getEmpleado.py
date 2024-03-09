@@ -27,20 +27,31 @@ def getAllPuestoNombreApellidosEmailJefe():
             puestoNombreApellidoEmail.append(
                 {
                 "nombre": val.get("nombre"),
-                "apellidos": f'{val.get("apellido1")} {val.get("apellido2")}',
+                "apellidos": f'{val.get("apellido1")}{val.get("apellido2")}',
                 "email": val.get("email"),
-                "puesto": val.get("puesto")
+                "puesto": val.get("puesto"),
+                "extension": val.get("extension"),
+                "codigo_oficina": val.get("codigo_oficina"),
+                
+
             }
         )
     return puestoNombreApellidoEmail
 
+#Devuelve un listado con el puesto, nombre y apellidos y codigo de oficina
+def getAllPuestoNombreCodigoOficina():
+    puestoNombreCodeOficina = []
+    for val in em.empleados:
+            puestoNombreCodeOficina.append(
+                {
+                "puesto": val.get("puesto"),
+                "nombre": val.get("nombre"),
+                "apellidos": f'{val.get("apellido1")} {val.get("apellido2")}',
+                "codigo_oficina": val.get("codigo_oficina"),                
 
-
-
-
-
-
-
+            }
+        )
+    return puestoNombreCodeOficina
 
 
 # Devuelve un listado con el nombre, apellidos y puesto de aquellos empleados q no sean representantes de ventas
@@ -57,32 +68,35 @@ def getAllPuestoRepresentanteDeVentas():
         })
     return puestoRepresentanteVentas
     
-
-
-
-
-
-
-
-
-
-
+# def getAllContarEmpleados(codigo_empleado):
+#     contador = 0
+#     for val in em.empleados:
+#         if val.get('codigo_empleado') == codigo_empleado:
+#             contador = contador + 1
+#     return contador
+def getAllContarEmpleados():
+    contador = 0
+    for val in em.empleados:
+        contador += 1
+    return contador
 
 
 def menu():
     print("""
                 
-       ____                        __                   __                             __               __          
-      / __ \___  ____  ____  _____/ /____  _____   ____/ /__     ___  ____ ___  ____  / /__  ____ _____/ /___  _____
-     / /_/ / _ \/ __ \/ __ \/ ___/ __/ _ \/ ___/  / __  / _ \   / _ \/ __ `__ \/ __ \/ / _ \/ __ `/ __  / __ \/ ___/
-    / _, _/  __/ /_/ / /_/ / /  / /_/  __(__  )  / /_/ /  __/  /  __/ / / / / / /_/ / /  __/ /_/ / /_/ / /_/ (__  ) 
-   /_/ |_|\___/ .___/\____/_/   \__/\___/____/   \__,_/\___/   \___/_/ /_/ /_/ .___/_/\___/\__,_/\__,_/\____/____/  
-   ___       /_/___            __                                           /_/                                     
-  <  /    _____/ (_)__  ____  / /____                                                                                                      
+    ____                        __                   __                             __               __          
+   / __ \___  ____  ____  _____/ /____  _____   ____/ /__     ___  ____ ___  ____  / /__  ____ _____/ /___  _____
+  / /_/ / _ \/ __ \/ __ \/ ___/ __/ _ \/ ___/  / __  / _ \   / _ \/ __ `__ \/ __ \/ / _ \/ __ `/ __  / __ \/ ___/
+ / _, _/  __/ /_/ / /_/ / /  / /_/  __(__  )  / /_/ /  __/  /  __/ / / / / / /_/ / /  __/ /_/ / /_/ / /_/ (__  ) 
+/_/ |_|\___/ .___/\____/_/   \__/\___/____/   \__,_/\___/   \___/_/ /_/ /_/ .___/_/\___/\__,_/\__,_/\____/____/  
+___       /_/___            __                                           /_/                                     
+                                                                                                     
 
                             1. Obtener informacion de nombre, email del jefe
                             2. Obtener informacion de jefe de la empresa
                             3. Obtener un listado con el nombre, apellidos y puesto de aquellos empleados q no sean representantes de ventas
+                            4. Obtener informacion con el puesto, nombre y apellidos y codigo de oficina
+                            5. Obtener cuantos empleados hay en la empresa
     """)
 
 
@@ -97,3 +111,8 @@ def menu():
     
     elif(opcion == 3):
         print(tabulate(getAllPuestoRepresentanteDeVentas(), headers="keys", tablefmt="grid"))
+    elif(opcion == 4):
+        print(tabulate(getAllPuestoNombreCodigoOficina(), headers="keys", tablefmt="grid"))
+    elif(opcion == 5):
+        print(f"Total Empleados: {getAllContarEmpleados()}")
+       
