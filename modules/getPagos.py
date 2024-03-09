@@ -1,21 +1,20 @@
 import storage.pago as pagos
-
+from tabulate import tabulate
+from datetime import datetime
 # Devuelve un listado con el codigo de cliente de aquellos clientes q realizaron algun pago en 2008. Tenga en cuenta q debera eliminar aquellos codigos de cliente q aparezcan repetidos.
 def getAllCodigoClienteFecha():
     CodigoFecha = []
     codigos_vistos = set()  # Usamos un conjunto para evitar duplicados
     for val in pagos.pago:
-        if "2008" in val.get("fecha_pago"):
+        if("2008") in val.get("fecha_pago"):
             Codigo_cliente = val.get("codigo_cliente")
-    if ("codigo_cliente ")not in codigos_vistos:
-        CodigoFecha.append(
-            {
-            "codigo_cliente": ("codigo_cliente"),
-            "fecha": val.get("fecha_pago"),
-            "total": val.get("tatal")
-            }
-        )
-        codigos_vistos.add("codigo_cliente")
+            if Codigo_cliente not in codigos_vistos:
+                CodigoFecha.append({
+                    "codigo_cliente": val.get("codigo_cliente"),
+                    "fecha": val.get("fecha_pago"),
+                    "total": val.get("total")
+                })
+                codigos_vistos.add(Codigo_cliente)
     return CodigoFecha
 
 # Devuelve un listado con todos los pagos q se realizaron en en el año 2008 mediante paypal, ordena el resultado de mayor a menor
@@ -32,7 +31,7 @@ def getAllPagosFecha():
     pagosFecha = sorted(pagosFecha, key=lambda x: x ["total"], reverse=True)
     return pagosFecha
 
-# Devuelve un listadocon todas las formas de pago q aparecen en la tabla pago. Tenga en cuenta q no deben aparecer formas de pago repetidas
+# Devuelve un listado con todas las formas de pago q aparecen en la tabla pago. Tenga en cuenta q no deben aparecer formas de pago repetidas
 def getAllFormasDePago():
     tipoPago = set()
     for val in pagos.pago:
@@ -53,8 +52,14 @@ def menu():
     / _, _/  __/ /_/ / /_/ / /  / /_/  __(__  )  / /_/ /  __/  / /_/ / /_/ / /_/ / /_/ (__  ) 
    /_/ |_|\___/ .___/\____/_/   \__/\___/____/   \__,_/\___/  / .___/\__,_/\__, /\____/____/  
    ___       /_/___            __                            /_/          /____/   
-                            1. Obtener todos los clientes (codigo y nombre)
-                            2. Obtenerun cliente por su codigo (codigo y nombre)
-                            3. Obtener toda la informacion de un cliente segun su limite de credito y ciudad que pertenece (ejem: 3000.0, San Francisco)
+                            1. Obtener todos codigos de clientes q realizaron algun pago en 2008. 
+                            2. Obtener los pagos q se realizaron en en el año 2008 mediante paypal
+                            3. Obtener todas las formas de pago 
     """)
-    
+    opcion = int(input("\nSeleccione una de las opciones: "))
+    if(opcion == 1):
+        print(tabulate(getAllCodigoClienteFecha(), headers="keys", tablefmt="fancy_grid"))
+    elif(opcion == 2):
+        print(tabulate(getAllPagosFecha(), headers="keys", tablefmt="github"))
+    elif(opcion == 3):
+        print(tabulate(getAllFormasDePago(), headers="keys", tablefmt="fancy_grid"))
