@@ -57,3 +57,4 @@ def menu():
                             2. Obtenerun cliente por su codigo (codigo y nombre)
                             3. Obtener toda la informacion de un cliente segun su limite de credito y ciudad que pertenece (ejem: 3000.0, San Francisco)
     """)
+    
