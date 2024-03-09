@@ -9,7 +9,7 @@ def getAllCodigoCiudad():
     for val in of.oficina:
         codigoCiudad.append({
             "codigo": val.get("codigo_oficina"),
-            "ciudad": val.get("ciudad")
+            "ciudad": val.get("ciudad"),
         })
     return codigoCiudad
 
@@ -20,15 +20,43 @@ def getAllCiudadTelefono(pais):
     for val in of.oficina:
         if(val.get("pais")== pais):
             ciudadTelefono.append({
+            "pais": val.get("pais"),
             "ciudad": val.get("ciudad"),
             "telefono": val.get("telefono"),
             "oficinas": val.get("codigo_oficina"),
-            "pais": val.get("pais")
+            
         })
     return ciudadTelefono
+# Cuenta cuantas oficinas hay por pais
+def getAllContarOficinas(pais):
+    contador = 0
+    for val in of.oficina:
+        if val.get('pais') == pais:
+            contador = contador + 1
+    return contador
+# Filtrar por ciudad y direccion
+def getAllCiudadDireccion():
+    DireccionesOficina = []
+    for val in of.oficina:
+        DireccionesOficina.append({
+            "ciudad": val.get("ciudad"),
+            "direcciones": f"{val.get('linea_direccion1')}{'linea_direccion2'}",
+        })
+    return DireccionesOficina
+# Filtrar por codigo_postal:
+def getAllCodigoPostal():
+    DireccionesOficina = []
+    for val in of.oficina:
+        DireccionesOficina.append({
+            "codigo_postal": val.get("codigo_postal"),
+            "codigo_oficina": val.get("codigo_oficina")
+        })
+    return DireccionesOficina
+
 
 def menu():
     print("""
+
                 
                                                    ____                        __                   __        ____  _____      _                
       / __ \___  ____  ____  _____/ /____  _____   ____/ /__     / __ \/ __(_)____(_)___  ____ _    
@@ -37,18 +65,26 @@ def menu():
    /_/ |_|\___/ .___/\____/_/   \__/\___/____/   \__,_/\___/   \____/_/ /_/\___/_/_/ /_/\__,_/      
    ___       /_/___            __                                                                                   
 
-                            1. Obtener todos los clientes (codigo y nombre)
-                            2. Obtenerun cliente por su codigo (codigo y nombre)
-                            3. Obtener toda la informacion de un cliente segun su limite de credito y ciudad que pertenece (ejem: 3000.0, San Francisco)
+                            1. Obtener un listado con el codigo de oficina y la ciudad donde hay oficinas
+                            2. Obtener un listado con la ciudad y el telefono de las oficinas de un pais
+                            3. Obtener cuantas oficinas hay por pais
+                            4. Obtener direcciones de oficinas en distintas ciudades
+                            5. Obtener codigo postal y codigo de oficina
     """)
     opcion = int(input("\nSeleccione una de las opciones: "))
-# Falta arreglart
-    # if(opcion == 1):
-    #     codigoJefe = int(input("Ingresa el codigo del jefe"))
-    #     print(tabulate(getAllNombreApellidoEmailJefe(codigoJefe), headers="keys", tablefmt="fancy_grid"))
+
+    if(opcion == 1):
+       print(tabulate(getAllCodigoCiudad(), headers="keys", tablefmt="fancy_grid"))
     
-    # elif(opcion == 2):
-    #     print(tabulate(getAllPuestoNombreApellidosEmailJefe(), headers="keys", tablefmt="github"))
+    elif(opcion == 2):
+       pais = str(input("Ingresa el pais"))
+       print(tabulate(getAllCiudadTelefono(pais), headers="keys", tablefmt="github"))
     
-    # elif(opcion == 3):
-    #     print(tabulate(getAllPuestoRepresentanteDeVentas(), headers="keys", tablefmt="grid"))
+    elif(opcion == 3):
+        pais = str(input("Ingresa el pais"))
+        num_oficinas = getAllContarOficinas(pais)
+        print(tabulate([[num_oficinas]], headers=["Número de Oficinas"], tablefmt="grid"))
+    elif(opcion == 4):
+        print(tabulate(getAllCiudadDireccion(), headers="keys", tablefmt="grid"))
+    elif(opcion == 5):
+        print(tabulate(getAllCodigoPostal(), headers="keys", tablefmt="grid"))
