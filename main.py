@@ -17,10 +17,11 @@ if(__name__ == "__main__"):
   <  /    _____/ (_)__  __/_/   / /____             /_/               
           
 
-                        1. cliente
-                        2. oficina
-                        3. empleado
-                        4. pedidos
+                        1. Cliente
+                        2. Oficina
+                        3. Empleado
+                        4. Pedidos
+                        5. Pagos
 """)
 opcion = int(input("\nSeleccione una de las opciones"))
 if(opcion == 1):
@@ -31,4 +32,5 @@ elif(opcion == 3):
     empleado.menu()
 elif(opcion == 4):
     pedidos.menu()
-
+elif(opcion == 5):
+    pago.menu()
