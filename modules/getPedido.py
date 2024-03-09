@@ -16,7 +16,7 @@ def getAllEstadosPedido():
 # han sido entregados a tiempo
 
 def getAllPedidosEntregadosAtrasadosDeTiempo():
-    pedidosEntregado = []
+    pedidosAtrasados = []
     for val in pe.pedido:
         if val.get("estado") == "Entregado" and val.get("fecha_entrega") is None:
            val["fecha_entrega"] = val.get("fecha_esperada")
@@ -27,18 +27,18 @@ def getAllPedidosEntregadosAtrasadosDeTiempo():
             end = datetime.strptime(date_2, "%d/%m/%Y")
             diff = end.date() - start.date()
             if(diff.days < 0):
-                pedidosEntregado.append({
+                pedidosAtrasados.append({
                     "codigo_de_pedido": val.get("codigo_pedido"),
                     "codigo_de_cliente": val.get("codigo_cliente"),
                     "fecha_de_esperada": val.get("fecha_esperada"),
                     "fecha_de_entrega": val.get("fecha_entrega")
                 })
-    return pedidosEntregado
+    return pedidosAtrasados
 
-# Devuelve un listado con el codigo de pedido, codigo de cliente, fecha esperada y fecha de entrega de los pedidos cuya fecha de entrega de
-# los pedidos cuya fecha de entrega ha sido al menos dos dias antes de la fecha esperada
-def getAllPedidosEntregadosAtrasadosDeTiempo():
-    pedidosEntregado = []
+# Devuelve un listado con el codigo de pedido, codigo de cliente, fecha esperada y fecha de entrega de los pedidos 
+# cuya fecha de entrega ha sido al menos dos dias antes de la fecha esperada
+def getAllPedidosEntregadosAntesDeTiempo():
+    pedidosEntregados = []
     for val in pe.pedido:
         if val.get("estado") == "Entregado" and val.get("fecha_entrega") is None:
            val["fecha_entrega"] = val.get("fecha_esperada")
@@ -49,13 +49,13 @@ def getAllPedidosEntregadosAtrasadosDeTiempo():
             end = datetime.strptime(date_2, "%d/%m/%Y")
             diff = end.date() - start.date()
             if (diff.days >= 2):
-                pedidosEntregado.append({
+                pedidosEntregados.append({
                     "codigo_de_pedido": val.get("codigo_pedido"),
                     "codigo_de_cliente": val.get("codigo_cliente"),
                     "fecha_de_esperada": val.get("fecha_esperada"),
                     "fecha_de_entrega": val.get("fecha_entrega")
                 })
-    return pedidosEntregado
+    return pedidosEntregados
 
 
 #Devuelve el listado de todos los pedidos q fueron rechazados en 2009 
@@ -88,9 +88,19 @@ def getAllPedidosEntregadosEnero():
                 })
     return pedidosEntregadosMes
 
+# Devuelve el comentario del pedido con su codigo
+def getAllcodigoPedidoComentario():
+    pedidoComentario = []
+    for val in pe.pedido:
+        pedidoComentario.append({
+            "codigo_pedido": val.get("codigo_pedido"),
+            "estado": val.get("estado"),
+            "comentario": val.get("comentario"),
+        })
+    return pedidoComentario
 def menu():
     print("""
-                
+def getAll
        ____                        __                   __                       ___     __          
       / __ \___  ____  ____  _____/ /____  _____   ____/ /__     ____  ___  ____/ (_)___/ /___  _____
      / /_/ / _ \/ __ \/ __ \/ ___/ __/ _ \/ ___/  / __  / _ \   / __ \/ _ \/ __  / / __  / __ \/ ___/
@@ -98,8 +108,10 @@ def menu():
    /_/ |_|\___/ .___/\____/_/   \__/\___/____/   \__,_/\___/  / .___/\___/\__,_/_/\__,_/\____/____/  
    ___       /_/___            __                            /_/                             
                             1. Obtener todos los pedidos atrasados de tiempo
-                            2. Obtener todos los pedidos retrasados
-                            3. Obtener toda la informacion de un cliente segun su limite de credito y ciudad que pertenece (ejem: 3000.0, San Francisco)
+                            2. Obtener todos los pedidos rechasados
+                            3. getAllPedidosEntregadosAntesDeTiempo
+                            4. Obtener los distintos estados por los que puede pasar un producto
+                            5. Obtener los comentarios de los clientes con respecto a su pedido
         """)
     opcion = int(input("\nSeleccione una de las opciones: "))
     if(opcion == 1):
@@ -107,4 +119,8 @@ def menu():
     elif(opcion == 2):
         print(tabulate(getAllPedidosRechazados(), headers="keys", tablefmt="github"))
     elif(opcion == 3):
+        print(tabulate(getAllPedidosEntregadosAntesDeTiempo(), headers="keys", tablefmt="github"))
+    elif(opcion == 4):
         print(tabulate(getAllPedidosEntregadosEnero(), headers="keys", tablefmt="github"))
+    elif(opcion == 5):
+        print(tabulate(getAllcodigoPedidoComentario(), headers="keys", tablefmt="github"))
