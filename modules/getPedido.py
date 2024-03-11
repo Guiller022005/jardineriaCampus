@@ -99,14 +99,15 @@ def getAllcodigoPedidoComentario():
         })
     return pedidoComentario
 def menu():
+   while True:
     print("""
-def getAll
        ____                        __                   __                       ___     __          
       / __ \___  ____  ____  _____/ /____  _____   ____/ /__     ____  ___  ____/ (_)___/ /___  _____
      / /_/ / _ \/ __ \/ __ \/ ___/ __/ _ \/ ___/  / __  / _ \   / __ \/ _ \/ __  / / __  / __ \/ ___/
     / _, _/  __/ /_/ / /_/ / /  / /_/  __(__  )  / /_/ /  __/  / /_/ /  __/ /_/ / / /_/ / /_/ (__  ) 
    /_/ |_|\___/ .___/\____/_/   \__/\___/____/   \__,_/\___/  / .___/\___/\__,_/_/\__,_/\____/____/  
    ___       /_/___            __                            /_/                             
+                            0. Salir
                             1. Obtener todos los pedidos atrasados de tiempo
                             2. Obtener todos los pedidos rechasados
                             3. getAllPedidosEntregadosAntesDeTiempo
@@ -124,3 +125,5 @@ def getAll
         print(tabulate(getAllPedidosEntregadosEnero(), headers="keys", tablefmt="github"))
     elif(opcion == 5):
         print(tabulate(getAllcodigoPedidoComentario(), headers="keys", tablefmt="github"))
+    elif(opcion == 0):
+        break

@@ -82,6 +82,7 @@ def getAllContarEmpleados():
 
 
 def menu():
+   while True:
     print("""
                 
     ____                        __                   __                             __               __          
@@ -92,27 +93,27 @@ def menu():
 ___       /_/___            __                                           /_/                                     
                                                                                                      
 
+                            0. Salir
                             1. Obtener informacion de nombre, email del jefe
                             2. Obtener informacion de jefe de la empresa
                             3. Obtener un listado con el nombre, apellidos y puesto de aquellos empleados q no sean representantes de ventas
                             4. Obtener informacion con el puesto, nombre y apellidos y codigo de oficina
                             5. Obtener cuantos empleados hay en la empresa
-    """)
+        """)
 
 
     opcion = int(input("\nSeleccione una de las opciones: "))
-    
     if(opcion == 1):
         codigoJefe = int(input("Ingresa el codigo del jefe"))
         print(tabulate(getAllNombreApellidoEmailJefe(codigoJefe), headers="keys", tablefmt="fancy_grid"))
-    
     elif(opcion == 2):
         print(tabulate(getAllPuestoNombreApellidosEmailJefe(), headers="keys", tablefmt="github"))
-    
     elif(opcion == 3):
         print(tabulate(getAllPuestoRepresentanteDeVentas(), headers="keys", tablefmt="grid"))
     elif(opcion == 4):
         print(tabulate(getAllPuestoNombreCodigoOficina(), headers="keys", tablefmt="grid"))
     elif(opcion == 5):
         print(f"Total Empleados: {getAllContarEmpleados()}")
+    elif(opcion == 0):
+        break
        

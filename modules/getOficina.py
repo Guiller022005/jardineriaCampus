@@ -55,6 +55,7 @@ def getAllCodigoPostal():
 
 
 def menu():
+   while True:
     print("""
 
                 
@@ -65,20 +66,21 @@ def menu():
    /_/ |_|\___/ .___/\____/_/   \__/\___/____/   \__,_/\___/   \____/_/ /_/\___/_/_/ /_/\__,_/      
    ___       /_/___            __                                                                                   
 
+                            0. Salir
                             1. Obtener un listado con el codigo de oficina y la ciudad donde hay oficinas
                             2. Obtener un listado con la ciudad y el telefono de las oficinas de un pais
                             3. Obtener cuantas oficinas hay por pais
                             4. Obtener direcciones de oficinas en distintas ciudades
                             5. Obtener codigo postal y codigo de oficina
-    """)
+        """)
     opcion = int(input("\nSeleccione una de las opciones: "))
 
     if(opcion == 1):
-       print(tabulate(getAllCodigoCiudad(), headers="keys", tablefmt="fancy_grid"))
+        print(tabulate(getAllCodigoCiudad(), headers="keys", tablefmt="fancy_grid"))
     
     elif(opcion == 2):
-       pais = str(input("Ingresa el pais"))
-       print(tabulate(getAllCiudadTelefono(pais), headers="keys", tablefmt="github"))
+        pais = str(input("Ingresa el pais"))
+        print(tabulate(getAllCiudadTelefono(pais), headers="keys", tablefmt="github"))
     
     elif(opcion == 3):
         pais = str(input("Ingresa el pais"))
@@ -88,3 +90,5 @@ def menu():
         print(tabulate(getAllCiudadDireccion(), headers="keys", tablefmt="grid"))
     elif(opcion == 5):
         print(tabulate(getAllCodigoPostal(), headers="keys", tablefmt="grid"))
+    elif(opcion == 0):
+            break
