@@ -64,8 +64,9 @@ def getAllClientPaisRegionCiudad(pais,region=None,ciudad=None):
 def getAllClientsCoincide(nombre):
     clients_info = []
     for cliente in cli.clientes:
-        nombre_cliente = cliente.get("nombre_contacto")
-        if nombre.lower() in nombre_cliente.lower():  # Verifica si el término de búsqueda está contenido en el nombre del cliente
+        nombre_cliente = cliente.get("nombre_cliente")
+        coincide = str(input("Ingresa un nombre"))
+        if nombre.startswith(coincide) in nombre_cliente.lower():  # Verifica si el término de búsqueda está contenido en el nombre del cliente
             info = {
                 "nombre_cliente": ("nombre_cliente"),
                 "codigo_cliente": ("codigo_cliente")
@@ -152,14 +153,15 @@ def getAllClientsSpain(pais):
     return clientSpain
 
 def menu():
+   while True:
     print("""
-              ____                        __                   __        __                   ___            __           
+    ____                        __                   __        __                   ___            __           
    / __ \___  ____  ____  _____/ /____  _____   ____/ /__     / /___  _____   _____/ (_)__  ____  / /____  _____
   / /_/ / _ \/ __ \/ __ \/ ___/ __/ _ \/ ___/  / __  / _ \   / / __ \/ ___/  / ___/ / / _ \/ __ \/ __/ _ \/ ___/
  / _, _/  __/ /_/ / /_/ / /  / /_/  __(__  )  / /_/ /  __/  / / /_/ (__  )  / /__/ / /  __/ / / / /_/  __(__  ) 
-/_/_|_|\___/ .___/\____/_/   \__/\___/____/   \__,_/\___/  /_/\____/____/   \___/_/_/\___/_/ /_/\__/\___/____/  
-  <  /    /_/__/ (_)__  ____  / /____                                                                 
-          
+/_/ |_|\___/ .___/\____/_/   \__/\___/____/   \__,_/\___/  /_/\____/____/   \___/_/_/\___/_/ /_/\__/\___/____/  
+          /_/                                                                                                   
+                            0.  Regresar al menu principal
                             1. Obtener todos los clientes (codigo y nombre)
                             2. Obtener un cliente por su codigo (codigo y nombre)
                             3. Obtener toda la informacion de un cliente segun su limite de credito y ciudad que pertenece (ejem: 3000.0, San Francisco)
@@ -169,6 +171,7 @@ def menu():
                             7. Obtener Fax de clientes
                             8. Obtener informacion por pais, ciudad y region
         """)
+    
     opcion = int(input("\nSeleccione una de las opciones: "))
     if(opcion == 1):
         print(tabulate(getAllClientesName(), headers="keys", tablefmt="fancy_grid"))
@@ -196,5 +199,14 @@ def menu():
     elif(opcion == 8):
         pais = input("Ingresa el pais")
         print(tabulate(getAllClientPaisRegionCiudad(pais), headers="keys", tablefmt="grid"))
+    elif(opcion == 9):
+        coincide = str(input("Ingresa un nombre"))
+        print(tabulate(getAllClientsCoincide(coincide), headers="keys", tablefmt="grid"))
+    elif(opcion == 0):
+        break
     
-    
+    try:
+        entrada = input("Ingresa Ctrl + c para ir a menu: ")
+        print("Entrada recibida: ", entrada)
+    except KeyboardInterrupt:
+       menu()
