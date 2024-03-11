@@ -104,8 +104,11 @@ ___       /_/___            __                                           /_/
 
     opcion = int(input("\nSeleccione una de las opciones: "))
     if(opcion == 1):
-        codigoJefe = int(input("Ingresa el codigo del jefe"))
-        print(tabulate(getAllNombreApellidoEmailJefe(codigoJefe), headers="keys", tablefmt="fancy_grid"))
+        try:
+            codigoJefe = int(input("Ingresa el codigo del jefe"))
+            print(tabulate(getAllNombreApellidoEmailJefe(codigoJefe), headers="keys", tablefmt="fancy_grid"))
+        except KeyboardInterrupt:
+            return menu()    
     elif(opcion == 2):
         print(tabulate(getAllPuestoNombreApellidosEmailJefe(), headers="keys", tablefmt="github"))
     elif(opcion == 3):
