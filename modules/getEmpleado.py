@@ -116,4 +116,8 @@ ___       /_/___            __                                           /_/
         print(f"Total Empleados: {getAllContarEmpleados()}")
     elif(opcion == 0):
         break
-       
+    try:
+        entrada = input("Ingresa Ctrl + l para ir a menu: ")
+        print("Entrada recibida: ", entrada)
+    except KeyboardInterrupt:
+       menu()

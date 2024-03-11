@@ -16,6 +16,16 @@ def getAllStocksPriceGama(gama, stock):
     condiciones.sort(key=price)
     return condiciones
 
+def getAllGamaCodigoNombre():
+    producto =[]
+    for val in pr.producto:
+        
+            producto.append({
+                "codigo_cliente": val.get('codigo_cliente'),
+                "nombre_cliente": val.get('nombre_cliente'),
+
+            })
+           
 
 
 
@@ -40,7 +50,7 @@ def menu():
     elif(opcion == 0):
         break
     try:
-        entrada = input("Ingresa Ctrl + c para ir a menu: ")
+        entrada = input("Ingresa Ctrl + l para ir a menu: ")
         print("Entrada recibida: ", entrada)
     except KeyboardInterrupt:
        menu()

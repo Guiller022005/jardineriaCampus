@@ -67,3 +67,8 @@ def menu():
         print(tabulate(getAllFormasDePago(), headers="keys", tablefmt="fancy_grid"))
     elif(opcion == 0):
         break
+    try:
+        entrada = input("Ingresa Ctrl + l para ir a menu: ")
+        print("Entrada recibida: ", entrada)
+    except KeyboardInterrupt:
+       menu()

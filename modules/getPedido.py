@@ -127,3 +127,8 @@ def menu():
         print(tabulate(getAllcodigoPedidoComentario(), headers="keys", tablefmt="github"))
     elif(opcion == 0):
         break
+    try:
+        entrada = input("Ingresa Ctrl + l para ir a menu: ")
+        print("Entrada recibida: ", entrada)
+    except KeyboardInterrupt:
+       menu()

@@ -206,7 +206,7 @@ def menu():
         break
     
     try:
-        entrada = input("Ingresa Ctrl + c para ir a menu: ")
+        entrada = input("Ingresa Ctrl + l para ir a menu: ")
         print("Entrada recibida: ", entrada)
     except KeyboardInterrupt:
        menu()
