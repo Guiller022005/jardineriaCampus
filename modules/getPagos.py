@@ -44,6 +44,7 @@ def getAllFormasDePago():
 # El listado debera estar ordenado por su precio de venta, mostrarlo en primer lugar los de mayor precio
 
 def menu():
+   while True:
     print("""
                 
        ____                        __                   __                                    
@@ -52,10 +53,11 @@ def menu():
     / _, _/  __/ /_/ / /_/ / /  / /_/  __(__  )  / /_/ /  __/  / /_/ / /_/ / /_/ / /_/ (__  ) 
    /_/ |_|\___/ .___/\____/_/   \__/\___/____/   \__,_/\___/  / .___/\__,_/\__, /\____/____/  
    ___       /_/___            __                            /_/          /____/   
+                            0. Salir
                             1. Obtener todos codigos de clientes q realizaron algun pago en 2008. 
                             2. Obtener los pagos q se realizaron en en el año 2008 mediante paypal
                             3. Obtener todas las formas de pago 
-    """)
+        """)
     opcion = int(input("\nSeleccione una de las opciones: "))
     if(opcion == 1):
         print(tabulate(getAllCodigoClienteFecha(), headers="keys", tablefmt="fancy_grid"))
@@ -63,3 +65,5 @@ def menu():
         print(tabulate(getAllPagosFecha(), headers="keys", tablefmt="github"))
     elif(opcion == 3):
         print(tabulate(getAllFormasDePago(), headers="keys", tablefmt="fancy_grid"))
+    elif(opcion == 0):
+        break
