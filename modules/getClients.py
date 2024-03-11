@@ -176,22 +176,34 @@ def menu():
     if(opcion == 1):
         print(tabulate(getAllClientesName(), headers="keys", tablefmt="fancy_grid"))
     elif(opcion == 2):
-        codigoCliente = int(input("Ingresa el codigo cliente: "))
-        print(tabulate(getOneClientCodigo(codigoCliente), headers="keys", tablefmt="github"))
+        try:
+            codigoCliente = int(input("Ingresa el codigo cliente: "))
+            print(tabulate(getOneClientCodigo(codigoCliente), headers="keys", tablefmt="github"))
+        except KeyboardInterrupt:
+            return menu()
     elif(opcion == 3):
-        limiteCredito = float(input("Ingresa el limite de credito"))
-        ciudad = str(input("Ingresa la ciudad")) 
-        print(tabulate(getAllClientCreditoCiudad(limiteCredito, ciudad), headers="keys", tablefmt="grid"))
+        try:
+            limiteCredito = float(input("Ingresa el limite de credito"))
+            ciudad = str(input("Ingresa la ciudad")) 
+            print(tabulate(getAllClientCreditoCiudad(limiteCredito, ciudad), headers="keys", tablefmt="grid"))
+        except KeyboardInterrupt:
+            return menu()    
     elif(opcion == 4):
-        limiteCredito = float(input("Ingresa el limite de credito"))
-        pais = str(input("Ingresa el pais")) 
-        print(tabulate(getAllClientCreditoPais(limiteCredito, pais),  headers='firstrow', 
+        try:
+            limiteCredito = float(input("Ingresa el limite de credito"))
+            pais = str(input("Ingresa el pais")) 
+            print(tabulate(getAllClientCreditoPais(limiteCredito, pais),  headers='firstrow', 
                tablefmt='fancy_grid',
                stralign='center',
                floatfmt='.0f'))
+        except KeyboardInterrupt:
+            return menu()
     elif(opcion == 5):
-        ContarXCiudad = str(input("Ingresa la ciudad"))
-        print(getAllContarClientes(ContarXCiudad))
+        try:
+            ContarXCiudad = str(input("Ingresa la ciudad"))
+            print(getAllContarClientes(ContarXCiudad))
+        except KeyboardInterrupt:
+            return menu()
     elif(opcion == 6):
         print(tabulate(getAllClientsTelefono(), headers="keys", tablefmt="grid"))
     elif(opcion == 7):
@@ -200,8 +212,11 @@ def menu():
         pais = input("Ingresa el pais")
         print(tabulate(getAllClientPaisRegionCiudad(pais), headers="keys", tablefmt="grid"))
     elif(opcion == 9):
-        coincide = str(input("Ingresa un nombre"))
-        print(tabulate(getAllClientsCoincide(coincide), headers="keys", tablefmt="grid"))
+        try:
+            coincide = str(input("Ingresa un nombre"))
+            print(tabulate(getAllClientsCoincide(coincide), headers="keys", tablefmt="grid"))
+        except KeyboardInterrupt:
+            return menu()
     elif(opcion == 0):
         break
     
