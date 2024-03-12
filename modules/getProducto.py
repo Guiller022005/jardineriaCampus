@@ -13,8 +13,22 @@ def getAllStocksPriceGama(gama, stock):
 
     def price(val):
         return val.get("precio_venta")
-    condiciones.sort(key=price)
+    condiciones.sort(key=price, reverse=True)
+    for i, val in enumerate(condiciones):
+            condiciones[i] = {
+                "codigo": val.get("codigo_producto"),
+                "venta": val.get("precio_venta"),
+                "nombre": val.get("nombre"),
+                "gama": val.get("gama"),
+                "dimensiones": val.get("dimensiones"),
+                "proveedor": val.get("proveedor"),
+                "descripcion": f'{val.get("descripcion")[:5]}...' if condiciones[i].get("descripcion") else val.get("descripcion"),
+                "stock": val.get("cantidad_en_stock"),
+                "base": val.get("precio_proveedor"),
+
+            }
     return condiciones
+     
 # Obtener la gama, nombre, codigo producto, precio de venta
 def getAllGamaCodigoNombre():
     producto =[]
@@ -24,7 +38,7 @@ def getAllGamaCodigoNombre():
                 "gama": val.get('gama'),
                 "nombre": val.get('nombre'),
                 "codigo_producto": val.get('codigo_producto'),
-                "precio_venta": val.get('precio_venta'),
+                "base": val.get('precio_venta'),
             })
     return producto
 # Obtener el nombre del producto y la descripcion de este
@@ -72,10 +86,10 @@ def menu():
 /_/ |_|\___/ .___/\____/_/   \__/\___/____/   \__,_/\___/  /_/\____/____/  / .___/_/   \____/\__,_/\__,_/\___/\__/\____/____/  
           /_/                                                             /_/                                                 
                             0.  Regresar al menu principal
-                            1. Obtener un listado con los productos q pertenecen a la gama ornamentales
+                            1. Obtener todos los productos q pertenecen a la gama (ejem Ornamentales) y su cantidad (ejem 100 en stock)
                             2. Obtener la gama, el nombre del cliente y el codigo de cliente
                             3. Obtener el nombre del producto y la descripcion de este
-                            4. Obtener el proveedor del producto y precio
+                            4. Obtener el proveedor del producto y precio base
                             5. Obtener el precio por fabrica y el precio neto individual
         """)
     opcion = int(input("\nSeleccione una de las opciones: "))
