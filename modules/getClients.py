@@ -1,6 +1,8 @@
 import storage.cliente as cli
 from datetime import datetime
 from tabulate import tabulate
+import storage.empleado as em
+import storage.pago as pago
 
 def getAllClientesName():
     clienteName = []
@@ -151,6 +153,72 @@ def getAllClientsSpain(pais):
                 "nombre_cliente": val.get('nombre_cliente'),
             })
     return clientSpain
+# Devuelve un listado con los clientes q sean de la ciudad madrid y cuyo codigo de representante de ventas sea 11 o 30
+def getClientsMadridCodigo():
+    clientMadrid = []
+    for val in cli.clientes:
+        
+        if (val.get("ciudad") == "Madrid"):
+            if(val.get("codigo_empleado_rep_ventas")== 11) or (val.get("codigo_empleado_rep_ventas") == 30):
+        
+                clientMadrid.append({
+                "codigo_cliente":val.get("codigo_cliente"),
+                "nombre_cliente":val.get("nombre_cliente"),
+                "nombre_contacto":val.get("nombre_contacto"),
+                "apellido_contacto":val.get("apellido_contacto"),
+                "codigo_empleado_rep_ventas":val.get("codigo_empleado_rep_ventas"),
+                "ciudad":val.get("ciudad"),
+               
+                })
+    return clientMadrid
+
+def getAllClientsYRepresentantes():
+    ClientsRepreVent = list ()
+    for val in cli.clientes:
+        for i in em.empleados:
+            if val.get("codigo_empleado_rep_ventas") == i.get("codigo_empleado"):
+                ClientsRepreVent.append({
+                    "Nombre Cliente": val.get("nombre_cliente"),
+                    "Representante de ventas": f'{i.get("nombre")} {i.get("apellido1")}'
+                })
+    return ClientsRepreVent
+def getAllPagos():
+    ClientsPagos = list()
+    for val in cli.clientes:
+        for i in em.empleados:
+            for d in pago.pago:
+                if (d.get("codigo_cliente") == val.get("codigo_cliente")) and (val.get("codigo_empleado_rep_ventas") == i.get("codigo_empleado")):
+                    if val.get("nombre_cliente") not in ClientsPagos:
+                        if i.get('puesto') == 'Representante Ventas':
+                            ClientsPagos.append({
+                                'codigo': val.get('codigo_cliente'),
+                                "Nombre Cliente": val.get("nombre_cliente"),
+                                "id_transaccion": d.get("id_transaccion"),
+                                "Representante de ventas": f'{i.get("nombre")} {i.get("apellido1")}'
+                            })
+    return ClientsPagos
+
+def getAllNoPagos():
+    ClientsNoPago = []
+    for val in cli.clientes:
+        pagos = False
+        for d in pago.pago:
+                if val.get('codigo_cliente')== d.get('codigo_cliente'):
+                    pagos = True
+                    break
+        if not pagos:
+            for d in em.empleados:
+                if val.get('codigo_empleado_rep_ventas') == d.get('codigo_empleado'):
+                    if d.get('puesto') == 'Representante Ventas':
+                        ClientsNoPago.append({
+
+                                'codigo': val.get('codigo_cliente'),
+                                "Nombre Cliente": val.get("nombre_cliente"),
+                                "puesto": d.get("puesto"),
+                                "Representante de ventas": d.get('nombre')
+                            })
+    return ClientsNoPago
+
 
 def menu():
    while True:
@@ -170,6 +238,10 @@ def menu():
                             6. Obtener informacion por el numero de telefono   
                             7. Obtener Fax de clientes
                             8. Obtener informacion por pais, ciudad y region
+                            9. Devuelve un listado con los clientes q sean de la ciudad madrid y cuyo codigo de representante de ventas sea 11 o 30
+                            10. Obtener un listado con el nombre de cada cliente y el nombre y apellido de su representante de ventas.
+                            11. Obtener a los clientes q hayan realizado pagos junto a su representante de ventas
+                            12. 
         """)
     
     opcion = int(input("\nSeleccione una de las opciones: "))
@@ -213,15 +285,29 @@ def menu():
         print(tabulate(getAllClientPaisRegionCiudad(pais), headers="keys", tablefmt="grid"))
     elif(opcion == 9):
         try:
-            coincide = str(input("Ingresa un nombre"))
-            print(tabulate(getAllClientsCoincide(coincide), headers="keys", tablefmt="grid"))
+            print(tabulate(getClientsMadridCodigo(), headers="keys", tablefmt="grid"))
+        except KeyboardInterrupt:
+            return menu()
+    elif(opcion == 10):
+        try:
+            print(tabulate(getAllClientsYRepresentantes(), headers="keys", tablefmt="grid"))
+        except KeyboardInterrupt:
+            return menu()
+    elif(opcion == 11):
+        try:
+            print(tabulate(getAllPagos(), headers="keys", tablefmt="grid"))
+        except KeyboardInterrupt:
+            return menu()
+    elif(opcion == 12):
+        try:
+            print(tabulate(getAllNoPagos(), headers="keys", tablefmt="grid"))
         except KeyboardInterrupt:
             return menu()
     elif(opcion == 0):
         break
     
     try:
-        entrada = input("Ingresa Ctrl + l para ir a menu: ")
+        entrada = input("Ingresa Ctrl + c para ir a menu: ")
         print("Entrada recibida: ", entrada)
     except KeyboardInterrupt:
        menu()
