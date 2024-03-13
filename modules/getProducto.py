@@ -1,13 +1,20 @@
-import storage.producto as pr
 from datetime import datetime
 from tabulate import tabulate
+import json
+import requests
+import modules.postProducto as pstProducto
 #Devuelve un listado con todas los productos q pertenecen a la gama ornamentales
 #y q tienen mas de 100 unidades en stock. El listado debera estar ordenado por su precio de venta,
 # mostrando en primer lugar los de mayor precio
+def getAllData():
+    #json-server storage/producto.json -b 50001 
+    peticion = requests.get("http://172.16.100.123:50001")
+    data = peticion.json()
+    return data
 
 def getAllStocksPriceGama(gama, stock):
     condiciones = []
-    for val in pr.producto:
+    for val in getAllData():
         if(val.get("gama") == gama and val.get("precio_venta") >= stock):
             condiciones.append(val)
 
@@ -32,7 +39,7 @@ def getAllStocksPriceGama(gama, stock):
 # Obtener la gama, nombre, codigo producto, precio de venta
 def getAllGamaCodigoNombre():
     producto =[]
-    for val in pr.producto:
+    for val in getAllData():
         
             producto.append({
                 "gama": val.get('gama'),
@@ -44,7 +51,7 @@ def getAllGamaCodigoNombre():
 # Obtener el nombre del producto y la descripcion de este
 def getAllNombreDescripcion():
     descripcion = []
-    for val in pr.producto:
+    for val in getAllData():
         descripcion.append({
             "nombre": val.get('nombre'),
             "descripcion": val.get('descripcion'),
@@ -54,7 +61,7 @@ def getAllNombreDescripcion():
 # Obtener el proveedor del producto y precio
 def getAllProveedorPrecio():
     proveedor = []
-    for val in pr.producto:
+    for val in getAllData():
         proveedor.append({
             "codigo_producto": val.get('codigo_producto'),
             "nombre": val.get('nombre'),
@@ -65,7 +72,7 @@ def getAllProveedorPrecio():
 # Obtener el precio por fabrica y el precio neto individual
 def getAllPrecioNetoAVenta():
     Precios = []
-    for val in pr.producto:
+    for val in getAllData():
         Precios.append({
             "nombre": val.get('nombre'),
             "codigo_producto": val.get('codigo_producto'),
@@ -85,12 +92,13 @@ def menu():
  / _, _/  __/ /_/ / /_/ / /  / /_/  __(__  )  / /_/ /  __/  / / /_/ (__  )  / /_/ / /  / /_/ / /_/ / /_/ / /__/ /_/ /_/ (__  ) 
 /_/ |_|\___/ .___/\____/_/   \__/\___/____/   \__,_/\___/  /_/\____/____/  / .___/_/   \____/\__,_/\__,_/\___/\__/\____/____/  
           /_/                                                             /_/                                                 
-                            0.  Regresar al menu principal
-                            1. Obtener todos los productos q pertenecen a la gama (ejem Ornamentales) y su cantidad (ejem 100 en stock)
-                            2. Obtener la gama, el nombre del cliente y el codigo de cliente
-                            3. Obtener el nombre del producto y la descripcion de este
-                            4. Obtener el proveedor del producto y precio base
-                            5. Obtener el precio por fabrica y el precio neto individual
+                            0.  Regresar al menu principal :
+                            1. Obtener todos los productos q pertenecen a la gama (ejem Ornamentales) y su cantidad (ejem 100 en stock) :
+                            2. Obtener la gama, el nombre del cliente y el codigo de cliente :
+                            3. Obtener el nombre del producto y la descripcion de este :
+                            4. Obtener el proveedor del producto y precio base :
+                            5. Obtener el precio por fabrica y el precio neto individual :
+                            6. Crear y guardar
         """)
     opcion = int(input("\nSeleccione una de las opciones: "))
     if(opcion == 1):
@@ -119,7 +127,21 @@ def menu():
         try:
               print(tabulate(getAllPrecioNetoAVenta(), headers="keys", tablefmt="github"))
         except KeyboardInterrupt:
-            return menu()       
+            return menu()
+    elif(opcion == 6):
+        producto = {
+            "codigo_producto": input("Ingrese el codigo del producto: "),
+            "nombre": input("Ingrese el nombre del producto: "),
+            "gama": input("Ingrese la gama del producto: "),
+            "dimensiones": input("Ingrese las dimensiones del producto: "),
+            "proveedor": input("Ingrese el proveedor del producto: "),
+            "descripcion": input("Ingrese la descripcion del producto: "),
+            "cantidad_en_stock": int(input("Ingrese la cantidad en stock: ")),
+            "precio_venta": int(input("Ingrese el precio de ventas: ")),
+            "precio_proveedor": int(input("Ingrese el precio del proveedor: "))
+        }
+        pstProducto.postProducto(producto)
+        print("Producto guardado")     
     elif(opcion == 0):
         break
     try:
