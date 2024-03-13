@@ -3,6 +3,7 @@ from tabulate import tabulate
 import json
 import requests
 import modules.postProducto as pstProducto
+import modules.getGamas as gG
 #Devuelve un listado con todas los productos q pertenecen a la gama ornamentales
 #y q tienen mas de 100 unidades en stock. El listado debera estar ordenado por su precio de venta,
 # mostrando en primer lugar los de mayor precio
@@ -132,7 +133,7 @@ def menu():
         producto = {
             "codigo_producto": input("Ingrese el codigo del producto: "),
             "nombre": input("Ingrese el nombre del producto: "),
-            "gama": input("Ingrese la gama del producto: "),
+            "gama": gG.getAllNombre()[int(input("Seleccione la gama:\n"+"".join([f"\t{i}.{val}\n" for i, val in enumerate(gG.getAllNombre())])))],
             "dimensiones": input("Ingrese las dimensiones del producto: "),
             "proveedor": input("Ingrese el proveedor del producto: "),
             "descripcion": input("Ingrese la descripcion del producto: "),
