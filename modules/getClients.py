@@ -5,12 +5,13 @@ import storage.empleado as em
 import storage.pago as pago
 
 def getAllClientesName():
-    clienteName = []
+    clienteName = list()
     for val in cli.clientes:
-        clienteName.append({
-            "codigo_cliente": val.get('codigo_cliente'),
-            "nombre_cliente": val.get('nombre_cliente'),
+        codigoName = dict({
+            "codigo": val.get('codigo_cliente'),
+            "nombre": val.get('nombre_cliente')
         })
+        clienteName.append(codigoName)
     return clienteName
 
 def getOneClientCodigo(codigo):
@@ -29,10 +30,10 @@ def getAllClientCreditoCiudad(limiteCredit, ciudad):
             clienteCredic.append({
                 "Codigo": val.get('codigo_cliente'),
                 "Responsable": val.get('nombre_cliente'),
-                "Director": val.get('nombre_contacto'),
+                "Director": f"{val.get('nombre_contacto')}{val.get('nombre_contacto')}",
                 "Telefono": val.get('telefono'),
                 "Fax": val.get('fax'),
-                "Direcciones": f"{val.get('linea_direccion1')}{('linea_direccion')}",
+                "Direcciones": f"{val.get('linea_direccion1')}{('linea_direccion2')}",
                 "Origen": f"{val.get('pais')}{val.get('region')}{val.get('ciudad')}{val.get('codigo_postal')}",
                 "Codigo del asesor": val.get('codigo_empleado_rep_ventas'),
                 "Credito": val.get('limite_credito'),
@@ -246,7 +247,7 @@ def menu():
     
     opcion = int(input("\nSeleccione una de las opciones: "))
     if(opcion == 1):
-        print(tabulate(getAllClientesName(), headers="keys", tablefmt="fancy_grid"))
+        print(tabulate(getAllClientesName(), headers="keys", tablefmt="github"))
     elif(opcion == 2):
         try:
             codigoCliente = int(input("Ingresa el codigo cliente: "))
@@ -255,9 +256,9 @@ def menu():
             return menu()
     elif(opcion == 3):
         try:
-            limiteCredito = float(input("Ingresa el limite de credito"))
-            ciudad = str(input("Ingresa la ciudad")) 
-            print(tabulate(getAllClientCreditoCiudad(limiteCredito, ciudad), headers="keys", tablefmt="grid"))
+            limite = float(input("Ingresa el limite de credito de los clientes q deseas visualizar: "))
+            ciudad = input("Ingresa el nombre de la ciudad q deseas filtrar los clientes: ") 
+            print(tabulate(getAllClientCreditoCiudad(limite, ciudad), headers="keys", tablefmt="github"))
         except KeyboardInterrupt:
             return menu()    
     elif(opcion == 4):

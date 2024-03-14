@@ -1,4 +1,4 @@
-from datetime import datetime
+import os
 from tabulate import tabulate
 import json
 import requests
@@ -9,14 +9,14 @@ import modules.getGamas as gG
 # mostrando en primer lugar los de mayor precio
 def getAllData():
     #json-server storage/producto.json -b 50001 
-    peticion = requests.get("http://172.16.100.123:50001")
+    peticion = requests.get("http://172.16.100.113:50001")
     data = peticion.json()
     return data
 
 def getAllStocksPriceGama(gama, stock):
     condiciones = []
     for val in getAllData():
-        if(val.get("gama") == gama and val.get("precio_venta") >= stock):
+        if(val.get("gama") == gama and val.get("cantidad_en_stock") >= stock):
             condiciones.append(val)
 
     def price(val):
@@ -30,7 +30,7 @@ def getAllStocksPriceGama(gama, stock):
                 "gama": val.get("gama"),
                 "dimensiones": val.get("dimensiones"),
                 "proveedor": val.get("proveedor"),
-                "descripcion": f'{val.get("descripcion")[:5]}...' if condiciones[i].get("descripcion") else val.get("descripcion"),
+                "descripcion": f'{val.get("descripcion")[:5]}...' if condiciones[i].get("descripcion") else None,
                 "stock": val.get("cantidad_en_stock"),
                 "base": val.get("precio_proveedor"),
 
@@ -86,6 +86,7 @@ def getAllPrecioNetoAVenta():
 
 def menu():
    while True:
+    os.system("clear")
     print("""
     ____                        __                   __        __                                   __           __            
    / __ \___  ____  ____  _____/ /____  _____   ____/ /__     / /___  _____   ____  _________  ____/ /_  _______/ /_____  _____
@@ -93,7 +94,7 @@ def menu():
  / _, _/  __/ /_/ / /_/ / /  / /_/  __(__  )  / /_/ /  __/  / / /_/ (__  )  / /_/ / /  / /_/ / /_/ / /_/ / /__/ /_/ /_/ (__  ) 
 /_/ |_|\___/ .___/\____/_/   \__/\___/____/   \__,_/\___/  /_/\____/____/  / .___/_/   \____/\__,_/\__,_/\___/\__/\____/____/  
           /_/                                                             /_/                                                 
-                            0.  Regresar al menu principal :
+                            0. Atras
                             1. Obtener todos los productos q pertenecen a la gama (ejem Ornamentales) y su cantidad (ejem 100 en stock) :
                             2. Obtener la gama, el nombre del cliente y el codigo de cliente :
                             3. Obtener el nombre del producto y la descripcion de este :
@@ -104,9 +105,9 @@ def menu():
     opcion = int(input("\nSeleccione una de las opciones: "))
     if(opcion == 1):
         try:
-            gama = str(input("Introduce una gama"))
-            stock = int(input("Introduce las unidades en stock"))
-            print(tabulate(getAllStocksPriceGama(gama, stock), headers="keys", tablefmt="grid"))
+            gama = str(input("Introduce la gama q deseas filtrar"))
+            stock = int(input("Introduce las unidades q deseas mostrar"))
+            print(tabulate(getAllStocksPriceGama(gama, stock), headers="keys", tablefmt="github"))
         except KeyboardInterrupt:
             return menu()    
     elif(opcion == 2):
@@ -128,21 +129,7 @@ def menu():
         try:
               print(tabulate(getAllPrecioNetoAVenta(), headers="keys", tablefmt="github"))
         except KeyboardInterrupt:
-            return menu()
-    elif(opcion == 6):
-        producto = {
-            "codigo_producto": input("Ingrese el codigo del producto: "),
-            "nombre": input("Ingrese el nombre del producto: "),
-            "gama": gG.getAllNombre()[int(input("Seleccione la gama:\n"+"".join([f"\t{i}.{val}\n" for i, val in enumerate(gG.getAllNombre())])))],
-            "dimensiones": input("Ingrese las dimensiones del producto: "),
-            "proveedor": input("Ingrese el proveedor del producto: "),
-            "descripcion": input("Ingrese la descripcion del producto: "),
-            "cantidad_en_stock": int(input("Ingrese la cantidad en stock: ")),
-            "precio_venta": int(input("Ingrese el precio de ventas: ")),
-            "precio_proveedor": int(input("Ingrese el precio del proveedor: "))
-        }
-        pstProducto.postProducto(producto)
-        print("Producto guardado")     
+            return menu()  
     elif(opcion == 0):
         break
     try:
