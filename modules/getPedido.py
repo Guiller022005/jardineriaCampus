@@ -1,10 +1,19 @@
-import storage.pedido as pe
+# import storage.pedido as pe
 from datetime import datetime
 from tabulate import tabulate
+import os
+import requests
+import json
+def getAllPedidos():
+    #json-server storage/empleado.json -b 50004
+    peticion = requests.get("http://172.16.104.17:50004")
+    data = peticion.json()
+    return data
+
 # Devuleve un listado con los distintos estados por los q puede pasar un pedido
 def getAllEstadosPedido():
     estados = set()
-    for val in pe.pedido:
+    for val in getAllPedidos():
         estado = val.get("estado")
         if estado not in estados:
             estados.add(estado)
@@ -17,7 +26,7 @@ def getAllEstadosPedido():
 
 def getAllPedidosEntregadosAtrasadosDeTiempo():
     pedidosAtrasados = []
-    for val in pe.pedido:
+    for val in getAllPedidos():
         if val.get("estado") == "Entregado" and val.get("fecha_entrega") is None:
            val["fecha_entrega"] = val.get("fecha_esperada")
         if val.get("estado") == "Entregado":
@@ -39,7 +48,7 @@ def getAllPedidosEntregadosAtrasadosDeTiempo():
 # cuya fecha de entrega ha sido al menos dos dias antes de la fecha esperada
 def getAllPedidosEntregadosAntesDeTiempo():
     pedidosEntregados = []
-    for val in pe.pedido:
+    for val in getAllPedidos():
         if val.get("estado") == "Entregado" and val.get("fecha_entrega") is None:
            val["fecha_entrega"] = val.get("fecha_esperada")
         if val.get("estado") == "Entregado":
@@ -61,7 +70,7 @@ def getAllPedidosEntregadosAntesDeTiempo():
 #Devuelve el listado de todos los pedidos q fueron rechazados en 2009 
 def getAllPedidosRechazados():
     pedidosRechazados = []
-    for val in pe.pedido:
+    for val in getAllPedidos():
         if("2009") in val.get("fecha_pedido") and val.get("estado") == ("Rechazado"):
             pedidosRechazados.append({
                     "codigo_pedido": val.get("codigo_pedido"),
@@ -74,7 +83,7 @@ def getAllPedidosRechazados():
 # Devuelve un listado de todos los pedidos q han sido entregados en el mes de enero de cualquier año
 def getAllPedidosEntregadosEnero():
     pedidosEntregadosMes = []
-    for val in pe.pedido:
+    for val in getAllPedidos():
         fecha_entrega = val.get("fecha_entrega")
         if fecha_entrega:
             date_1 = "/".join(val.get("fecha_entrega").split("-")[::-1])
@@ -91,7 +100,7 @@ def getAllPedidosEntregadosEnero():
 # Devuelve el comentario del pedido con su codigo
 def getAllcodigoPedidoComentario():
     pedidoComentario = []
-    for val in pe.pedido:
+    for val in getAllPedidos():
         pedidoComentario.append({
             "codigo_pedido": val.get("codigo_pedido"),
             "estado": val.get("estado"),

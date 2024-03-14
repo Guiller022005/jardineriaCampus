@@ -1,12 +1,21 @@
-import storage.oficina as of
+# import storage.oficina as of
 from datetime import datetime
 from tabulate import tabulate
+
 #Devuelve un listado con el codigo de
 #oficina y la ciudad donde hat oficinas
+import os
+import requests
+import json
+def getAllOficina():
+    #json-server storage/empleado.json -b 50002
+    peticion = requests.get("http://172.16.104.17:50002")
+    data = peticion.json()
+    return data
 
 def getAllCodigoCiudad():
     codigoCiudad = []
-    for val in of.oficina:
+    for val in getAllOficina():
         codigoCiudad.append({
             "codigo": val.get("codigo_oficina"),
             "ciudad": val.get("ciudad"),
@@ -17,7 +26,7 @@ def getAllCodigoCiudad():
 #de las oficinas de españa
 def getAllCiudadTelefono(pais):
     ciudadTelefono = []
-    for val in of.oficina:
+    for val in getAllOficina():
         if(val.get("pais")== pais):
             ciudadTelefono.append({
             "pais": val.get("pais"),
@@ -30,14 +39,14 @@ def getAllCiudadTelefono(pais):
 # Cuenta cuantas oficinas hay por pais
 def getAllContarOficinas(pais):
     contador = 0
-    for val in of.oficina:
+    for val in getAllOficina():
         if val.get('pais') == pais:
             contador = contador + 1
     return contador
 # Filtrar por ciudad y direccion
 def getAllCiudadDireccion():
     DireccionesOficina = []
-    for val in of.oficina:
+    for val in getAllOficina():
         DireccionesOficina.append({
             "ciudad": val.get("ciudad"),
             "direcciones": f"{val.get('linea_direccion1')}{'linea_direccion2'}",
@@ -46,7 +55,7 @@ def getAllCiudadDireccion():
 # Filtrar por codigo_postal:
 def getAllCodigoPostal():
     DireccionesOficina = []
-    for val in of.oficina:
+    for val in getAllOficina():
         DireccionesOficina.append({
             "codigo_postal": val.get("codigo_postal"),
             "codigo_oficina": val.get("codigo_oficina")

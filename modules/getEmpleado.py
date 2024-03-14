@@ -1,13 +1,28 @@
-import storage.empleado as em
+import os
+import requests
+import json
 from datetime import datetime
 from tabulate import tabulate
+import modules.postEmpleado as pstEmpleado
+
 #Devuelve un listado con el nombre, apellidos y email
 #de los empleados cuyo jefe tiene de jefe igual a 7
 
+def getAllEmpleado():
+    #json-server storage/empleado.json -b 50003
+    peticion = requests.get("http://172.16.104.17:50003")
+    data = peticion,json()
+    return data
+
+def getAllData():
+    empleadoPuesto = []
+    for val in getAllEmpleado():
+        empleadoPuesto.append(val.get("puesto"))
+    return empleadoPuesto
 
 def getAllNombreApellidoEmailJefe(codigo):
     nombreApellidoEmail = []
-    for val in em.empleados:
+    for val in getAllData():
         if(val.get("codigo_jefe") == codigo):
             nombreApellidoEmail.append(
             {
@@ -22,7 +37,7 @@ def getAllNombreApellidoEmailJefe(codigo):
 # Devuelve el nombre del puesto, nombre, apellidos y email del jefe de la empresa
 def getAllPuestoNombreApellidosEmailJefe():
     puestoNombreApellidoEmail = []
-    for val in em.empleados:
+    for val in getAllData():
         if(val.get("codigo_jefe") == None):
             puestoNombreApellidoEmail.append(
                 {
@@ -41,7 +56,7 @@ def getAllPuestoNombreApellidosEmailJefe():
 #Devuelve un listado con el puesto, nombre y apellidos y codigo de oficina
 def getAllPuestoNombreCodigoOficina():
     puestoNombreCodeOficina = []
-    for val in em.empleados:
+    for val in getAllData():
             puestoNombreCodeOficina.append(
                 {
                 "puesto": val.get("puesto"),
@@ -57,7 +72,7 @@ def getAllPuestoNombreCodigoOficina():
 # Devuelve un listado con el nombre, apellidos y puesto de aquellos empleados q no sean representantes de ventas
 def getAllPuestoRepresentanteDeVentas():
     puestoRepresentanteVentas = []
-    for vente in em.empleados:
+    for vente in getAllData():
         if vente.get("puesto") != "Representante Ventas":
             puestoRepresentanteVentas.append(
                 {
@@ -76,7 +91,7 @@ def getAllPuestoRepresentanteDeVentas():
 #     return contador
 def getAllContarEmpleados():
     contador = 0
-    for val in em.empleados:
+    for val in getAllData():
         contador += 1
     return contador
 

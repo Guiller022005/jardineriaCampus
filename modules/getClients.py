@@ -1,12 +1,39 @@
-import storage.cliente as cli
+import os
+import requests
+import json
 from datetime import datetime
 from tabulate import tabulate
-import storage.empleado as em
-import storage.pago as pago
+# import storage.pago as pago
+def getAllPagos():
+     #json-server storage/gama_producto.json -b 50002 
+    peticion = requests.get("http://172.16.104.17:50002")
+    data = peticion.json()
+    return data
+
+
+
+
+def getAllClientes():
+    #json-server storage/empleado.json -b 50001
+    peticion = requests.get("http://172.16.104.17:50001")
+    data = peticion.json()
+    return data
+
+def getAllEmpleados():
+    #json-server storage/empleado.json -b 50004
+    peticion = requests.get("http://172.16.104.17:50003")
+    data = peticion.json()
+    return data
+
+
+
+
+
+
 
 def getAllClientesName():
     clienteName = list()
-    for val in cli.clientes:
+    for val in getAllClientes():
         codigoName = dict({
             "codigo": val.get('codigo_cliente'),
             "nombre": val.get('nombre_cliente')
@@ -15,7 +42,7 @@ def getAllClientesName():
     return clienteName
 
 def getOneClientCodigo(codigo):
-    for val in cli.clientes:
+    for val in getAllClientes():
         if(val.get('codigo_cliente') == codigo):
             return [{
             "codigo_cliente": val.get('codigo_cliente'),
@@ -25,7 +52,7 @@ def getOneClientCodigo(codigo):
 # Filtro para limite de credito ciudad
 def getAllClientCreditoCiudad(limiteCredit, ciudad):
     clienteCredic = list()
-    for val in cli.clientes:
+    for val in getAllClientes():
         if(val.get('limite_credito') >= limiteCredit and val.get('ciudad') == ciudad):
             clienteCredic.append({
                 "Codigo": val.get('codigo_cliente'),
@@ -43,7 +70,7 @@ def getAllClientCreditoCiudad(limiteCredit, ciudad):
 # Filtro para limite de credito por region
 def getAllClientCreditoPais(limiteCredit, pais):
     clienteCredit = list()
-    for val in cli.clientes:
+    for val in getAllClientes():
         if(val.get('limite_credito') >= limiteCredit and val.get('pais') == pais):
             clienteCredit.append(val)
     return clienteCredit
@@ -51,7 +78,7 @@ def getAllClientCreditoPais(limiteCredit, pais):
 # Filtro por pais, ciudad y region
 def getAllClientPaisRegionCiudad(pais,region=None,ciudad=None):
     clientZone = list()
-    for val in cli.clientes:
+    for val in getAllClientes():
 
         if(val.get('pais') == pais):
             if (val.get('region') == region) or region == None:
@@ -66,7 +93,7 @@ def getAllClientPaisRegionCiudad(pais,region=None,ciudad=None):
 # Filtro q permita buscar nombres q coincidad parcialmente con los de los clientes
 def getAllClientsCoincide(nombre):
     clients_info = []
-    for cliente in cli.clientes:
+    for cliente in getAllClientes():
         nombre_cliente = cliente.get("nombre_cliente")
         coincide = str(input("Ingresa un nombre"))
         if nombre.startswith(coincide) in nombre_cliente.lower():  # Verifica si el término de búsqueda está contenido en el nombre del cliente
@@ -80,7 +107,7 @@ def getAllClientsCoincide(nombre):
 # Filtro para buscar Direccion2 de todos los clientes
 def getAllClientsDirreccion2(direccion2):
     ClientDireccion = []
-    for val in cli.clientes:
+    for val in getAllClientes():
         ClientDireccion.append({
             "nombre_cliente": val.get('nombre_cliente'),
             "linea_direccion2": val.get('linea_direccion2'),
@@ -90,7 +117,7 @@ def getAllClientsDirreccion2(direccion2):
 # Filtro para contar la cantidad de clientes en una determinada ciudad
 def getAllContarClientes(ciudad):
     contador = 0
-    for val in cli.clientes:
+    for val in getAllClientes():
         if val.get('ciudad') == ciudad:
             contador = contador + 1
     return contador
@@ -98,7 +125,7 @@ def getAllContarClientes(ciudad):
 # Filtro para contar la cantidad de clientes en un determinado pais
 def getAllContarCliPais(pais):
     contador = 0
-    for val in cli.clientes:
+    for val in getAllClientes():
         if val.get("pais") == pais:
             contador = contador + 1
     return contador
@@ -108,7 +135,7 @@ def getAllContarCliPais(pais):
 # Filtro para Fax de clientes
 def getAllClientsFax(Fax):
     ClientFax = []
-    for val in cli.clientes:
+    for val in getAllClientes():
         ClientFax.append({
             "fax": val.get('fax'),
             "nombre_cliente": val.get('nombre_cliente'),
@@ -118,7 +145,7 @@ def getAllClientsFax(Fax):
 # Filtro para codigo de empleado
 def getAllClientsCodigoEmpleado(CodigoEmp):
     CodigoEmpleado = []
-    for val in cli.clientes:
+    for val in getAllClientes():
         CodigoEmpleado.append({
             "nombre_cliente": val.get('nombre_cliente'),
              "codigo_empleado_rep_ventas": val.get('codigo_empleado_rep_ventas')
@@ -128,7 +155,7 @@ def getAllClientsCodigoEmpleado(CodigoEmp):
 # Filtro para codigo postal
 def getAllClientsCodigoPostal():
     ClientPostal = []
-    for val in cli.clientes:
+    for val in getAllClientes():
         ClientPostal.append({
             "nombre_cliente": val.get('nombre_cliente'),
             "codigo_postal": val.get('codigo_postal')
@@ -138,7 +165,7 @@ def getAllClientsCodigoPostal():
 # Filtro para telefono clientes
 def getAllClientsTelefono():
     TelefonoEmpleado = []
-    for val in cli.clientes:
+    for val in getAllClientes():
         TelefonoEmpleado.append({
             "nombre_cliente": val.get('nombre_cliente'),
             "telefono": val.get('telefono')
@@ -148,7 +175,7 @@ def getAllClientsTelefono():
 # Devuelve un listado con el nombre de los todos los clientes españoles
 def getAllClientsSpain(pais):
     clientSpain = []
-    for val in cli.clientes:
+    for val in getAllClientes():
         if(val.get("pais")) == "Spain":
             clientSpain.append({
                 "nombre_cliente": val.get('nombre_cliente'),
@@ -157,7 +184,7 @@ def getAllClientsSpain(pais):
 # Devuelve un listado con los clientes q sean de la ciudad madrid y cuyo codigo de representante de ventas sea 11 o 30
 def getClientsMadridCodigo():
     clientMadrid = []
-    for val in cli.clientes:
+    for val in getAllClientes():
         
         if (val.get("ciudad") == "Madrid"):
             if(val.get("codigo_empleado_rep_ventas")== 11) or (val.get("codigo_empleado_rep_ventas") == 30):
@@ -175,19 +202,19 @@ def getClientsMadridCodigo():
 
 def getAllClientsYRepresentantes():
     ClientsRepreVent = list ()
-    for val in cli.clientes:
-        for i in em.empleados:
+    for val in getAllClientes():
+        for i in getAllEmpleados():
             if val.get("codigo_empleado_rep_ventas") == i.get("codigo_empleado"):
                 ClientsRepreVent.append({
                     "Nombre Cliente": val.get("nombre_cliente"),
                     "Representante de ventas": f'{i.get("nombre")} {i.get("apellido1")}'
                 })
     return ClientsRepreVent
-def getAllPagos():
+def getAllPagos1():
     ClientsPagos = list()
-    for val in cli.clientes:
-        for i in em.empleados:
-            for d in pago.pago:
+    for val in getAllClientes():
+        for i in getAllEmpleados():
+            for d in getAllPagos():
                 if (d.get("codigo_cliente") == val.get("codigo_cliente")) and (val.get("codigo_empleado_rep_ventas") == i.get("codigo_empleado")):
                     if val.get("nombre_cliente") not in ClientsPagos:
                         if i.get('puesto') == 'Representante Ventas':
@@ -201,14 +228,14 @@ def getAllPagos():
 
 def getAllNoPagos():
     ClientsNoPago = []
-    for val in cli.clientes:
+    for val in getAllClientes():
         pagos = False
-        for d in pago.pago:
+        for d in getAllPagos():
                 if val.get('codigo_cliente')== d.get('codigo_cliente'):
                     pagos = True
                     break
         if not pagos:
-            for d in em.empleados:
+            for d in getAllEmpleados():
                 if val.get('codigo_empleado_rep_ventas') == d.get('codigo_empleado'):
                     if d.get('puesto') == 'Representante Ventas':
                         ClientsNoPago.append({
@@ -242,7 +269,7 @@ def menu():
                             9. Devuelve un listado con los clientes q sean de la ciudad madrid y cuyo codigo de representante de ventas sea 11 o 30
                             10. Obtener un listado con el nombre de cada cliente y el nombre y apellido de su representante de ventas.
                             11. Obtener a los clientes q hayan realizado pagos junto a su representante de ventas
-                            12. 
+                            12. Obtener a los clientes q no hayan realizado pagos
         """)
     
     opcion = int(input("\nSeleccione una de las opciones: "))
@@ -296,7 +323,7 @@ def menu():
             return menu()
     elif(opcion == 11):
         try:
-            print(tabulate(getAllPagos(), headers="keys", tablefmt="grid"))
+            print(tabulate(getAllPagos1(), headers="keys", tablefmt="grid"))
         except KeyboardInterrupt:
             return menu()
     elif(opcion == 12):

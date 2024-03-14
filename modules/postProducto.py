@@ -18,7 +18,7 @@ def postProducto():
             "precio_proveedor": int(input("Ingrese el precio del proveedor: "))
 }
     headers = {'Content-type': 'application/json', 'charset': 'UTF-8'}
-    peticion = requests.post("http://172.16.100.113:50001",headers=headers, data=json.dumps(producto, indent=4).encode("UTF-8"))
+    peticion = requests.post("http://172.16.104.17:50001",headers=headers, data=json.dumps(producto, indent=4).encode("UTF-8"))
     res = peticion.json()
     res["Mensaje"] = "Producto Guardado"
     return [res]
@@ -48,3 +48,6 @@ def menu():
             print(tabulate(postProducto(), headers="keys", tablefmt="github"))
             input("Presione una tecla para continuar......")
             break
+        
+        elif(opcion == 0):
+            break 

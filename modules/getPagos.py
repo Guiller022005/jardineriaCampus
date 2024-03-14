@@ -1,11 +1,31 @@
-import storage.pago as pagos
+# import storage.pago as pagos
 from tabulate import tabulate
 from datetime import datetime
+import requests
+import json
+
+def getAllPagos():
+     #json-server storage/gama_producto.json -b 50005 
+    peticion = requests.get("http://172.16.104.17:50005")
+    data = peticion.json()
+    return data
+
+
+
+
+
+
+
+
+
+
+
+
 # Devuelve un listado con el codigo de cliente de aquellos clientes q realizaron algun pago en 2008. Tenga en cuenta q debera eliminar aquellos codigos de cliente q aparezcan repetidos.
 def getAllCodigoClienteFecha():
     CodigoFecha = []
     codigos_vistos = set()  # Usamos un conjunto para evitar duplicados
-    for val in pagos.pago:
+    for val in getAllPagos():
         if("2008") in val.get("fecha_pago"):
             Codigo_cliente = val.get("codigo_cliente")
             if Codigo_cliente not in codigos_vistos:
@@ -20,7 +40,7 @@ def getAllCodigoClienteFecha():
 # Devuelve un listado con todos los pagos q se realizaron en en el año 2008 mediante paypal, ordena el resultado de mayor a menor
 def getAllPagosFecha():
     pagosFecha = []
-    for val in pagos.pago:
+    for val in getAllPagos():
         if("2008") in val.get("fecha_pago") and val.get("forma_pago") is ("PayPal"):
             pagosFecha.append({
                     "codigo_de_cliente": val.get("codigo_cliente"),
@@ -34,7 +54,7 @@ def getAllPagosFecha():
 # Devuelve un listado con todas las formas de pago q aparecen en la tabla pago. Tenga en cuenta q no deben aparecer formas de pago repetidas
 def getAllFormasDePago():
     tipoPago = set()
-    for val in pagos.pago:
+    for val in getAllPagos():
         formaPago = val.get("forma_pago")
         if formaPago not in tipoPago:
             tipoPago.add(formaPago)
