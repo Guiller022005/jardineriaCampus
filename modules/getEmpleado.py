@@ -10,7 +10,7 @@ import modules.postEmpleado as pstEmpleado
 
 def getAllEmpleado():
     #json-server storage/empleado.json -b 50003
-    peticion = requests.get("http://172.16.104.17:50003")
+    peticion = requests.get("http://172.16.100.111:50003")
     data = peticion,json()
     return data
 

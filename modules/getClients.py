@@ -5,8 +5,8 @@ from datetime import datetime
 from tabulate import tabulate
 # import storage.pago as pago
 def getAllPagos():
-     #json-server storage/gama_producto.json -b 50002 
-    peticion = requests.get("http://172.16.104.17:50002")
+    #json-server storage/gama_producto.json -b 50007 
+    peticion = requests.get("http://172.16.100.111:50007")
     data = peticion.json()
     return data
 
@@ -14,14 +14,14 @@ def getAllPagos():
 
 
 def getAllClientes():
-    #json-server storage/empleado.json -b 50001
-    peticion = requests.get("http://172.16.104.17:50001")
+    #json-server storage/cliente.json -b 50001
+    peticion = requests.get("http://172.16.100.111:50001")
     data = peticion.json()
     return data
 
 def getAllEmpleados():
-    #json-server storage/empleado.json -b 50004
-    peticion = requests.get("http://172.16.104.17:50003")
+    #json-server storage/empleado.json -b 50003
+    peticion = requests.get("http://172.16.100.111:50003")
     data = peticion.json()
     return data
 

@@ -16,7 +16,7 @@ def postOficina():
             "linea_direccion2": int(input("Ingrese el codigo del jefe del empleado: "))
     }
     headers = {'Content-type': 'application/json', 'charset': 'UTF-8'}
-    peticion = requests.post("http://172.16.104.17:50002",headers=headers, data=json.dumps(oficina, indent=4).encode("UTF-8"))
+    peticion = requests.post("http://172.16.100.111:50002",headers=headers, data=json.dumps(oficina, indent=4).encode("UTF-8"))
     res = peticion.json()
     res["Mensaje"] = "Producto Guardado"
     return [res]

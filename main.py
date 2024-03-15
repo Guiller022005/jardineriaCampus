@@ -1,4 +1,5 @@
 import os
+import re
 import requests
 from tabulate import tabulate
 import modules.getClients as cliente
@@ -11,7 +12,12 @@ import modules.getProducto as Repproducto
 import modules.postProducto as CRUDproducto
 import modules.getOficina as Reppoficina
 import modules.postOficina as CRUDoficina
-
+import modules.postCliente as Reppcliente
+import modules.postCliente as CRUDcliente
+import modules.postPedidos as Reppedido
+import modules.postPedidos as CRUDpedido
+import modules.postPedidos as Reppagos
+import modules.postPedidos as CRUDpagos
 
 
 def menuProducto():
@@ -36,12 +42,15 @@ def menuProducto():
 
             """)
         opcion = int(input("\nSeleccione una de las opciones: "))
-        if(opcion == 1):
-            Repproducto.menu()
-        if(opcion == 2):
-            CRUDproducto.menu()
-        elif(opcion == 0):
-            break
+        if(re.match(r'[0-9]+$', opcion) is not None):
+            opcion = int(opcion)
+            if(opcion >= 0 and opcion <= 2):
+                if(opcion == 1):
+                    Repproducto.menu()
+                if(opcion == 2):
+                    CRUDproducto.menu()
+                elif(opcion == 0):
+                    break
 
 def menuEmpleado():
     while True:
@@ -65,12 +74,15 @@ def menuEmpleado():
 
             """)
         opcion = int(input("\nSeleccione una de las opciones: "))
-        if(opcion == 1):
-            Reppempleado.menu()
-        if(opcion == 2):
-            CRUDempleado.menu()
-        elif(opcion == 0):
-            break
+        if(re.match(r'[0-9]+$', opcion) is not None):
+            opcion = int(opcion)
+            if(opcion >= 0 and opcion <= 2):
+                if(opcion == 1):
+                    Reppempleado.menu()
+                if(opcion == 2):
+                    CRUDempleado.menu()
+                elif(opcion == 0):
+                    break
 
 def menuOficina():
     while True:
@@ -94,14 +106,112 @@ def menuOficina():
 
             """)
         opcion = int(input("\nSeleccione una de las opciones: "))
-        if(opcion == 1):
-            Reppoficina.menu()
-        if(opcion == 2):
-            CRUDoficina.menu()
-        elif(opcion == 0):
-            break
-        
+        if(re.match(r'[0-9]+$', opcion) is not None):
+            opcion = int(opcion)
+            if(opcion >= 0 and opcion <= 2):
+                if(opcion == 1):
+                    Reppoficina.menu()
+                if(opcion == 2):
+                    CRUDoficina.menu()
+                elif(opcion == 0):
+                    break
+
+def menuCliente():
+    while True:
+        os.system("clear")
+        print("""
+    ____  _                            _     __               __                             
+   / __ )(_)__  ____ _   _____  ____  (_)___/ /___     ____ _/ /  ____ ___  ___  ____  __  __
+  / __  / / _ \/ __ \ | / / _ \/ __ \/ / __  / __ \   / __ `/ /  / __ `__ \/ _ \/ __ \/ / / /
+ / /_/ / /  __/ / / / |/ /  __/ / / / / /_/ / /_/ /  / /_/ / /  / / / / / /  __/ / / / /_/ / 
+/_____/_/\___/_/ /_/|___/\___/_/ /_/_/\__,_/\____/   \__,_/_/  /_/ /_/ /_/\___/_/ /_/\__,_/  
+           __             ___            __                                                  
+      ____/ /__     _____/ (_)__  ____  / /____                                              
+     / __  / _ \   / ___/ / / _ \/ __ \/ __/ _ \                                             
+    / /_/ /  __/  / /__/ / /  __/ / / / /_/  __/                                             
+    \__,_/\___/   \___/_/_/\___/_/ /_/\__/\___/                                              
+                                                                                                                                                    
+            1. Reportes de las oficinas
+            2. Guardar, Actualizar y Eliminar productos
+            0. Regresar al menu principal
+
+
+            """)
+        opcion = int(input("\nSeleccione una de las opciones: "))
+        if(re.match(r'[0-9]+$', opcion) is not None):
+            opcion = int(opcion)
+            if(opcion >= 0 and opcion <= 2):
+                if(opcion == 1):
+                    Reppcliente.menu()
+                if(opcion == 2):
+                    CRUDcliente.menu()
+                elif(opcion == 0):
+                    break
+
+def menuPedido():
+    while True:
+        os.system("clear")
+        print("""
+    ____  _                            _     __               __             
+   / __ )(_)__  ____ _   _____  ____  (_)___/ /___     ____ _/ /             
+  / __  / / _ \/ __ \ | / / _ \/ __ \/ / __  / __ \   / __ `/ /              
+ / /_/ / /  __/ / / / |/ /  __/ / / / / /_/ / /_/ /  / /_/ / /               
+/_____/_/\___/_/ /_/|___/\___/_/ /_/_/\__,_/\____/   \__,_/_/  ___     __    
+   ____ ___  ___  ____  __  __   ____/ /__     ____  ___  ____/ (_)___/ /___ 
+  / __ `__ \/ _ \/ __ \/ / / /  / __  / _ \   / __ \/ _ \/ __  / / __  / __ \
+ / / / / / /  __/ / / / /_/ /  / /_/ /  __/  / /_/ /  __/ /_/ / / /_/ / /_/ /
+/_/ /_/ /_/\___/_/ /_/\__,_/   \__,_/\___/  / .___/\___/\__,_/_/\__,_/\____/ 
+                                           /_/                                                                          
+                                                                                                                                                    
+            1. Reportes de las oficinas
+            2. Guardar, Actualizar y Eliminar productos
+            0. Regresar al menu principal
+
+
+            """)
+        opcion = int(input("\nSeleccione una de las opciones: "))
+        if(re.match(r'[0-9]+$', opcion) is not None):
+            opcion = int(opcion)
+            if(opcion >= 0 and opcion <= 2):
+                if(opcion == 1):
+                    Reppedido.menu()
+                if(opcion == 2):
+                    CRUDpedido.menu()
+                elif(opcion == 0):
+                    break    
+def menuPagos():
+    while True:
+        os.system("clear")
+        print("""
+    ____  _                            _     __               __            
+   / __ )(_)__  ____ _   _____  ____  (_)___/ /___     ____ _/ /            
+  / __  / / _ \/ __ \ | / / _ \/ __ \/ / __  / __ \   / __ `/ /             
+ / /_/ / /  __/ / / / |/ /  __/ / / / / /_/ / /_/ /  / /_/ / /              
+/_____/_/\___/_/ /_/|___/\___/_/ /_/_/\__,_/\____/   \__,_/_/               
+   ____ ___  ___  ____  __  __   ____/ /__     ____  ____ _____ _____  _____
+  / __ `__ \/ _ \/ __ \/ / / /  / __  / _ \   / __ \/ __ `/ __ `/ __ \/ ___/
+ / / / / / /  __/ / / / /_/ /  / /_/ /  __/  / /_/ / /_/ / /_/ / /_/ (__  ) 
+/_/ /_/ /_/\___/_/ /_/\__,_/   \__,_/\___/  / .___/\__,_/\__, /\____/____/  
+                                           /_/          /____/                                                                                     
+                                                                                                                                                    
+            1. Reportes de las oficinas
+            2. Guardar, Actualizar y Eliminar productos
+            0. Regresar al menu principal
+
+
+            """)
+        opcion = int(input("\nSeleccione una de las opciones: "))
+        if(re.match(r'[0-9]+$', opcion) is not None):
+            opcion = int(opcion)
+            if(opcion >= 0 and opcion <= 2):
+                if(opcion == 1):
+                    Reppagos.menu()
+                if(opcion == 2):
+                    CRUDpagos.menu()
+                elif(opcion == 0):
+                    break      
 if(__name__ == "__main__"):
+    CRUDproducto.postProducto
     #https://patorjk.com/software/taag/#p=display&h=2&v=2&f=Slant&t=Men%C3%BA%20principal%0A1.%20cliente%0A2.%20oficina%0A3.%20empleado%0A4.%20pedidos%0A
     while True:
         os.system("clear")
@@ -123,18 +233,22 @@ if(__name__ == "__main__"):
                         7. Salir
     """)
         opcion = int(input("\nSeleccione una de las opciones: "))
-        if(opcion == 1):
-            cliente.menu()
-        elif(opcion == 2):
-            menuOficina()
-        elif(opcion == 3):
-            menuEmpleado()
-        elif(opcion == 4):
-            pedidos.menu()
-        elif(opcion == 5):
-            pago.menu()
-        elif(opcion == 6):
-            menuProducto()
-        elif(opcion == 0):
-            break
+        if(re.match(r'[0-9]+$', opcion) is not None):
+            opcion = int(opcion)
+            if(opcion >= 0 and opcion <= 5):
+                if(opcion == 1):
+                    menuCliente()
+                elif(opcion == 2):
+                    menuOficina()
+                elif(opcion == 3):
+                    menuEmpleado()
+                elif(opcion == 4):
+                    menuPedido()
+                elif(opcion == 5):
+                    menuPagos()
+                elif(opcion == 6):
+                    menuProducto()
+                elif(opcion == 0):
+                    break
+        
 

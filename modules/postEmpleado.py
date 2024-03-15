@@ -17,9 +17,9 @@ def postEmpleado():
             "codigo_jefe": int(input("Ingrese el codigo del jefe del empleado: "))
     }
     headers = {'Content-type': 'application/json', 'charset': 'UTF-8'}
-    peticion = requests.post("http://172.16.104.17:50001",headers=headers, data=json.dumps(empleado, indent=4).encode("UTF-8"))
+    peticion = requests.post("http://172.16.100.111:50003",headers=headers, data=json.dumps(empleado, indent=4).encode("UTF-8"))
     res = peticion.json()
-    res["Mensaje"] = "Producto Guardado"
+    res["Mensaje"] = "Empleado Guardado"
     return [res]
 def menu():
     while True:
