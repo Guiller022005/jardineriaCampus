@@ -1,0 +1,1 @@
+json-server storage/cliente.json -b 50001 & json-server storage/oficina.json -b 50002 & json-server storage/empleado.json -b 50003 & json-server storage/pedido.json -b 50004 & json-server storage/pago.json -b 50005 & json-server storage/productos.json -b 50006 & json-server storage/gama.json -b 50007
