@@ -9,12 +9,12 @@ import modules.getGamas as gG
 # mostrando en primer lugar los de mayor precio
 def getAllProducto():
     #json-server storage/producto.json -b 50006 
-    peticion = requests.get("http://172.16.100.120:50006/productos")
+    peticion = requests.get("http://172.16.103.34:50006/productos")
     data = peticion.json()
     return data
 
 def getProductCodigo(codigo):
-    peticion = requests.get(f"http://172.16.100.120:50006/productos/{codigo}")
+    peticion = requests.get(f"http://172.16.103.34:50006/productos/{codigo}")
     return [peticion.json()] if peticion.ok else[]
     # if(peticion.ok):
     #     return [peticion.json()]

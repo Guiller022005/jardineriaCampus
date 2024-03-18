@@ -10,7 +10,7 @@ import modules.crudEmpleado as pstEmpleado
 
 def getAllEmpleado():
     #json-server storage/empleado.json -b 50003
-    peticion = requests.get("http://172.16.100.120:50003")
+    peticion = requests.get("http://172.16.103.34:50003")
     data = peticion,json()
     return data
 

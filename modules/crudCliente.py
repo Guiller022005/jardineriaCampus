@@ -55,7 +55,7 @@ def menu():
             break 
 def getAllCliente():
     #json-server storage/cliente.json -b 5507
-    peticion = requests.get("http://localhost:5507/clientes")
+    peticion = requests.get("http://172.16.100.120:50001")
     data = peticion.json()
     return data
 

@@ -9,7 +9,7 @@ import requests
 import json
 def getAllOficina():
     #json-server storage/oficina.json -b 50002
-    peticion = requests.get("http://172.16.100.120:50002")
+    peticion = requests.get("http://172.16.103.34:50002")
     data = peticion.json()
     return data
 

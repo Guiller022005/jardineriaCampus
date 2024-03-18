@@ -7,7 +7,7 @@ import modules.validaciones as vali
 # import storage.pago as pago
 def getAllPagos():
     #json-server storage/gama_producto.json -b 50007 
-    peticion = requests.get("http://172.16.100.120:50007")
+    peticion = requests.get("http://172.16.103.34:50007")
     data = peticion.json()
     return data
 
@@ -16,13 +16,13 @@ def getAllPagos():
 
 def getAllClientes():
     #json-server storage/cliente.json -b 50001
-    peticion = requests.get("http://172.16.100.120:50001")
+    peticion = requests.get("http://172.16.103.34:50001")
     data = peticion.json()
     return data
 
 def getAllEmpleados():
     #json-server storage/empleado.json -b 50003
-    peticion = requests.get("http://172.16.100.120:50003")
+    peticion = requests.get("http://172.16.103.34:50003")
     data = peticion.json()
     return data
 

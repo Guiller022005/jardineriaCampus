@@ -39,7 +39,7 @@ def postProducto():
 def deleteProducto(id):
     data = gP.getProductCodigo(id)
     if(len(data)):
-        peticion = requests.delete(f"http://172.16.100.120:50006/productos/{id}")
+        peticion = requests.delete(f"http://172.16.103.34:50006/productos/{id}")
         if(peticion.status_code == 204):
             data.append({"mensage": "producto eliminado correctamente"})
             return {
@@ -56,12 +56,12 @@ def deleteProducto(id):
         }
 def getAllData():
     #json-server storage/producto.json -b 5501
-    peticion = requests.get("http://localhost:5501/productos")
+    peticion = requests.get("http://172.16.103.34:50006/productos")
     data = peticion.json()
     return data 
 
 def getProductoCodigo(codigo):
-    peticion = requests.get(f"http://localhost:5501/productos/{codigo}")
+    peticion = requests.get(f"http://172.16.103.34:50006/productos/{codigo}")
     return [peticion.json()] if peticion.ok else []
 
 def postProducto():
@@ -145,7 +145,7 @@ def postProducto():
             print(error)
             
     headers = {'Content-Type': 'application/json', 'charset': 'utf-8'}
-    peticion = requests.post("http://localhost:5501", headers=headers, data=json.dumps(producto))
+    peticion = requests.post("http://172.16.103.34:50006/productos", headers=headers, data=json.dumps(producto))
     res = peticion.json()
     res["Mensaje"] = "Producto Guardado"
     return [res]
@@ -153,7 +153,7 @@ def postProducto():
 def deleteProducto(id):
     data = getProductoCodigo(id)
     if(len(data)):
-        peticion = requests.delete(f"http://localhost:5501/productos/{id}")
+        peticion = requests.delete(f"http://172.16.103.34:50006/productos/{id}")
         if(peticion.status_code == 204):
             data.append({"message": "producto eliminado correctamente"})
             return {
