@@ -1,25 +1,28 @@
-[
+{
+    "empleado": [
     {
         "codigo_empleado": 1,
         "nombre": "Marcos",
-        "apellido1": "Magaña",
+        "apellido1": "Maga\u00f1a",
         "apellido2": "Perez",
         "extension": "3897",
         "email": "marcos@jardineria.es",
         "codigo_oficina": "TAL-ES",
         "codigo_jefe": null,
-        "puesto": "Director General"
+        "puesto": "Director General",
+        "id": 1
     },
     {
         "codigo_empleado": 2,
         "nombre": "Ruben",
-        "apellido1": "López",
+        "apellido1": "L\u00f3pez",
         "apellido2": "Martinez",
         "extension": "2899",
         "email": "rlopez@jardineria.es",
         "codigo_oficina": "TAL-ES",
         "codigo_jefe": 1,
-        "puesto": "Subdirector Marketing"
+        "puesto": "Subdirector Marketing",
+        "id": 2
     },
     {
         "codigo_empleado": 3,
@@ -30,18 +33,20 @@
         "email": "asoria@jardineria.es",
         "codigo_oficina": "TAL-ES",
         "codigo_jefe": 2,
-        "puesto": "Subdirector Ventas"
+        "puesto": "Subdirector Ventas",
+        "id": 3
     },
     {
         "codigo_empleado": 4,
         "nombre": "Maria",
-        "apellido1": "Solís",
+        "apellido1": "Sol\u00eds",
         "apellido2": "Jerez",
         "extension": "2847",
         "email": "msolis@jardineria.es",
         "codigo_oficina": "TAL-ES",
         "codigo_jefe": 2,
-        "puesto": "Secretaria"
+        "puesto": "Secretaria",
+        "id": 4
     },
     {
         "codigo_empleado": 5,
@@ -52,7 +57,8 @@
         "email": "frosas@jardineria.es",
         "codigo_oficina": "TAL-ES",
         "codigo_jefe": 3,
-        "puesto": "Representante Ventas"
+        "puesto": "Representante Ventas",
+        "id": 5
     },
     {
         "codigo_empleado": 6,
@@ -63,7 +69,8 @@
         "email": "cortiz@jardineria.es",
         "codigo_oficina": "TAL-ES",
         "codigo_jefe": 3,
-        "puesto": "Representante Ventas"
+        "puesto": "Representante Ventas",
+        "id": 6
     },
     {
         "codigo_empleado": 7,
@@ -74,29 +81,32 @@
         "email": "csoria@jardineria.es",
         "codigo_oficina": "MAD-ES",
         "codigo_jefe": 3,
-        "puesto": "Director Oficina"
+        "puesto": "Director Oficina",
+        "id": 7
     },
     {
         "codigo_empleado": 8,
         "nombre": "Mariano",
-        "apellido1": "López",
+        "apellido1": "L\u00f3pez",
         "apellido2": "Murcia",
         "extension": "2442",
         "email": "mlopez@jardineria.es",
         "codigo_oficina": "MAD-ES",
         "codigo_jefe": 7,
-        "puesto": "Representante Ventas"
+        "puesto": "Representante Ventas",
+        "id": 8
     },
     {
         "codigo_empleado": 9,
         "nombre": "Lucio",
         "apellido1": "Campoamor",
-        "apellido2": "Martín",
+        "apellido2": "Mart\u00edn",
         "extension": "2442",
         "email": "lcampoamor@jardineria.es",
         "codigo_oficina": "MAD-ES",
         "codigo_jefe": 7,
-        "puesto": "Representante Ventas"
+        "puesto": "Representante Ventas",
+        "id": 9
     },
     {
         "codigo_empleado": 10,
@@ -107,29 +117,32 @@
         "email": "hrodriguez@jardineria.es",
         "codigo_oficina": "MAD-ES",
         "codigo_jefe": 7,
-        "puesto": "Representante Ventas"
+        "puesto": "Representante Ventas",
+        "id": 10
     },
     {
         "codigo_empleado": 11,
         "nombre": "Emmanuel",
-        "apellido1": "Magaña",
+        "apellido1": "Maga\u00f1a",
         "apellido2": "Perez",
         "extension": "2518",
         "email": "manu@jardineria.es",
         "codigo_oficina": "BCN-ES",
         "codigo_jefe": 3,
-        "puesto": "Director Oficina"
+        "puesto": "Director Oficina",
+        "id": 11
     },
     {
         "codigo_empleado": 12,
-        "nombre": "José Manuel",
+        "nombre": "Jos\u00e9 Manuel",
         "apellido1": "Martinez",
         "apellido2": "De la Osa",
         "extension": "2519",
         "email": "jmmart@hotmail.es",
         "codigo_oficina": "BCN-ES",
         "codigo_jefe": 11,
-        "puesto": "Representante Ventas"
+        "puesto": "Representante Ventas",
+        "id": 12
     },
     {
         "codigo_empleado": 13,
@@ -140,7 +153,8 @@
         "email": "dpalma@jardineria.es",
         "codigo_oficina": "BCN-ES",
         "codigo_jefe": 11,
-        "puesto": "Representante Ventas"
+        "puesto": "Representante Ventas",
+        "id": 13
     },
     {
         "codigo_empleado": 14,
@@ -151,7 +165,8 @@
         "email": "opalma@jardineria.es",
         "codigo_oficina": "BCN-ES",
         "codigo_jefe": 11,
-        "puesto": "Representante Ventas"
+        "puesto": "Representante Ventas",
+        "id": 14
     },
     {
         "codigo_empleado": 15,
@@ -162,7 +177,8 @@
         "email": "ffignon@gardening.com",
         "codigo_oficina": "PAR-FR",
         "codigo_jefe": 3,
-        "puesto": "Director Oficina"
+        "puesto": "Director Oficina",
+        "id": 15
     },
     {
         "codigo_empleado": 16,
@@ -173,7 +189,8 @@
         "email": "lnarvaez@gardening.com",
         "codigo_oficina": "PAR-FR",
         "codigo_jefe": 15,
-        "puesto": "Representante Ventas"
+        "puesto": "Representante Ventas",
+        "id": 16
     },
     {
         "codigo_empleado": 17,
@@ -184,7 +201,8 @@
         "email": "lserra@gardening.com",
         "codigo_oficina": "PAR-FR",
         "codigo_jefe": 15,
-        "puesto": "Representante Ventas"
+        "puesto": "Representante Ventas",
+        "id": 17
     },
     {
         "codigo_empleado": 18,
@@ -195,7 +213,8 @@
         "email": "mbolton@gardening.com",
         "codigo_oficina": "SFC-USA",
         "codigo_jefe": 3,
-        "puesto": "Director Oficina"
+        "puesto": "Director Oficina",
+        "id": 18
     },
     {
         "codigo_empleado": 19,
@@ -206,7 +225,8 @@
         "email": "wssanchez@gardening.com",
         "codigo_oficina": "SFC-USA",
         "codigo_jefe": 18,
-        "puesto": "Representante Ventas"
+        "puesto": "Representante Ventas",
+        "id": 19
     },
     {
         "codigo_empleado": 20,
@@ -217,7 +237,8 @@
         "email": "hwashington@gardening.com",
         "codigo_oficina": "BOS-USA",
         "codigo_jefe": 3,
-        "puesto": "Director Oficina"
+        "puesto": "Director Oficina",
+        "id": 20
     },
     {
         "codigo_empleado": 21,
@@ -228,7 +249,8 @@
         "email": "mpaxton@gardening.com",
         "codigo_oficina": "BOS-USA",
         "codigo_jefe": 20,
-        "puesto": "Representante Ventas"
+        "puesto": "Representante Ventas",
+        "id": 21
     },
     {
         "codigo_empleado": 22,
@@ -239,7 +261,8 @@
         "email": "lpaxton@gardening.com",
         "codigo_oficina": "BOS-USA",
         "codigo_jefe": 20,
-        "puesto": "Representante Ventas"
+        "puesto": "Representante Ventas",
+        "id": 22
     },
     {
         "codigo_empleado": 23,
@@ -250,7 +273,8 @@
         "email": "nnishikori@gardening.com",
         "codigo_oficina": "TOK-JP",
         "codigo_jefe": 3,
-        "puesto": "Director Oficina"
+        "puesto": "Director Oficina",
+        "id": 23
     },
     {
         "codigo_empleado": 24,
@@ -261,7 +285,8 @@
         "email": "nriko@gardening.com",
         "codigo_oficina": "TOK-JP",
         "codigo_jefe": 23,
-        "puesto": "Representante Ventas"
+        "puesto": "Representante Ventas",
+        "id": 24
     },
     {
         "codigo_empleado": 25,
@@ -272,7 +297,8 @@
         "email": "tnomura@gardening.com",
         "codigo_oficina": "TOK-JP",
         "codigo_jefe": 23,
-        "puesto": "Representante Ventas"
+        "puesto": "Representante Ventas",
+        "id": 25
     },
     {
         "codigo_empleado": 26,
@@ -283,7 +309,8 @@
         "email": "ajohnson@gardening.com",
         "codigo_oficina": "LON-UK",
         "codigo_jefe": 3,
-        "puesto": "Director Oficina"
+        "puesto": "Director Oficina",
+        "id": 26
     },
     {
         "codigo_empleado": 27,
@@ -294,7 +321,8 @@
         "email": "lwestfalls@gardening.com",
         "codigo_oficina": "LON-UK",
         "codigo_jefe": 26,
-        "puesto": "Representante Ventas"
+        "puesto": "Representante Ventas",
+        "id": 27
     },
     {
         "codigo_empleado": 28,
@@ -305,7 +333,8 @@
         "email": "jwalton@gardening.com",
         "codigo_oficina": "LON-UK",
         "codigo_jefe": 26,
-        "puesto": "Representante Ventas"
+        "puesto": "Representante Ventas",
+        "id": 28
     },
     {
         "codigo_empleado": 29,
@@ -316,7 +345,8 @@
         "email": "kfalmer@gardening.com",
         "codigo_oficina": "SYD-AU",
         "codigo_jefe": 3,
-        "puesto": "Director Oficina"
+        "puesto": "Director Oficina",
+        "id": 29
     },
     {
         "codigo_empleado": 30,
@@ -327,7 +357,8 @@
         "email": "jbellinelli@gardening.com",
         "codigo_oficina": "SYD-AU",
         "codigo_jefe": 29,
-        "puesto": "Representante Ventas"
+        "puesto": "Representante Ventas",
+        "id": 30
     },
     {
         "codigo_empleado": 31,
@@ -338,6 +369,7 @@
         "email": "mkishi@gardening.com",
         "codigo_oficina": "SYD-AU",
         "codigo_jefe": 29,
-        "puesto": "Representante Ventas"
+        "puesto": "Representante Ventas",
+        "id": 31
     }
-]
+]}
