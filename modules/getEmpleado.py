@@ -3,14 +3,14 @@ import requests
 import json
 from datetime import datetime
 from tabulate import tabulate
-import modules.postEmpleado as pstEmpleado
+import modules.crudEmpleado as pstEmpleado
 
 #Devuelve un listado con el nombre, apellidos y email
 #de los empleados cuyo jefe tiene de jefe igual a 7
 
 def getAllEmpleado():
     #json-server storage/empleado.json -b 50003
-    peticion = requests.get("http://172.16.100.111:50003")
+    peticion = requests.get("http://172.16.100.120:50003")
     data = peticion,json()
     return data
 

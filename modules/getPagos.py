@@ -5,8 +5,8 @@ import requests
 import json
 
 def getAllPagos():
-     #json-server storage/gama_producto.json -b 50005 
-    peticion = requests.get("http://172.16.100.111:50005")
+     #json-server storage/pagos.json -b 50005 
+    peticion = requests.get("http://172.16.100.120:50005")
     data = peticion.json()
     return data
 
@@ -39,18 +39,18 @@ def getAllCodigoClienteFecha():
 
 # Devuelve un listado con todos los pagos q se realizaron en en el año 2008 mediante paypal, ordena el resultado de mayor a menor
 def getAllPagosFecha():
-    pagosFecha = []
+    pagosPaypal=[]
     for val in getAllPagos():
-        if("2008") in val.get("fecha_pago") and val.get("forma_pago") is ("PayPal"):
-            pagosFecha.append({
-                    "codigo_de_cliente": val.get("codigo_cliente"),
-                    "fecha_pago": val.get("fecha_pago"),
-                    "forma_pago": val.get("forma_pago"),
-                    "total": val.get("total")
-                })
-    pagosFecha = sorted(pagosFecha, key=lambda x: x ["total"], reverse=True)
-    return pagosFecha
-
+        if(val.get("fecha_pago")>=("2008-01-01") and (val.get("fecha_pago")<=("2008-12-31")) and val.get("forma_pago")==("PayPal")):
+            pagosPaypal.append({
+                "Codigo del cliente":val.get("codigo_cliente"),
+                "Forma de pago":val.get("forma_pago"),
+                "ID de la transaccion":val.get("id_transaccion"),
+                "Fecha del pago":val.get("fecha_pago"),
+                "Total":val.get("total")
+            })
+            pagosPaypal= sorted(pagosPaypal, key=lambda x: x["Total"], reverse=True)
+    return pagosPaypal
 # Devuelve un listado con todas las formas de pago q aparecen en la tabla pago. Tenga en cuenta q no deben aparecer formas de pago repetidas
 def getAllFormasDePago():
     tipoPago = set()

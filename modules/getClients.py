@@ -3,10 +3,11 @@ import requests
 import json
 from datetime import datetime
 from tabulate import tabulate
+import modules.validaciones as vali
 # import storage.pago as pago
 def getAllPagos():
     #json-server storage/gama_producto.json -b 50007 
-    peticion = requests.get("http://172.16.100.111:50007")
+    peticion = requests.get("http://172.16.100.120:50007")
     data = peticion.json()
     return data
 
@@ -15,13 +16,13 @@ def getAllPagos():
 
 def getAllClientes():
     #json-server storage/cliente.json -b 50001
-    peticion = requests.get("http://172.16.100.111:50001")
+    peticion = requests.get("http://172.16.100.120:50001")
     data = peticion.json()
     return data
 
 def getAllEmpleados():
     #json-server storage/empleado.json -b 50003
-    peticion = requests.get("http://172.16.100.111:50003")
+    peticion = requests.get("http://172.16.100.120:50003")
     data = peticion.json()
     return data
 
@@ -273,69 +274,67 @@ def menu():
         """)
     
     opcion = int(input("\nSeleccione una de las opciones: "))
-    if(opcion == 1):
-        print(tabulate(getAllClientesName(), headers="keys", tablefmt="github"))
-    elif(opcion == 2):
-        try:
-            codigoCliente = int(input("Ingresa el codigo cliente: "))
-            print(tabulate(getOneClientCodigo(codigoCliente), headers="keys", tablefmt="github"))
-        except KeyboardInterrupt:
-            return menu()
-    elif(opcion == 3):
-        try:
-            limite = float(input("Ingresa el limite de credito de los clientes q deseas visualizar: "))
-            ciudad = input("Ingresa el nombre de la ciudad q deseas filtrar los clientes: ") 
-            print(tabulate(getAllClientCreditoCiudad(limite, ciudad), headers="keys", tablefmt="github"))
-        except KeyboardInterrupt:
-            return menu()    
-    elif(opcion == 4):
-        try:
-            limiteCredito = float(input("Ingresa el limite de credito"))
-            pais = str(input("Ingresa el pais")) 
-            print(tabulate(getAllClientCreditoPais(limiteCredito, pais),  headers='firstrow', 
-               tablefmt='fancy_grid',
-               stralign='center',
-               floatfmt='.0f'))
-        except KeyboardInterrupt:
-            return menu()
-    elif(opcion == 5):
-        try:
-            ContarXCiudad = str(input("Ingresa la ciudad"))
-            print(getAllContarClientes(ContarXCiudad))
-        except KeyboardInterrupt:
-            return menu()
-    elif(opcion == 6):
-        print(tabulate(getAllClientsTelefono(), headers="keys", tablefmt="grid"))
-    elif(opcion == 7):
-        print(tabulate(getAllClientsCodigoPostal(), headers="keys", tablefmt="grid"))
-    elif(opcion == 8):
-        pais = input("Ingresa el pais")
-        print(tabulate(getAllClientPaisRegionCiudad(pais), headers="keys", tablefmt="grid"))
-    elif(opcion == 9):
-        try:
-            print(tabulate(getClientsMadridCodigo(), headers="keys", tablefmt="grid"))
-        except KeyboardInterrupt:
-            return menu()
-    elif(opcion == 10):
-        try:
-            print(tabulate(getAllClientsYRepresentantes(), headers="keys", tablefmt="grid"))
-        except KeyboardInterrupt:
-            return menu()
-    elif(opcion == 11):
-        try:
-            print(tabulate(getAllPagos1(), headers="keys", tablefmt="grid"))
-        except KeyboardInterrupt:
-            return menu()
-    elif(opcion == 12):
-        try:
-            print(tabulate(getAllNoPagos(), headers="keys", tablefmt="grid"))
-        except KeyboardInterrupt:
-            return menu()
-    elif(opcion == 0):
-        break
-    
-    try:
-        entrada = input("Ingresa Ctrl + c para ir a menu: ")
-        print("Entrada recibida: ", entrada)
-    except KeyboardInterrupt:
-       menu()
+    if(vali.validacionOpciones(opcion) is not None):
+            opcion = int(opcion)
+            if(opcion >= 0 and opcion <= 12):
+                if(opcion == 1):
+                    print(tabulate(getAllClientesName(), headers="keys", tablefmt="github"))
+                elif(opcion == 2):
+                    try:
+                        codigoCliente = int(input("Ingresa el codigo cliente: "))
+                        print(tabulate(getOneClientCodigo(codigoCliente), headers="keys", tablefmt="github"))
+                    except KeyboardInterrupt:
+                        return menu()
+                elif(opcion == 3):
+                    try:
+                        limite = float(input("Ingresa el limite de credito de los clientes q deseas visualizar: "))
+                        ciudad = input("Ingresa el nombre de la ciudad q deseas filtrar los clientes: ") 
+                        print(tabulate(getAllClientCreditoCiudad(limite, ciudad), headers="keys", tablefmt="github"))
+                    except KeyboardInterrupt:
+                        return menu()    
+                elif(opcion == 4):
+                    try:
+                        limiteCredito = float(input("Ingresa el limite de credito"))
+                        pais = str(input("Ingresa el pais")) 
+                        print(tabulate(getAllClientCreditoPais(limiteCredito, pais),  headers='firstrow', 
+                        tablefmt='fancy_grid',
+                        stralign='center',
+                        floatfmt='.0f'))
+                    except KeyboardInterrupt:
+                        return menu()
+                elif(opcion == 5):
+                    try:
+                        ContarXCiudad = str(input("Ingresa la ciudad"))
+                        print(getAllContarClientes(ContarXCiudad))
+                    except KeyboardInterrupt:
+                        return menu()
+                elif(opcion == 6):
+                    print(tabulate(getAllClientsTelefono(), headers="keys", tablefmt="grid"))
+                elif(opcion == 7):
+                    print(tabulate(getAllClientsCodigoPostal(), headers="keys", tablefmt="grid"))
+                elif(opcion == 8):
+                    pais = input("Ingresa el pais")
+                    print(tabulate(getAllClientPaisRegionCiudad(pais), headers="keys", tablefmt="grid"))
+                elif(opcion == 9):
+                    try:
+                        print(tabulate(getClientsMadridCodigo(), headers="keys", tablefmt="grid"))
+                    except KeyboardInterrupt:
+                        return menu()
+                elif(opcion == 10):
+                    try:
+                        print(tabulate(getAllClientsYRepresentantes(), headers="keys", tablefmt="grid"))
+                    except KeyboardInterrupt:
+                        return menu()
+                elif(opcion == 11):
+                    try:
+                        print(tabulate(getAllPagos1(), headers="keys", tablefmt="grid"))
+                    except KeyboardInterrupt:
+                        return menu()
+                elif(opcion == 12):
+                    try:
+                        print(tabulate(getAllNoPagos(), headers="keys", tablefmt="grid"))
+                    except KeyboardInterrupt:
+                        return menu()
+                elif (opcion == 0):
+                    break
+            input("Precione una tecla para continuar.........")

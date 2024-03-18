@@ -2,25 +2,30 @@ import os
 from tabulate import tabulate
 import json
 import requests
-import modules.postProducto as pstProducto
+import modules.crudProducto as pstProducto
 import modules.getGamas as gG
 #Devuelve un listado con todas los productos q pertenecen a la gama ornamentales
 #y q tienen mas de 100 unidades en stock. El listado debera estar ordenado por su precio de venta,
 # mostrando en primer lugar los de mayor precio
 def getAllProducto():
     #json-server storage/producto.json -b 50006 
-    peticion = requests.get("http://172.16.104.17:50006")
+    peticion = requests.get("http://172.16.100.120:50006/productos")
     data = peticion.json()
     return data
 
 def getProductCodigo(codigo):
-    for val in getAllProducto():
-        if(val.get('codigo_producto') == codigo):
-            return [val]
+    peticion = requests.get(f"http://172.16.100.120:50006/productos/{codigo}")
+    return [peticion.json()] if peticion.ok else[]
+    # if(peticion.ok):
+    #     return [peticion.json()]
+    # else:
+    #     return[]
+   
+    
         
 def getAllStocksPriceGama(gama, stock):
     condiciones = []
-    for val in getAllProducto()():
+    for val in getAllProducto():
         if(val.get("gama") == gama and val.get("cantidad_en_stock") >= stock):
             condiciones.append(val)
 
@@ -45,7 +50,7 @@ def getAllStocksPriceGama(gama, stock):
 # Obtener la gama, nombre, codigo producto, precio de venta
 def getAllGamaCodigoNombre():
     producto =[]
-    for val in getAllProducto()():
+    for val in getAllProducto():
         
             producto.append({
                 "gama": val.get('gama'),
@@ -57,7 +62,7 @@ def getAllGamaCodigoNombre():
 # Obtener el nombre del producto y la descripcion de este
 def getAllNombreDescripcion():
     descripcion = []
-    for val in getAllProducto()():
+    for val in getAllProducto():
         descripcion.append({
             "nombre": val.get('nombre'),
             "descripcion": val.get('descripcion'),
@@ -67,7 +72,7 @@ def getAllNombreDescripcion():
 # Obtener el proveedor del producto y precio
 def getAllProveedorPrecio():
     proveedor = []
-    for val in getAllProducto()():
+    for val in getAllProducto():
         proveedor.append({
             "codigo_producto": val.get('codigo_producto'),
             "nombre": val.get('nombre'),
@@ -78,7 +83,7 @@ def getAllProveedorPrecio():
 # Obtener el precio por fabrica y el precio neto individual
 def getAllPrecioNetoAVenta():
     Precios = []
-    for val in getAllProducto()():
+    for val in getAllProducto():
         Precios.append({
             "nombre": val.get('nombre'),
             "codigo_producto": val.get('codigo_producto'),
