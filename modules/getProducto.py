@@ -8,7 +8,7 @@ import modules.getGamas as gG
 #y q tienen mas de 100 unidades en stock. El listado debera estar ordenado por su precio de venta,
 # mostrando en primer lugar los de mayor precio
 def getAllProducto():
-    #json-server storage/producto.json -b 50006 
+    #json-server storage/productos.json -b 50006 
     peticion = requests.get("http://172.16.103.34:50006/productos")
     data = peticion.json()
     return data
