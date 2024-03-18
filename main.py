@@ -49,16 +49,16 @@ if(__name__ == "__main__"):
                     break
         
 
-with open("storage/clientes.json", "w+") as f:
-        fichero = f.read()
-        data = json.Loads(fichero)
-        for i, val in enumerate(data):
-            val[i]["id"] = (i+1)
-        data = json.dumps(data, ident=4).encode("utf-8")
-        with open("storage/producto.json", "wb+") as fl:
-            fl.write(data)
-        f.close()
-        import os
+# with open("storage/cliente.json", "r") as f:
+#     fichero = f.read()
+#     data = json.loads(fichero)
+#     for i, val in enumerate(data):
+#         data[i]["id"] = (i+1)
+#     data = json.dumps(data, indent=4).encode("utf-8")
+# with open("storage/cliente.json", "wb+") as f1:
+#     f1.write(data)
+#     f1.close()
+    
 
 
 

@@ -1,4 +1,5 @@
 import os
+import re
 import modules.validaciones as vali
 import modules.getEmpleado as Reppempleado
 import modules.crudEmpleado as CRUDempleado
