@@ -18,6 +18,7 @@ import modules.postPedido as Reppedido
 import modules.postPedido as CRUDpedido
 import modules.postPagos as Reppagos
 import modules.postPagos as CRUDpagos
+import json
 
 
 def menuProducto():
@@ -211,7 +212,15 @@ def menuPagos():
                 elif(opcion == 0):
                     break      
 if(__name__ == "__main__"):
-    CRUDproducto.postProducto
+    with open("storage/producto.json", "w+") as f:
+        fichero = f.read()
+        data = json.Loads(fichero)
+        for i, val in enumerate(data):
+            val[i]["id"] = (i+1)
+        data = json.dumps(data, ident=4).encode("utf-8")
+        with open("storage/producto.json", "wb+") as fl:
+            fl.write(data)
+        f.close()
     #https://patorjk.com/software/taag/#p=display&h=2&v=2&f=Slant&t=Men%C3%BA%20principal%0A1.%20cliente%0A2.%20oficina%0A3.%20empleado%0A4.%20pedidos%0A
     while True:
         os.system("clear")
@@ -252,3 +261,12 @@ if(__name__ == "__main__"):
                     break
         
 
+with open("storage/producto.json", "w+") as f:
+        fichero = f.read()
+        data = json.Loads(fichero)
+        for i, val in enumerate(data):
+            val[i]["id"] = (i+1)
+        data = json.dumps(data, ident=4).encode("utf-8")
+        with open("storage/producto.json", "wb+") as fl:
+            fl.write(data)
+        f.close()
