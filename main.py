@@ -14,10 +14,10 @@ import modules.getOficina as Reppoficina
 import modules.postOficina as CRUDoficina
 import modules.postCliente as Reppcliente
 import modules.postCliente as CRUDcliente
-import modules.postPedidos as Reppedido
-import modules.postPedidos as CRUDpedido
-import modules.postPedidos as Reppagos
-import modules.postPedidos as CRUDpagos
+import modules.postPedido as Reppedido
+import modules.postPedido as CRUDpedido
+import modules.postPagos as Reppagos
+import modules.postPagos as CRUDpagos
 
 
 def menuProducto():
