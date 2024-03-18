@@ -1,4 +1,5 @@
 import os
+import re
 from tabulate import tabulate
 import json
 import requests
@@ -16,14 +17,32 @@ def postOficina():
             "linea_direccion2": int(input("Ingrese el codigo del jefe del empleado: "))
     }
     headers = {'Content-type': 'application/json', 'charset': 'UTF-8'}
-    peticion = requests.post("http://172.16.100.120:50002",headers=headers, data=json.dumps(oficina, indent=4).encode("UTF-8"))
+    peticion = requests.post("http://172.16.100.120:50002/oficina",headers=headers, data=json.dumps(oficina, indent=4).encode("UTF-8"))
     res = peticion.json()
     res["Mensaje"] = "Producto Guardado"
     return [res]
 
+def deleteOficina(id):
+    data = pstOficina.getOficinaCodigo(id)
+    if(len(data)):
+        peticion = requests.get(f"http://172.16.100.120:50002/oficina/{id}")
+        if(peticion.status_code == 204):
+            data.append({"mensage": "oficina eliminado correctamente"})
+            return {
+            "body": data,
+            "status": peticion.status_code,
+            }
+    else:
+        return {
+            "body": [{
+                "mensage": "oficina no encontrado",
+                "id": id
+            }],
+            "status": 400,
+        }
 def getAllDataOficina():
     #json-server storage/oficina.json -b 5505
-    peticion = requests.get("http://localhost:5505/oficinas")
+    peticion = requests.get("http://172.16.100.120:50002/oficina")
     data = peticion.json()
     return data 
 
@@ -106,7 +125,7 @@ def postOficina():
             print(error)
     
     headers = {'Content-Type': 'application/json', 'charset': 'utf-8'}
-    peticion = requests.post("http://localhost:5505/oficinas", headers=headers, data=json.dumps(oficina))
+    peticion = requests.post("http://172.16.100.120:50002/oficina", headers=headers, data=json.dumps(oficina))
     res = peticion.json()
     res["Mensaje"] = "Oficina Guardada"
     return [res]
@@ -125,15 +144,24 @@ def menu():
     \__,_/\___/   \____/_/ /_/\___/_/_/ /_/\__,_/                                         
                                                                                          
                                                                                                                                                     
-            1. Guardar un producto nuevo
+            1. Guardar una oficina nueva
+            2. Eliminar una oficina
             0. Atras
             
         """)
-        opcion = int(input("\nSeleccione una de las opciones: "))
-        if(opcion == 1):
-            
-            print(tabulate(postOficina(), headers="keys", tablefmt="github"))
-            input("Presione una tecla para continuar......")
-            break
-        elif(opcion == 0):
-            break 
+        opcion =(input("\nSeleccione una de las opciones: "))
+        if(re.match(r'[0-9]+$', opcion) is not None):
+            opcion = int(opcion)
+            if (opcion >= 0 and opcion <= 2):
+                if(opcion == 1):
+                    
+                    print(tabulate(postOficina(), headers="keys", tablefmt="github"))
+                    input("Presione una tecla para continuar......")
+                    
+                if(opcion == 2):
+                            idOficina = input("Ingrese el id del oficina q desea eliminar: ")
+                            print(tabulate(deleteOficina(idOficina)), headers="keys", tablefmt="github")
+                            input("Presione una tecla para continuar......")
+                elif(opcion == 0):
+                    break 
+        input("Presione una tecla para continuar")

@@ -1,10 +1,45 @@
 import os
+import re
 from tabulate import tabulate
 import json
 import requests
 import modules.crudCliente as pstClient
 import modules.getClients as Cli
 import modules.validaciones as vali
+
+
+def getAllCliente():
+    #json-server storage/cliente.json -b 5507
+    peticion = requests.get("http://172.16.103.34:50001/cliente")
+    data = peticion.json()
+    return data
+
+
+
+
+def deleteCliente(id):
+
+    data = Cli.getAllCodeByCode(id)
+    
+    if(len(data)):
+        peticion = requests.delete(f"http://172.16.103.34:50001/cliente/{id}")
+        if(peticion.status_code == 204):
+            data.append({"message":"cliente eliminado correctamente"})
+            return {
+                "body": data,
+                "status": peticion.status_code,
+            }
+    else:
+        return {
+            "body":[{
+                "mensage":"cliente no encontrado",
+                "id": id
+            }],
+            "status": 400,
+        }
+
+
+
 def postCliente():
     cliente = {
             "codigo_cliente": input("Ingrese el codigo del cliente: "),
@@ -23,41 +58,11 @@ def postCliente():
             "limite_credito": int(input("Ingrese el limite de credito: "))
     }
     headers = {'Content-type': 'application/json', 'charset': 'UTF-8'}
-    peticion = requests.post("http://172.16.100.120:50001",headers=headers, data=json.dumps(cliente, indent=4).encode("UTF-8"))
+    peticion = requests.post("http://172.16.103.34:50001",headers=headers, data=json.dumps(cliente, indent=4).encode("UTF-8"))
     res = peticion.json()
     res["Mensaje"] = "Producto Guardado"
     return [res]
-def menu():
-    while True:
-        os.system("clear")
-        print("""  
-    ___       __          _       _      __                         __      __            
-   /   | ____/ /___ ___  (_)___  (_)____/ /__________ ______   ____/ /___ _/ /_____  _____
-  / /| |/ __  / __ `__ \/ / __ \/ / ___/ __/ ___/ __ `/ ___/  / __  / __ `/ __/ __ \/ ___/
- / ___ / /_/ / / / / / / / / / / (__  ) /_/ /  / /_/ / /     / /_/ / /_/ / /_/ /_/ (__  ) 
-/_/  |_\__,_/_/ /_/ /_/_/_/_/_/_/____/\__/_/   \__,_/_/      \__,_/\__,_/\__/\____/____/  
-      ____/ /__     _____/ (_)__  ____  / /____  _____                                    
-     / __  / _ \   / ___/ / / _ \/ __ \/ __/ _ \/ ___/                                    
-    / /_/ /  __/  / /__/ / /  __/ / / / /_/  __(__  )                                     
-    \__,_/\___/   \___/_/_/\___/_/ /_/\__/\___/____/                                      
-                                                                                                                                                                                      
-            1. Guardar un producto nuevo
-            0. Atras
-            
-        """)
-        opcion = int(input("\nSeleccione una de las opciones: "))
-        if(opcion == 1):
-            
-            print(tabulate(postCliente(), headers="keys", tablefmt="github"))
-            input("Presione una tecla para continuar......")
-            break
-        elif(opcion == 0):
-            break 
-def getAllCliente():
-    #json-server storage/cliente.json -b 5507
-    peticion = requests.get("http://172.16.100.120:50001")
-    data = peticion.json()
-    return data
+
 
 def nuevoCodigoCliente():
     codigodelCliente = list()
@@ -67,6 +72,7 @@ def nuevoCodigoCliente():
         return max(codigodelCliente) + 1
     else:
         return 1
+
 
 def postClientes():
 
@@ -166,7 +172,48 @@ def postClientes():
             print(error)
 
     headers = {'Content-Type': 'application/json', 'charset': 'utf-8'}
-    peticion = requests.post("http://172.16.100.120:50001/clientes", headers=headers, data=json.dumps(cliente))
+    peticion = requests.post("http://172.16.103.34:50001/clientes", headers=headers, data=json.dumps(cliente))
     res = peticion.json()
     res["Mensaje"] = "Cliente Agregado"
     return [res]
+
+
+def menu():
+    while True:
+        os.system("clear")
+        print("""  
+    ___       __          _       _      __                         __      __            
+   /   | ____/ /___ ___  (_)___  (_)____/ /__________ ______   ____/ /___ _/ /_____  _____
+  / /| |/ __  / __ `__ \/ / __ \/ / ___/ __/ ___/ __ `/ ___/  / __  / __ `/ __/ __ \/ ___/
+ / ___ / /_/ / / / / / / / / / / (__  ) /_/ /  / /_/ / /     / /_/ / /_/ / /_/ /_/ (__  ) 
+/_/  |_\__,_/_/ /_/ /_/_/_/_/_/_/____/\__/_/   \__,_/_/      \__,_/\__,_/\__/\____/____/  
+      ____/ /__     _____/ (_)__  ____  / /____  _____                                    
+     / __  / _ \   / ___/ / / _ \/ __ \/ __/ _ \/ ___/                                    
+    / /_/ /  __/  / /__/ / /  __/ / / / /_/  __(__  )                                     
+    \__,_/\___/   \___/_/_/\___/_/ /_/\__/\___/____/                                      
+                                                                                                                                                                                      
+            1. Guardar un producto nuevo
+            2. Eliminar cliente
+            0. Atras
+            
+        """)
+        opcion =input("\nSeleccione una de las opciones: ")
+        if(re.match(r'[0-9]+$', opcion) is not None):
+            opcion = int(opcion)
+            if (opcion >= 0 and opcion <= 2):
+                if(opcion == 1):
+                    
+                    print(tabulate(postCliente(), headers="keys", tablefmt="github"))
+                    input("Presione una tecla para continuar......")
+                    
+                if(opcion == 2):
+                    idCliente = input("Ingrese el id del producto q desea eliminar: ")
+                    print(tabulate(deleteCliente(idCliente)["body"]), headers="keys", tablefmt="github")
+                            
+                            
+                elif(opcion == 0):
+                    break 
+        input("Presione una tecla para continuar")
+
+
+

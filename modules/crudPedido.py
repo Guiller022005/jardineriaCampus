@@ -20,13 +20,33 @@ def postProducto():
             "codigo_cliente": int(input("Ingrese la codigo del cliente: ")),
 }
     headers = {'Content-type': 'application/json', 'charset': 'UTF-8'}
-    peticion = requests.post("http://172.16.100.120:50004",headers=headers, data=json.dumps(Pedido, indent=4).encode("UTF-8"))
+    peticion = requests.post("http://172.16.103.34:50004/pedido",headers=headers, data=json.dumps(Pedido, indent=4).encode("UTF-8"))
     res = peticion.json()
     res["Mensaje"] = "Pedido Guardado"
     return [res]
+
+def deletePedido(id):
+    data = Pe.getPedidoCodigo(id)
+    if(len(data)):
+        peticion = requests.get(f"http://172.16.103.34:50004/pedido/{id}")
+        if(peticion.status_code == 204):
+            data.append({"mensage": "pedido eliminado correctamente"})
+            return {
+            "body": data,
+            "status": peticion.status_code,
+            }
+    else:
+        return {
+            "body": [{
+                "mensage": "pedido no encontrado",
+                "id": id
+            }],
+            "status": 400,
+        }
+    
 def getAllDataPedido():
     #json-server storage/pedido.json -b 5503
-    peticion = requests.get("http://localhost:5503/pedidos")
+    peticion = requests.get("http://172.16.103.34:50004/pedido")
     data = peticion.json()
     return data 
 
@@ -88,7 +108,7 @@ def postPedido():
             print(error)
     
     headers = {'Content-Type': 'application/json', 'charset': 'utf-8'}
-    peticion = requests.post("http://localhost:5503/pedidos", headers=headers, data=json.dumps(pedido))
+    peticion = requests.post("http://172.16.103.34:50004", headers=headers, data=json.dumps(pedido))
     res = peticion.json()
     res["Mensaje"] = "Pedido Agregado"
     return [res]
@@ -108,6 +128,7 @@ def menu():
             /_/                                                                                                                      
                                                                                                                                                     
             1. Guardar un pedido nuevo
+            2. Eliminar un pedido
             0. Atras
             
         """)
@@ -119,7 +140,11 @@ def menu():
                 
                     print(tabulate(postProducto(), headers="keys", tablefmt="github"))
                     input("Presione una tecla para continuar......")
-                    break
-                
+                    
+                if(opcion == 2):
+                    idPedido = input("Ingrese el id del producto q desea eliminar: ")
+                    print(tabulate(deletePedido(idPedido)), headers="keys", tablefmt="github")
+                    input("Presione una tecla para continuar......")
                 elif(opcion == 0):
                     break 
+        input("Presione una tecla para continuar")

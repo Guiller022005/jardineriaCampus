@@ -39,7 +39,7 @@ def postProducto():
 def deleteProducto(id):
     data = gP.getProductCodigo(id)
     if(len(data)):
-        peticion = requests.delete(f"http://172.16.103.34:50006/productos/{id}")
+        peticion = requests.get(f"http://172.16.103.34:50006/productos/{id}")
         if(peticion.status_code == 204):
             data.append({"mensage": "producto eliminado correctamente"})
             return {
@@ -188,19 +188,19 @@ def menu():
             0. Atras
             
         """)
-        opcion = int(input("\nSeleccione una de las opciones: "))
+        opcion = input("\nSeleccione una de las opciones: ")
         if(re.match(r'[0-9]+$', opcion) is not None):
             opcion = int(opcion)
             if (opcion >= 0 and opcion <= 2):
                 if(opcion == 1):
                     print(tabulate(postProducto(), headers="keys", tablefmt="github"))
                     input("Presione una tecla para continuar......")
-                    break
+                    
                 if(opcion == 2):
                     idProducto = input("Ingrese el id del producto q desea eliminar: ")
                     print(tabulate(deleteProducto(idProducto)), headers="keys", tablefmt="github")
                     input("Presione una tecla para continuar......")
-                    break
+                    
                 elif(opcion == 0):
                     break 
         input("Presione una tecla para continuar")

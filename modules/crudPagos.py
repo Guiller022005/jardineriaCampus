@@ -13,13 +13,33 @@ def postPagos():
             "total": input("Ingrese el estado del pedido: "),
     }
     headers = {'Content-type': 'application/json', 'charset': 'UTF-8'}
-    peticion = requests.post("http://172.16.100.120:50005",headers=headers, data=json.dumps(cliente, indent=4).encode("UTF-8"))
+    peticion = requests.post("http://172.16.100.120:50005/pago",headers=headers, data=json.dumps(cliente, indent=4).encode("UTF-8"))
     res = peticion.json()
     res["Mensaje"] = "Pedido Guardado"
     return [res]
+
+def deletePagos(id):
+    data = pstPagos.getPagosCodigo(id)
+    if(len(data)):
+        peticion = requests.get(f"http://172.16.100.120:50005/pago/{id}")
+        if(peticion.status_code == 204):
+            data.append({"mensage": "pago eliminado correctamente"})
+            return {
+            "body": data,
+            "status": peticion.status_code,
+            }
+    else:
+        return {
+            "body": [{
+                "mensage": "pago no encontrado",
+                "id": id
+            }],
+            "status": 400,
+        }
+    
 def getAllDataPagos():
-    #json-server storage/pago.json -b 5504
-    peticion = requests.get("http://localhost:5504/pagos")
+    #json-server storage/pago.json -b 50004
+    peticion = requests.get("http://172.16.100.120:50005/pago")
     data = peticion.json()
     return data 
 
@@ -69,7 +89,7 @@ def postPagos():
             print(error)
     
     headers = {'Content-Type': 'application/json', 'charset': 'utf-8'}
-    peticion = requests.post("http://localhost:5504/pagos", headers=headers, data=json.dumps(pago))
+    peticion = requests.post("http://172.16.100.120:50005/pago", headers=headers, data=json.dumps(pago))
     res = peticion.json()
     return [res]
 def menu():
@@ -88,14 +108,20 @@ def menu():
                                 /_/          /____/                                                                                          
                                                                                                                                                                                       
             1. Guardar un producto nuevo
+            2. Eliminar un pedido
             0. Atras
             
         """)
-        opcion = int(input("\nSeleccione una de las opciones: "))
+        opcion = input("\nSeleccione una de las opciones: ")
         if(opcion == 1):
             
             print(tabulate(postPagos(), headers="keys", tablefmt="github"))
             input("Presione una tecla para continuar......")
-            break
+            
+        if(opcion == 2):
+                    idPagos = input("Ingrese el id del pago q desea eliminar: ")
+                    print(tabulate(deletePagos(idPagos)), headers="keys", tablefmt="github")
+                    input("Presione una tecla para continuar......")
         elif(opcion == 0):
             break 
+        input("Presione una tecla para continuar")

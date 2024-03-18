@@ -1,4 +1,5 @@
 import os
+import re
 from tabulate import tabulate
 import json
 import requests
@@ -18,13 +19,32 @@ def postEmpleado():
             "codigo_jefe": int(input("Ingrese el codigo del jefe del empleado: "))
     }
     headers = {'Content-type': 'application/json', 'charset': 'UTF-8'}
-    peticion = requests.post("http://172.16.100.120:50003",headers=headers, data=json.dumps(empleado, indent=4).encode("UTF-8"))
+    peticion = requests.post("http://172.16.100.120:50003/empleado",headers=headers, data=json.dumps(empleado, indent=4).encode("UTF-8"))
     res = peticion.json()
     res["Mensaje"] = "Empleado Guardado"
     return [res]
+
+def deleteProducto(id):
+    data = em.getEmpleadoCodigo(id)
+    if(len(data)):
+        peticion = requests.get(f"http://172.16.100.120:50003/empleado/{id}")
+        if(peticion.status_code == 204):
+            data.append({"mensage": "empleado eliminado correctamente"})
+            return {
+            "body": data,
+            "status": peticion.status_code,
+            }
+    else:
+        return {
+            "body": [{
+                "mensage": "empleado no encontrado",
+                "id": id
+            }],
+            "status": 400,
+        }
 def getAllDataEmpleado():
     #json-server storage/empleado.json -b 5506
-    peticion = requests.get("http://172.16.100.120:50003/empleados")
+    peticion = requests.get("http://172.16.100.120:50003/empleado")
     data = peticion.json()
     return data 
 
@@ -101,7 +121,7 @@ def postEmpleados():
             print(error)
     
     headers = {'Content-Type': 'application/json', 'charset': 'utf-8'}
-    peticion = requests.post("http://172.16.100.120:50003/empleados", headers=headers, data=json.dumps(empleado))
+    peticion = requests.post("http://172.16.100.120:50003/empleado", headers=headers, data=json.dumps(empleado))
     res = peticion.json()
     res["Mensaje"] = "Empleado Agregado"
     return [res]
@@ -121,14 +141,24 @@ def menu():
                                 /_/                                                       
                                                                                                                                                     
             1. Guardar un producto nuevo
+            2. Eliminar un empleado
             0. Atras
             
         """)
-        opcion = int(input("\nSeleccione una de las opciones: "))
-        if(opcion == 1):
-            
-            print(tabulate(postEmpleado(), headers="keys", tablefmt="github"))
-            input("Presione una tecla para continuar......")
-            break
-        elif(opcion == 0):
-            break 
+        opcion = input("\nSeleccione una de las opciones: ")
+        if(re.match(r'[0-9]+$', opcion) is not None):
+            opcion = int(opcion)
+            if (opcion >= 0 and opcion <= 2):
+                if(opcion == 1):
+                    
+                    print(tabulate(postEmpleado(), headers="keys", tablefmt="github"))
+                    input("Presione una tecla para continuar......")
+                    
+                if(opcion == 2):
+                            idProducto = input("Ingrese el id del producto q desea eliminar: ")
+                            print(tabulate(deleteProducto(idProducto)), headers="keys", tablefmt="github")
+                            input("Presione una tecla para continuar......")
+                            
+                elif(opcion == 0):
+                    break 
+        input("Presione una tecla para continuar")
