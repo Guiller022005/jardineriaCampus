@@ -6,7 +6,7 @@ import requests
 import json
 def getAllPedidos():
     #json-server storage/pedido.json -b 50004
-    peticion = requests.get("http://172.16.103.34:50004/pedido")
+    peticion = requests.get("http://172.16.100.120:50004/pedido")
     data = peticion.json()
     return data
 
@@ -116,6 +116,7 @@ def menu():
     / _, _/  __/ /_/ / /_/ / /  / /_/  __(__  )  / /_/ /  __/  / /_/ /  __/ /_/ / / /_/ / /_/ (__  ) 
    /_/ |_|\___/ .___/\____/_/   \__/\___/____/   \__,_/\___/  / .___/\___/\__,_/_/\__,_/\____/____/  
    ___       /_/___            __                            /_/                             
+          
                             0. Salir
                             1. Obtener todos los pedidos atrasados de tiempo
                             2. Obtener todos los pedidos rechasados

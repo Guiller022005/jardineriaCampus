@@ -3,7 +3,8 @@ import re
 from tabulate import tabulate
 import json
 import requests
-import modules.crudEmpleado as em
+import modules.crudEmpleado as cem
+import modules.getEmpleado as em
 import modules.crudOficina as of
 import modules.validaciones as vali
 def postEmpleado():
@@ -24,10 +25,10 @@ def postEmpleado():
     res["Mensaje"] = "Empleado Guardado"
     return [res]
 
-def deleteProducto(id):
-    data = em.getEmpleadoCodigo(id)
+def deleteEmpleado(id):
+    data = em.getAllCodeByCode(id)
     if(len(data)):
-        peticion = requests.get(f"http://172.16.100.120:50003/empleado/{id}")
+        peticion = requests.delete(f"http://172.16.100.120:50003/empleado/{id}")
         if(peticion.status_code == 204):
             data.append({"mensage": "empleado eliminado correctamente"})
             return {
@@ -43,7 +44,7 @@ def deleteProducto(id):
             "status": 400,
         }
 def getAllDataEmpleado():
-    #json-server storage/empleado.json -b 5506
+    #json-server storage/empleado.json -b 50003
     peticion = requests.get("http://172.16.100.120:50003/empleado")
     data = peticion.json()
     return data 
@@ -140,7 +141,7 @@ def menu():
     \__,_/\___/  /_____/_/ /_/ /_/ .___/_/\___/\__,_/\__,_/\____/____/                    
                                 /_/                                                       
                                                                                                                                                     
-            1. Guardar un producto nuevo
+            1. Guardar un empleado nuevo
             2. Eliminar un empleado
             0. Atras
             
@@ -155,8 +156,8 @@ def menu():
                     input("Presione una tecla para continuar......")
                     
                 if(opcion == 2):
-                            idProducto = input("Ingrese el id del producto q desea eliminar: ")
-                            print(tabulate(deleteProducto(idProducto)), headers="keys", tablefmt="github")
+                            idEmpleado = input("Ingrese el id del empleado q desea eliminar: ")
+                            print(tabulate(deleteEmpleado(idEmpleado)), headers="keys", tablefmt="github")
                             input("Presione una tecla para continuar......")
                             
                 elif(opcion == 0):

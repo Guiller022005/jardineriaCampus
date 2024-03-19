@@ -3,7 +3,7 @@ import re
 from tabulate import tabulate
 import json
 import requests
-import modules.crudOficina as pstOficina
+import modules.getOficina as pstOficina
 import modules.validaciones as vali
 def postOficina():
     oficina = {
@@ -23,9 +23,11 @@ def postOficina():
     return [res]
 
 def deleteOficina(id):
-    data = pstOficina.getOficinaCodigo(id)
+
+    data = pstOficina.getAllCodeByCode(id)
+
     if(len(data)):
-        peticion = requests.get(f"http://172.16.100.120:50002/oficina/{id}")
+        peticion = requests.delete(f"http://172.16.100.120:50002/oficina/{id}")
         if(peticion.status_code == 204):
             data.append({"mensage": "oficina eliminado correctamente"})
             return {

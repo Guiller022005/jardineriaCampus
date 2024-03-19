@@ -10,7 +10,7 @@ import modules.validaciones as vali
 
 def getAllCliente():
     #json-server storage/cliente.json -b 5507
-    peticion = requests.get("http://172.16.103.34:50001/cliente")
+    peticion = requests.get("http://172.16.100.120:50001/cliente")
     data = peticion.json()
     return data
 
@@ -22,7 +22,7 @@ def deleteCliente(id):
     data = Cli.getAllCodeByCode(id)
     
     if(len(data)):
-        peticion = requests.delete(f"http://172.16.103.34:50001/cliente/{id}")
+        peticion = requests.delete(f"http://172.16.100.120:50001/cliente/{id}")
         if(peticion.status_code == 204):
             data.append({"message":"cliente eliminado correctamente"})
             return {
@@ -58,7 +58,7 @@ def postCliente():
             "limite_credito": int(input("Ingrese el limite de credito: "))
     }
     headers = {'Content-type': 'application/json', 'charset': 'UTF-8'}
-    peticion = requests.post("http://172.16.103.34:50001",headers=headers, data=json.dumps(cliente, indent=4).encode("UTF-8"))
+    peticion = requests.post("http://172.16.100.120:50001",headers=headers, data=json.dumps(cliente, indent=4).encode("UTF-8"))
     res = peticion.json()
     res["Mensaje"] = "Producto Guardado"
     return [res]
@@ -172,7 +172,7 @@ def postClientes():
             print(error)
 
     headers = {'Content-Type': 'application/json', 'charset': 'utf-8'}
-    peticion = requests.post("http://172.16.103.34:50001/clientes", headers=headers, data=json.dumps(cliente))
+    peticion = requests.post("http://172.16.100.120:50001/clientes", headers=headers, data=json.dumps(cliente))
     res = peticion.json()
     res["Mensaje"] = "Cliente Agregado"
     return [res]
@@ -208,7 +208,7 @@ def menu():
                     
                 if(opcion == 2):
                     idCliente = input("Ingrese el id del producto q desea eliminar: ")
-                    print(tabulate(deleteCliente(idCliente)["body"]), headers="keys", tablefmt="github")
+                    print(tabulate(deleteCliente(idCliente)["body"],headers="keys",tablefmt="grid"))
                             
                             
                 elif(opcion == 0):

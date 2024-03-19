@@ -20,7 +20,7 @@ def postProducto():
             "codigo_cliente": int(input("Ingrese la codigo del cliente: ")),
 }
     headers = {'Content-type': 'application/json', 'charset': 'UTF-8'}
-    peticion = requests.post("http://172.16.103.34:50004/pedido",headers=headers, data=json.dumps(Pedido, indent=4).encode("UTF-8"))
+    peticion = requests.post("http://172.16.100.120:50004/pedido",headers=headers, data=json.dumps(Pedido, indent=4).encode("UTF-8"))
     res = peticion.json()
     res["Mensaje"] = "Pedido Guardado"
     return [res]
@@ -28,7 +28,7 @@ def postProducto():
 def deletePedido(id):
     data = Pe.getPedidoCodigo(id)
     if(len(data)):
-        peticion = requests.get(f"http://172.16.103.34:50004/pedido/{id}")
+        peticion = requests.get(f"http://172.16.100.120:50004/pedido/{id}")
         if(peticion.status_code == 204):
             data.append({"mensage": "pedido eliminado correctamente"})
             return {
@@ -46,7 +46,7 @@ def deletePedido(id):
     
 def getAllDataPedido():
     #json-server storage/pedido.json -b 5503
-    peticion = requests.get("http://172.16.103.34:50004/pedido")
+    peticion = requests.get("http://172.16.100.120:50004/pedido")
     data = peticion.json()
     return data 
 
@@ -108,7 +108,7 @@ def postPedido():
             print(error)
     
     headers = {'Content-Type': 'application/json', 'charset': 'utf-8'}
-    peticion = requests.post("http://172.16.103.34:50004", headers=headers, data=json.dumps(pedido))
+    peticion = requests.post("http://172.16.100.120:50004", headers=headers, data=json.dumps(pedido))
     res = peticion.json()
     res["Mensaje"] = "Pedido Agregado"
     return [res]
