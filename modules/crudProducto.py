@@ -1,13 +1,15 @@
 import os
 import re
+import time
 from tabulate import tabulate
 import json
 import requests
 import modules.getGamas as gG
 import modules.getProducto as gP
+import modules.updateProducto as uP
 import modules.validaciones as vali
 
-BASE_URL = "http://172.16.100.120:50006/productos"
+BASE_URL = "http://172.16.103.28:50006/productos"
 
 def postProducto():
     # json-server storage/producto.json -b 50001
@@ -40,9 +42,9 @@ def postProducto():
         except Exception as error:
             print(error)    
 def deleteProducto(id):
-    data = gP.getProductCodigo(id)
+    data = gP.getAllProducto(id)
     if(len(data)):
-        peticion = requests.get(f"http://172.16.100.120:50006/productos/{id}")
+        peticion = requests.get(f"http://172.16.103.28:50006/productos/{id}")
         if(peticion.status_code == 204):
             data.append({"mensage": "producto eliminado correctamente"})
             return {
@@ -58,34 +60,34 @@ def deleteProducto(id):
             "status": 400,
         }
 
-def ActualizarProducto(id):
-    data = gP.getProductId(id)
-    if data is None:
-        print(f"El producto con ID {id} no existe")
-        return    
+# def ActualizarProducto(id):
+#     data = gP.getAllProducto(id)
+#     if data is None:
+#         print(f"El producto con ID {id} no existe")
+#         return    
     
-    while True:
-        print(tabulate(data, headers="keys", tablefmt="pretty"))
-        modificacion = input("Ingrese el campo que desea modificar (Escriba listo para finalizar): ")
-        if modificacion.lower() == "listo":
-            break
-        nuevo_valor = input(f"Ingrese el nuevo valor para {modificacion}: ")
-        if modificacion in data[0]:
-            data[0][modificacion] = nuevo_valor
-        else:
-            print(f"El campo {modificacion} no existe")
+#     while True:
+#         print(tabulate(data, headers="keys", tablefmt="pretty"))
+#         modificacion = input("Ingrese el campo que desea modificar (Escriba listo para finalizar): ")
+#         if modificacion.lower() == "listo":
+#             break
+#         nuevo_valor = input(f"Ingrese el nuevo valor para {modificacion}: ")
+#         if modificacion in data[0]:
+#             data[0][modificacion] = nuevo_valor
+#         else:
+#             print(f"El campo {modificacion} no existe")
 
-    peticion = requests.put(f"{BASE_URL}/productos/{id}", data=json.dumps(data[0]))
-    return peticion.json()
+#     peticion = requests.put(f"{BASE_URL}/productos/{id}", data=json.dumps(data[0]))
+#     return peticion.json()
 
 def getAllData():
     #json-server storage/producto.json -b 5501
-    peticion = requests.get("http://172.16.100.120:50006/productos")
+    peticion = requests.get("http://172.16.103.28:50006/productos")
     data = peticion.json()
     return data 
 
 def getProductoCodigo(codigo):
-    peticion = requests.get(f"http://172.16.100.120:50006/productos/{codigo}")
+    peticion = requests.get(f"http://172.16.103.28:50006/productos/{codigo}")
     return [peticion.json()] if peticion.ok else []
 
 def postProducto():
@@ -169,7 +171,7 @@ def postProducto():
             print(error)
             
     headers = {'Content-Type': 'application/json', 'charset': 'utf-8'}
-    peticion = requests.post("http://172.16.100.120:50006/productos", headers=headers, data=json.dumps(producto))
+    peticion = requests.post("http://172.16.103.28:50006/productos", headers=headers, data=json.dumps(producto))
     res = peticion.json()
     res["Mensaje"] = "Producto Guardado"
     return [res]
@@ -210,9 +212,11 @@ def menu():
                     input("Presione una tecla para continuar......")
                     
                 if(opcion == 3):
-                    id = input("Ingrese el id del producto q desea Actualizar: ")
-                    print(tabulate(ActualizarProducto(id), headers="keys", tablefmt="pretty"))
-       
+                    idProducto = input("Ingrese el id del producto q desea Actualizar: ")
+                    
+                    print(tabulate(uP.updateProductoNombre(idProducto)["body"], headers="keys", tablefmt="pretty"))
+
+
 
                 elif(opcion == 0):
                     break 

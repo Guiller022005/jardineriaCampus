@@ -20,7 +20,7 @@ def postEmpleado():
             "codigo_jefe": int(input("Ingrese el codigo del jefe del empleado: "))
     }
     headers = {'Content-type': 'application/json', 'charset': 'UTF-8'}
-    peticion = requests.post("http://172.16.100.120:50003/empleado",headers=headers, data=json.dumps(empleado, indent=4).encode("UTF-8"))
+    peticion = requests.post("http://172.16.103.28:50003/empleados",headers=headers, data=json.dumps(empleado, indent=4).encode("UTF-8"))
     res = peticion.json()
     res["Mensaje"] = "Empleado Guardado"
     return [res]
@@ -28,7 +28,7 @@ def postEmpleado():
 def deleteEmpleado(id):
     data = em.getAllCodeByCode(id)
     if(len(data)):
-        peticion = requests.delete(f"http://172.16.100.120:50003/empleado/{id}")
+        peticion = requests.delete(f"http://172.16.103.28:50003/empleados/{id}")
         if(peticion.status_code == 204):
             data.append({"mensage": "empleado eliminado correctamente"})
             return {
@@ -45,7 +45,7 @@ def deleteEmpleado(id):
         }
 def getAllDataEmpleado():
     #json-server storage/empleado.json -b 50003
-    peticion = requests.get("http://172.16.100.120:50003/empleado")
+    peticion = requests.get("http://172.16.103.28:50003/empleados")
     data = peticion.json()
     return data 
 
@@ -122,7 +122,7 @@ def postEmpleados():
             print(error)
     
     headers = {'Content-Type': 'application/json', 'charset': 'utf-8'}
-    peticion = requests.post("http://172.16.100.120:50003/empleado", headers=headers, data=json.dumps(empleado))
+    peticion = requests.post("http://172.16.103.28:50003/empleados", headers=headers, data=json.dumps(empleado))
     res = peticion.json()
     res["Mensaje"] = "Empleado Agregado"
     return [res]

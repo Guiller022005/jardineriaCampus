@@ -6,7 +6,7 @@ from datetime import datetime
 
 def getAllgama():
     #json-server storage/empleado.json -b 50003
-    peticion = requests.get("http://172.16.100.120:50007/gama")
+    peticion = requests.get("http://172.16.103.28:50007/gama")
     data = peticion,json()
     return data
 

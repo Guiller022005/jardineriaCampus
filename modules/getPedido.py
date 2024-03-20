@@ -6,7 +6,7 @@ import requests
 import json
 def getAllPedidos():
     #json-server storage/pedido.json -b 50004
-    peticion = requests.get("http://172.16.100.120:50004/pedido")
+    peticion = requests.get("http://172.16.103.28:50004/pedido")
     data = peticion.json()
     return data
 
