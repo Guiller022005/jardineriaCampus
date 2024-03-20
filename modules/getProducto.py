@@ -4,12 +4,16 @@ import json
 import requests
 import modules.crudProducto as pstProducto
 import modules.getGamas as gG
+import modules.validaciones as vali
+
+BASE_URL = "http://172.16.100.120:50006/productos"
+
 #Devuelve un listado con todas los productos q pertenecen a la gama ornamentales
 #y q tienen mas de 100 unidades en stock. El listado debera estar ordenado por su precio de venta,
 # mostrando en primer lugar los de mayor precio
 def getAllProducto():
     #json-server storage/productos.json -b 50006 
-    peticion = requests.get("http://172.16.100.120:50006/productos")
+    peticion = requests.get(f"{BASE_URL}/productos")
     data = peticion.json()
     return data
 
@@ -21,7 +25,10 @@ def getProductCodigo(codigo):
     # else:
     #     return[]
    
-    
+def getProductId(codigo):
+    for val in getAllProducto():
+        if(val.get("id") == codigo):
+            return [val]
         
 def getAllStocksPriceGama(gama, stock):
     condiciones = []
@@ -112,38 +119,41 @@ def menu():
                             5. Obtener el precio por fabrica y el precio neto individual :
                             6. Crear y guardar
         """)
-    opcion = int(input("\nSeleccione una de las opciones: "))
-    if(opcion == 1):
-        try:
-            gama = str(input("Introduce la gama q deseas filtrar"))
-            stock = int(input("Introduce las unidades q deseas mostrar"))
-            print(tabulate(getAllStocksPriceGama(gama, stock), headers="keys", tablefmt="github"))
-        except KeyboardInterrupt:
-            return menu()    
-    elif(opcion == 2):
-        try:
-            print(tabulate(getAllGamaCodigoNombre(), headers="keys", tablefmt="github"))
-        except KeyboardInterrupt:
-            return menu()
-    elif(opcion == 3):
-        try:
-              print(tabulate(getAllNombreDescripcion(), headers="keys", tablefmt="github"))
-        except KeyboardInterrupt:
-            return menu()
-    elif(opcion == 4):
-        try:
-              print(tabulate(getAllProveedorPrecio(), headers="keys", tablefmt="github"))
-        except KeyboardInterrupt:
-            return menu()    
-    elif(opcion == 5):
-        try:
-              print(tabulate(getAllPrecioNetoAVenta(), headers="keys", tablefmt="github"))
-        except KeyboardInterrupt:
-            return menu()  
-    elif(opcion == 0):
-        break
-    try:
-        entrada = input("Ingresa Ctrl + c para ir a menu: ")
-        print("Entrada recibida: ", entrada)
-    except KeyboardInterrupt:
-       menu()
+    opcion =input("\nSeleccione una de las opciones: ")
+    if(vali.validacionOpciones(opcion) is not None):
+        opcion = int(opcion)
+        if(opcion >= 0 and opcion <= 6):
+            if(opcion == 1):
+                gama = str(input("Introduce la gama q deseas filtrar"))
+                stock = int(input("Introduce las unidades q deseas mostrar"))
+                print(tabulate(getAllStocksPriceGama(gama, stock), headers="keys", tablefmt="github"))
+                   
+            elif(opcion == 2):
+                try:
+                    print(tabulate(getAllGamaCodigoNombre(), headers="keys", tablefmt="github"))
+                except KeyboardInterrupt:
+                    return menu()
+            elif(opcion == 3):
+                try:
+                    print(tabulate(getAllNombreDescripcion(), headers="keys", tablefmt="github"))
+                except KeyboardInterrupt:
+                    return menu()
+            elif(opcion == 4):
+                try:
+                    print(tabulate(getAllProveedorPrecio(), headers="keys", tablefmt="github"))
+                except KeyboardInterrupt:
+                    return menu()    
+            elif(opcion == 5):
+                try:
+                    print(tabulate(getAllPrecioNetoAVenta(), headers="keys", tablefmt="github"))
+                except KeyboardInterrupt:
+                    return menu()  
+            elif(opcion == 0):
+                break
+        input("Precione una tecla para continuar.........")    
+            # try:
+            #     entrada = input("Ingresa Ctrl + c para ir a menu: ")
+            #     print("Entrada recibida: ", entrada)
+            # except KeyboardInterrupt:
+            #     return menu()
+            
