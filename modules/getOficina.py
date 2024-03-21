@@ -9,13 +9,13 @@ import requests
 import json
 def getAllOficina():
     #json-server storage/oficina.json -b 50002
-    peticion = requests.get("http://172.16.103.28:50002/oficina")
+    peticion = requests.get("http://172.16.100.111:50002/oficina")
     data = peticion.json()
     return data
 
 # Obtener solo el codigo
 def getAllCodeByCode(codigo):
-    peticion = requests.get(f"http://172.16.103.28:50002/oficina/{codigo}")
+    peticion = requests.get(f"http://172.16.100.111:50002/oficina/{codigo}")
     return (peticion.json()) if peticion.ok else[]
 
 def getAllCodigoCiudad():

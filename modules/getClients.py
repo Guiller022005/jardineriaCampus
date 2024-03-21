@@ -11,7 +11,7 @@ import modules.validaciones as vali
 # import storage.pago as pago
 def getAllPagos():
     #json-server storage/gama.json -b 50007 
-    peticion = requests.get("http://172.16.103.28:50007/gama")
+    peticion = requests.get("http://172.16.100.111:50007/gama")
     data = peticion.json()
     return data
 
@@ -19,13 +19,13 @@ def getAllPagos():
 
 def getAllClientes():
     #json-server storage/cliente.json -b 50001
-    peticion = requests.get("http://172.16.103.28:50001/clientes")
+    peticion = requests.get("http://172.16.100.111:50001/clientes")
     data = peticion.json()
     return data
 
 def getAllEmpleados():
     #json-server storage/empleado.json -b 50003
-    peticion = requests.get("http://172.16.103.28:50003/empleados")
+    peticion = requests.get("http://172.16.100.111:50003/empleados")
     data = peticion.json()
     return data
 
@@ -33,7 +33,7 @@ def getAllEmpleados():
 
 # Obtener solo el codigo
 def getAllCodeByCode(codigo):
-    peticion = requests.get(f"http://172.16.103.28:50001/clientes/{codigo}")
+    peticion = requests.get(f"http://172.16.100.111:50001/clientes/{codigo}")
     return [peticion.json()] if peticion.ok else []
 
     

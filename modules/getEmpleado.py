@@ -10,7 +10,7 @@ import modules.crudEmpleado as pstEmpleado
 
 def getAllEmpleado():
     #json-server storage/empleado.json -b 50003
-    peticion = requests.get("http://172.16.103.28:50003/empleados")
+    peticion = requests.get("http://172.16.100.111:50003/empleados")
     data = peticion.json()
     return data
 
@@ -21,7 +21,7 @@ def getAllData():
     return empleadoPuesto
 
 def getAllCodeByCode(codigo):
-    peticion = requests.get(f"http://172.16.103.28:50003/empleados/{codigo}")
+    peticion = requests.get(f"http://172.16.100.111:50003/empleados/{codigo}")
     return (peticion.json()) if peticion.ok else[]
 
 def getAllNombreApellidoEmailJefe(codigo):
