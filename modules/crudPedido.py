@@ -27,6 +27,90 @@ def getCodigoPedido(codigo):
     peticion = requests.get(f"http://154.38.171.54:5007/pedidos/{codigo}")
     return peticion.json() if peticion.ok else []
 
+
+def postPedido():
+    pedido = dict()
+    while True:
+        try:
+            codigoPedido = nuevoCodigoPedido()
+            pedido["codigo_pedido"] = codigoPedido
+
+            if(not pedido.get("fecha_pedido")):
+                fechaPeido = input("Ingrese la fecha del pedido: ")
+                if(vali.validacionFecha(fechaPeido) is not None):
+                    pedido["fecha_pedido"] = fechaPeido
+                else:
+                    raise Exception("La fehca no cumple con lo establecido")
+                
+            if(not pedido.get("fecha_esperada")):
+                fechaEntrega = input("Ingrese la fecha de espera: ")
+                if(vali.validacionFecha(fechaEntrega) is not None):
+                    pedido["fecha_esperada"] = fechaEntrega
+                else:
+                    raise Exception("La fehca no cumple con lo establecido")
+                
+            fechaEntregada = input("Ingrese la fehca entregada: ")
+            if(not pedido.get("fecha_entrega")):
+                pedido["fecha_entrega"] = fechaEntregada
+
+            if(not pedido.get("estado")):
+                estado = input("Ingrese el estado del pedido: ")
+                if(vali.validacionNombre(estado) is not None):
+                    pedido["estado"] = estado
+                else:
+                    raise Exception("El estado del pedido no cumple con lo establecido")            
+
+            comentario = input("Ingrese un comentario: ")
+            if(not pedido.get("comentario")):
+                pedido["comentario"] = comentario
+
+            if(not pedido.get("codigo_cliente")):
+                codigocliente = input("Ingrese el codigo del cliente: ")
+                if(vali.validacionNumerica(codigocliente) is not None):
+                    codigocliente = int(codigocliente)
+                    pedido["codigo_cliente"] = codigocliente
+                    break
+                else:
+                    raise Exception("El codigo del cliente no cumple con lo establecido")     
+
+        except Exception as error:
+            print(error)
+    
+    headers = {'Content-Type': 'application/json', 'charset': 'utf-8'}
+    peticion = requests.post("http://154.38.171.54:5007/pedidos", headers=headers, data=json.dumps(pedido))
+    res = peticion.json()
+    res["Mensaje"] = "Pedido Agregado"
+    return [res]
+
+def deletePedido(id):
+    data = getCodigoPedido(id)
+    if(len(data)):
+        print("Informacion del pedido encontrado: ")
+        print(tabulate([data], headers="keys", tablefmt="github"))
+        while True:
+            try:
+                confirmacion = input("Deseas eliminar este pedido?(s/n): ")
+                if vali.validacionSiNo(confirmacion):
+                    if confirmacion == "s":
+                        peticion = requests.delete(f"http://154.38.171.54:5007/pedidos/{id}")
+                        if(peticion.ok):
+                            return[["messege", "Pedido eliminado correctamente"]]
+                        break
+                    else:
+                        return[
+                            ["messege", "La eliminacion del pedido fue cancelada"],
+                            ["status", 200]
+                        ]
+                else:
+                    raise Exception("La confirmacion no cumple con lo establecido por favor solo s/n")
+            except Exception as error:
+                print(error)
+    else:
+        return [
+            ["Pedido no encontrado", id],
+            ["status", 400]
+        ]
+
 def updatePedido(id):
     data = getCodigoPedido(id)
     if(len(data)):
@@ -145,98 +229,28 @@ def updatePedido(id):
         }]
 
 
-def postProducto():
+# def postProducto():
      
 
-    Pedido = {
-            "codigo_pedido": input("Ingrese el codigo del pedido: "),
-            "fecha_pedido": input("Ingrese el nombre del pedido: "),
-            "fecha_esperada": input("Ingrese la fecha esperada"),
-            "fecha_entrega": input("Ingrese la fecha de entrega "),
-            "estado": input("Ingrese el estado del pedido: "),
-            "comentario": input("Ingrese el comentario del pedido: "),
-            "codigo_cliente": int(input("Ingrese la codigo del cliente: ")),
-}
-    headers = {'Content-type': 'application/json', 'charset': 'UTF-8'}
-    peticion = requests.post("http://154.38.171.54:5007/pedidos",headers=headers, data=json.dumps(Pedido, indent=4).encode("UTF-8"))
-    res = peticion.json()
-    res["Mensaje"] = "Pedido Guardado"
-    return [res]
+#     Pedido = {
+#             "codigo_pedido": input("Ingrese el codigo del pedido: "),
+#             "fecha_pedido": input("Ingrese el nombre del pedido: "),
+#             "fecha_esperada": input("Ingrese la fecha esperada"),
+#             "fecha_entrega": input("Ingrese la fecha de entrega "),
+#             "estado": input("Ingrese el estado del pedido: "),
+#             "comentario": input("Ingrese el comentario del pedido: "),
+#             "codigo_cliente": int(input("Ingrese la codigo del cliente: ")),
+# }
+#     headers = {'Content-type': 'application/json', 'charset': 'UTF-8'}
+#     peticion = requests.post("http://154.38.171.54:5007/pedidos",headers=headers, data=json.dumps(Pedido, indent=4).encode("UTF-8"))
+#     res = peticion.json()
+#     res["Mensaje"] = "Pedido Guardado"
+#     return [res]
 
-def deletePedido(id):
-    data = Pe.getPedidoCodigo(id)
-    if(len(data)):
-        peticion = requests.get(f"http://154.38.171.54:5007/pedidos/{id}")
-        if(peticion.status_code == 204):
-            data.append({"mensage": "pedido eliminado correctamente"})
-            return {
-            "body": data,
-            "status": peticion.status_code,
-            }
-    else:
-        return {
-            "body": [{
-                "mensage": "pedido no encontrado",
-                "id": id
-            }],
-            "status": 400,
-        }
+
     
 
 
-def postPedido():
-    pedido = dict()
-    while True:
-        try:
-            codigoPedido = nuevoCodigoPedido()
-            pedido["codigo_pedido"] = codigoPedido
-
-            if(not pedido.get("fecha_pedido")):
-                fechaPeido = input("Ingrese la fecha del pedido: ")
-                if(vali.validacionFecha(fechaPeido) is not None):
-                    pedido["fecha_pedido"] = fechaPeido
-                else:
-                    raise Exception("La fehca no cumple con lo establecido")
-                
-            if(not pedido.get("fecha_esperada")):
-                fechaEntrega = input("Ingrese la fecha de espera: ")
-                if(vali.validacionFecha(fechaEntrega) is not None):
-                    pedido["fecha_esperada"] = fechaEntrega
-                else:
-                    raise Exception("La fehca no cumple con lo establecido")
-                
-            fechaEntregada = input("Ingrese la fehca entregada: ")
-            if(not pedido.get("fecha_entrega")):
-                pedido["fecha_entrega"] = fechaEntregada
-
-            if(not pedido.get("estado")):
-                estado = input("Ingrese el estado del pedido: ")
-                if(vali.validacionNombre(estado) is not None):
-                    pedido["estado"] = estado
-                else:
-                    raise Exception("El estado del pedido no cumple con lo establecido")            
-
-            comentario = input("Ingrese un comentario: ")
-            if(not pedido.get("comentario")):
-                pedido["comentario"] = comentario
-
-            if(not pedido.get("codigo_cliente")):
-                codigocliente = input("Ingrese el codigo del cliente: ")
-                if(vali.validacionNumerica(codigocliente) is not None):
-                    codigocliente = int(codigocliente)
-                    pedido["codigo_cliente"] = codigocliente
-                    break
-                else:
-                    raise Exception("El codigo del cliente no cumple con lo establecido")     
-
-        except Exception as error:
-            print(error)
-    
-    headers = {'Content-Type': 'application/json', 'charset': 'utf-8'}
-    peticion = requests.post("http://154.38.171.54:5007/pedidos", headers=headers, data=json.dumps(pedido))
-    res = peticion.json()
-    res["Mensaje"] = "Pedido Agregado"
-    return [res]
 def menu():
     while True:
         os.system("clear")
@@ -264,18 +278,18 @@ def menu():
             if (opcion >= 0 and opcion <= 3):
                 if(opcion == 1):
                 
-                    print(tabulate(postProducto(), headers="keys", tablefmt="github"))
+                    print(tabulate(postPedido(), headers="keys", tablefmt="github"))
                     input("Presione una tecla para continuar......")
                     
                 if(opcion == 2):
                     idPedido = input("Ingrese el id del producto q desea eliminar: ")
-                    print(tabulate(deletePedido(idPedido)), headers="keys", tablefmt="github")
+                    print(tabulate(deletePedido(idPedido), headers="keys", tablefmt="github"))
                     input("Presione una tecla para continuar......")
 
                 if(opcion == 3):
                     idProducto = input("Ingrese el id del pedido q desea Actualizar: ")
                     
-                    print(tabulate(updatePedido(idProducto)["body"], headers="keys", tablefmt="pretty"))
+                    print(tabulate(updatePedido(idProducto), headers="keys", tablefmt="pretty"))
                     input("Presione una tecla para continuar......")
                 elif(opcion == 0):
                     break 

@@ -2,7 +2,6 @@ import os
 from tabulate import tabulate
 import json
 import requests
-import modules.crudPagos as pstPagos
 import modules.validaciones as vali
 
 def getAllDataPagos():
@@ -29,6 +28,11 @@ def getPagoCodigo(codigo):
 #     res = peticion.json()
 #     res["Mensaje"] = "Pedido Guardado"
 #     return [res]
+
+def getPagoCodigo(codigo):
+    peticion = requests.get(f"http://154.38.171.54:5006/pagos/{codigo}")
+    return peticion.json() if peticion.ok else []
+
 
 def postPagos():
     pago = dict()
@@ -81,23 +85,53 @@ def postPagos():
     return [res]
 
 def deletePagos(id):
-    data = pstPagos.getPagosCodigo(id)
+    data = getPagoCodigo(id)
     if(len(data)):
-        peticion = requests.get(f"http://154.38.171.54:5006/pagos/{id}")
-        if(peticion.status_code == 204):
-            data.append({"mensage": "pago eliminado correctamente"})
-            return {
-            "body": data,
-            "status": peticion.status_code,
-            }
+        print("Informacion del pago encontrado: ")
+        print(tabulate([data], headers="keys", tablefmt="github"))
+        while True:
+            try:
+                confirmacion = input("Deseas eliminar este pago?(s/n): ")
+                if vali.validacionSiNo(confirmacion):
+                    if confirmacion == "s":
+                        peticion = requests.delete(f"http://154.38.171.54:5006/pagos/{id}")
+                        if(peticion.ok):
+                            return[["messege", "Pago eliminado correctamente"]]
+                        break
+                    else:
+                        return[
+                            ["messege", "La eliminacion del pago fue cancelada"],
+                            ["status", 200]
+                        ]
+                else:
+                    raise Exception("La confirmacion no cumple con lo establecido por favor solo s/n")
+            except Exception as error:
+                print(error)
     else:
-        return {
-            "body": [{
-                "mensage": "pago no encontrado",
-                "id": id
-            }],
-            "status": 400,
-        }
+        return [
+            ["Pago no encontrado", id],
+            ["status", 400]
+        ]
+# def deletePagos(id):
+
+#     data = getPagoCodigo(id)
+    
+#     if(len(data)):
+#         peticion = requests.delete(f"http://154.38.171.54:5006/pagos/{id}")
+#         if(peticion.status_code == 204):
+#             data.append({"message":"Pago eliminado correctamente"})
+#             return {
+#                 "body": data,
+#                 "status": peticion.status_code,
+#             }
+#     else:
+#         return {
+#             "body":[{
+#                 "mensage":"Pago no encontrado",
+#                 "id": id
+#             }],
+#             "status": 400,
+#         }
     
 def updatePago(id):
     data = getPagoCodigo(id)
@@ -217,7 +251,7 @@ def menu():
             0. Atras
             
         """)
-        opcion = int(input("\nSeleccione una de las opciones: "))
+        opcion = input("\nSeleccione una de las opciones: ")
         if(vali.validacionOpciones(opcion) is not None):
             opcion = int(opcion)
             if (opcion >= 0 and opcion <= 3):
@@ -226,15 +260,15 @@ def menu():
                     print(tabulate(postPagos(), headers="keys", tablefmt="github"))
                     input("Presione una tecla para continuar......")
                     
-                if(opcion == 2):
+                elif(opcion == 2):
                             idPagos = input("Ingrese el id del pago q desea eliminar: ")
-                            print(tabulate(deletePagos(idPagos)), headers="keys", tablefmt="github")
+                            print(tabulate(deletePagos(idPagos), headers="keys", tablefmt="github"))
                             input("Presione una tecla para continuar......")
 
-                if(opcion == 3):
+                elif(opcion == 3):
                     idProducto = input("Ingrese el id del pago q desea Actualizar: ")
                     
-                    print(tabulate(updatePago(idProducto)["body"], headers="keys", tablefmt="pretty"))
+                    print(tabulate(updatePago(idProducto), headers="keys", tablefmt="pretty"))
                     input("Presione una tecla para continuar......")
 
                 elif(opcion == 0):

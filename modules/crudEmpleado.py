@@ -15,11 +15,13 @@ def getAllDataEmpleado():
     return data 
 
 def nuevoCodigoEmpleado():
-    codigodelCliente = list()
+    codigodelEmpleado = list()
     for val in getAllDataEmpleado():
-        codigodelCliente.append(val.get("codigo_empleado"))
-    if codigodelCliente:
-        return max(codigodelCliente) + 1
+        codigoEmpleado = val.get("codigo_empleado")
+        if codigoEmpleado is not None:
+            codigodelEmpleado.append(codigoEmpleado)
+    if codigodelEmpleado:
+        return max(codigodelEmpleado) + 1
     else:
         return 1
     
@@ -97,23 +99,33 @@ def postEmpleados():
     return [res]
 
 def deleteEmpleado(id):
-    data = em.getAllCodeByCode(id)
+    data = getCodigoEmpleado(id)
     if(len(data)):
-        peticion = requests.delete(f"http://154.38.171.54:5003/empleados/{id}")
-        if(peticion.status_code == 204):
-            data.append({"mensage": "empleado eliminado correctamente"})
-            return {
-            "body": data,
-            "status": peticion.status_code,
-            }
+        print("Informacion del empleado encontrado: ")
+        print(tabulate([data], headers="keys", tablefmt="github"))
+        while True:
+            try:
+                confirmacion = input("Deseas eliminar este empleado?(s/n): ")
+                if vali.validacionSiNo(confirmacion):
+                    if confirmacion == "s":
+                        peticion = requests.delete(f"http://154.38.171.54:5003/empleados/{id}")
+                        if(peticion.ok):
+                            return[["messege", "Empleado eliminado correctamente"]]
+                        break
+                    else:
+                        return[
+                            ["messege", "La eliminacion del empleado fue cancelada"],
+                            ["status", 200]
+                        ]
+                else:
+                    raise Exception("La confirmacion no cumple con lo establecido por favor solo s/n")
+            except Exception as error:
+                print(error)
     else:
-        return {
-            "body": [{
-                "mensage": "empleado no encontrado",
-                "id": id
-            }],
-            "status": 400,
-        }
+        return [
+            ["Empleado no encontrado", id],
+            ["status", 400]
+        ]
 
 def updateEmpleado(id):
     data = getCodigoEmpleado(id)
@@ -250,7 +262,7 @@ def updateEmpleado(id):
 
 
         headers = {'Content-Type': 'application/json', 'charset': 'utf-8'}
-        peticion = requests.put(f"http://154.38.171.54:5003/empleados/{id}", headers=headers, data=json.dumps(data).encode("UTF-8"))
+        peticion = requests.put(f"http://154.38.171.54:5003/empleados/{id}", headers=headers, data=json.dumps(data))
         res = peticion.json()
         res["Mensaje"] = "Empleado Actualizado"
         return [res]
@@ -314,13 +326,13 @@ def menu():
                     
                 if(opcion == 2):
                             idEmpleado = input("Ingrese el id del empleado q desea eliminar: ")
-                            print(tabulate(deleteEmpleado(idEmpleado)), headers="keys", tablefmt="github")
+                            print(tabulate(deleteEmpleado(idEmpleado),  tablefmt="github" ))
                             input("Presione una tecla para continuar......")
                 
                 if(opcion == 3):
                     idProducto = input("Ingrese el id del empleado q desea Actualizar: ")
                     
-                    print(tabulate(updateEmpleado(idProducto)["body"], headers="keys", tablefmt="pretty"))
+                    print(tabulate(updateEmpleado(idProducto), headers="keys", tablefmt="pretty"))
                     input("Presione una tecla para continuar......")
 
                 elif(opcion == 0):

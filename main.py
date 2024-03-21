@@ -47,6 +47,7 @@ if(__name__ == "__main__"):
                     me.menuProducto()
                 elif(opcion == 0):
                     break
+            input("Presione una tecla para continuar......")
         
 
 # with open("storage/cliente.json", "r") as f:
