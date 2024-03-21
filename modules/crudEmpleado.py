@@ -7,45 +7,10 @@ import modules.crudEmpleado as cem
 import modules.getEmpleado as em
 import modules.crudOficina as of
 import modules.validaciones as vali
-def postEmpleado():
-    empleado = {
-            "codigo_empleado": input("Ingrese el codigo del empleado: "),
-            "nombre": input("Ingrese el nombre del empleado: "),
-            "Cargo": input("Ingrese el puesto"),
-            "apellido1": input("Ingrese el primer apellido: "),
-            "apellido2": input("Ingrese el segundo apellido: "),
-            "extension": input("Ingrese la extension del empleado: "),
-            "email": int(input("Ingrese el email del empleado: ")),
-            "codigo_oficina": int(input("Ingrese el codigo de oficina: ")),
-            "codigo_jefe": int(input("Ingrese el codigo del jefe del empleado: "))
-    }
-    headers = {'Content-type': 'application/json', 'charset': 'UTF-8'}
-    peticion = requests.post("http://172.16.103.28:50003/empleados",headers=headers, data=json.dumps(empleado, indent=4).encode("UTF-8"))
-    res = peticion.json()
-    res["Mensaje"] = "Empleado Guardado"
-    return [res]
 
-def deleteEmpleado(id):
-    data = em.getAllCodeByCode(id)
-    if(len(data)):
-        peticion = requests.delete(f"http://172.16.103.28:50003/empleados/{id}")
-        if(peticion.status_code == 204):
-            data.append({"mensage": "empleado eliminado correctamente"})
-            return {
-            "body": data,
-            "status": peticion.status_code,
-            }
-    else:
-        return {
-            "body": [{
-                "mensage": "empleado no encontrado",
-                "id": id
-            }],
-            "status": 400,
-        }
 def getAllDataEmpleado():
     #json-server storage/empleado.json -b 50003
-    peticion = requests.get("http://172.16.103.28:50003/empleados")
+    peticion = requests.get("http://172.16.100.111:50003/empleados")
     data = peticion.json()
     return data 
 
@@ -57,6 +22,10 @@ def nuevoCodigoEmpleado():
         return max(codigodelCliente) + 1
     else:
         return 1
+    
+def getCodigoEmpleado(codigo):
+    peticion = requests.get(f"http://172.16.100.111:50003/empleados/{codigo}")
+    return peticion.json() if peticion.ok else []
 
 def postEmpleados():
     empleado = dict()
@@ -122,10 +91,197 @@ def postEmpleados():
             print(error)
     
     headers = {'Content-Type': 'application/json', 'charset': 'utf-8'}
-    peticion = requests.post("http://172.16.103.28:50003/empleados", headers=headers, data=json.dumps(empleado))
+    peticion = requests.post("http://172.16.100.111:50003/empleados", headers=headers, data=json.dumps(empleado))
     res = peticion.json()
     res["Mensaje"] = "Empleado Agregado"
     return [res]
+
+def deleteEmpleado(id):
+    data = em.getAllCodeByCode(id)
+    if(len(data)):
+        peticion = requests.delete(f"http://172.16.100.111:50003/empleados/{id}")
+        if(peticion.status_code == 204):
+            data.append({"mensage": "empleado eliminado correctamente"})
+            return {
+            "body": data,
+            "status": peticion.status_code,
+            }
+    else:
+        return {
+            "body": [{
+                "mensage": "empleado no encontrado",
+                "id": id
+            }],
+            "status": 400,
+        }
+
+def updateEmpleado(id):
+    data = getCodigoEmpleado(id)
+    if(len(data)):
+        print("Empleado Encontrado")
+        print(tabulate([data], headers="keys", tablefmt="github"))
+        data["codigo_empleado"] = data["codigo_empleado"]
+        continuarActualizar = True
+        while continuarActualizar:
+            try:
+
+                print("""
+                        ¿Que dato deseas cambiar?
+                        
+                    1. Nombre 
+                    2. Primer apellido
+                    3. Segundo apellido
+                    4. Extension
+                    5. Email
+                    6. Codigo de la oficina
+                    7. Codigo jefe
+                    8. Puesto
+                    
+                """)
+                opcion = input("\nSeleccione una de las opciones: ")
+                if(vali.validacionOpciones(opcion) is not None):
+                    opcion = int(opcion)
+                    if(opcion >= 0 and opcion <= 8):
+                        if(opcion == 1):
+                            while True:
+                                try:
+                                    nombreEmpleado = input("Ingrese el nombre del empleado: ")
+                                    if(vali.validacionNombre(nombreEmpleado) is not None):
+                                        data["nombre"] = nombreEmpleado
+                                        break
+                                    else:
+                                        raise Exception("El nombre del cliente no cumple con lo establecido")
+                                except Exception as error:
+                                    print(error)
+                        
+                        if(opcion == 2):
+                            while True:
+                                try:
+                                    apellido1 = input("Ingrese el apellido del empleado: ")
+                                    if(vali.validacionNombre(apellido1) is not None):
+                                        data["apellido1"] = apellido1
+                                        break
+                                    else:
+                                        raise Exception("El apellido del empleado no cumple con lo establecido") 
+                                except Exception as error:
+                                    print(error)
+                        if(opcion == 3):
+                            while True:
+                                try:
+                                    apellido2 = input("Ingrese el segundo apellido del empleado: ")
+                                    if(vali.validacionNombre(apellido2) is not None):
+                                        data["apellido2"] = apellido2
+                                        break
+                                    else:
+                                        raise Exception("El apellido del empleado no cumple con lo establecido")
+                                except Exception as error:
+                                    print(error)
+                        if(opcion == 4):
+                            while True:
+                                try:
+                                    extension = input("Ingrese la extension: ")
+                                    if(vali.validacionNumerica(extension) is not None):
+                                        data["extension"] = extension
+                                        break
+                                    else:
+                                        raise Exception("La extension ingresada no cumple con lo establecido")
+                                except Exception as error:
+                                    print(error)
+                        if(opcion == 5):
+                            while True:
+                                try:
+                                    email = input("Ingrese el email del empleado: ")
+                                    data["email"] = email
+                                    break
+                                except Exception as error:
+                                    print(error)
+                        if(opcion == 6):
+                            while True:
+                                try:
+                                    opcion = input("Seleccione la oficina:\n "+"".join([f"\t{i}. {val}\n" for i, val in enumerate(of.getAllCodigoOficina())]))
+                                    if vali.validacionOpciones(opcion):
+                                        oficina = of.getAllCodigoOficina()[int(opcion)]
+                                        data["codigo_oficina"] = oficina
+                                        break
+                                    else:
+                                        raise Exception("La opcion de la oficina no cumple con lo establecido")
+                                except Exception as error:
+                                    print(error)
+                        if(opcion == 7):
+                            while True:
+                                try:
+                                    codigoJefe = input("Ingrese el codigo jefe: ")
+                                    if(vali.validacionNumerica(codigoJefe) is not None):
+                                        codigoJefe = int(codigoJefe)
+                                        data["codigo_jefe"] = codigoJefe
+                                        break
+                                    else:
+                                        raise Exception("El codigo jefe no cumple con lo establecido")
+                                except Exception as error:
+                                    print(error)
+                        if(opcion == 8):
+                            while True:
+                                try:
+                                    puesto = input("Ingrese el puesto del empleado: ")
+                                    if(vali.validacionNombre(puesto) is not None):
+                                        data["puesto"] = puesto
+                                        break
+                                    else:
+                                        raise Exception("El puesto del empleado no cumple con lo establecido")
+                                except Exception as error:
+                                    print(error)
+                        
+
+                        confirmacion = ""            
+                        while (confirmacion !=  "s" and confirmacion != "n"):
+                            confirmacion = input("Deseas cambiar mas datos?(s/n): ")
+                            if vali.validacionSiNo(confirmacion):
+                                if confirmacion == "n":
+                                    continuarActualizar = False
+                                    break
+                                else:
+                                    confirmacion == "s"
+                                    break
+                            else:
+                                print("La confirmacion no cumple con lo establecido por favor solo s/n")
+            except Exception as error:
+                print(error)        
+
+
+
+        headers = {'Content-Type': 'application/json', 'charset': 'utf-8'}
+        peticion = requests.put(f"http://172.16.100.111:50003/empleados/{id}", headers=headers, data=json.dumps(data))
+        res = peticion.json()
+        res["Mensaje"] = "Empleado Actualizado"
+        return [res]
+    else:
+        return[{
+            "messege": "Empleado no encontrado",
+            "id": id
+        }]
+
+# def postEmpleado():
+#     empleado = {
+#             "codigo_empleado": input("Ingrese el codigo del empleado: "),
+#             "nombre": input("Ingrese el nombre del empleado: "),
+#             "Cargo": input("Ingrese el puesto"),
+#             "apellido1": input("Ingrese el primer apellido: "),
+#             "apellido2": input("Ingrese el segundo apellido: "),
+#             "extension": input("Ingrese la extension del empleado: "),
+#             "email": int(input("Ingrese el email del empleado: ")),
+#             "codigo_oficina": int(input("Ingrese el codigo de oficina: ")),
+#             "codigo_jefe": int(input("Ingrese el codigo del jefe del empleado: "))
+#     }
+#     headers = {'Content-type': 'application/json', 'charset': 'UTF-8'}
+#     peticion = requests.post("http://172.16.100.111:50003/empleados",headers=headers, data=json.dumps(empleado, indent=4).encode("UTF-8"))
+#     res = peticion.json()
+#     res["Mensaje"] = "Empleado Guardado"
+#     return [res]
+
+
+
+
+
 def menu():
     while True:
         os.system("clear")
@@ -143,23 +299,30 @@ def menu():
                                                                                                                                                     
             1. Guardar un empleado nuevo
             2. Eliminar un empleado
+            3. Actualizar un empleado
             0. Atras
             
         """)
-        opcion = input("\nSeleccione una de las opciones: ")
-        if(re.match(r'[0-9]+$', opcion) is not None):
+        opcion =(input("\nSeleccione una de las opciones: "))
+        if(vali.validacionOpciones(opcion) is not None):
             opcion = int(opcion)
-            if (opcion >= 0 and opcion <= 2):
+            if (opcion >= 0 and opcion <= 3):
                 if(opcion == 1):
                     
-                    print(tabulate(postEmpleado(), headers="keys", tablefmt="github"))
+                    print(tabulate(postEmpleados(), headers="keys", tablefmt="github"))
                     input("Presione una tecla para continuar......")
                     
                 if(opcion == 2):
                             idEmpleado = input("Ingrese el id del empleado q desea eliminar: ")
                             print(tabulate(deleteEmpleado(idEmpleado)), headers="keys", tablefmt="github")
                             input("Presione una tecla para continuar......")
-                            
+                
+                if(opcion == 3):
+                    idProducto = input("Ingrese el id del empleado q desea Actualizar: ")
+                    
+                    print(tabulate(updateEmpleado(idProducto)["body"], headers="keys", tablefmt="pretty"))
+                    input("Presione una tecla para continuar......")
+
                 elif(opcion == 0):
                     break 
         input("Presione una tecla para continuar")
