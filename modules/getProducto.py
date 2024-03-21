@@ -6,7 +6,7 @@ import modules.crudProducto as pstProducto
 import modules.getGamas as gG
 import modules.validaciones as vali
 
-BASE_URL = "http://172.16.100.111:50006/productos"
+BASE_URL = "http://154.38.171.54:5008/productos"
 
 #Devuelve un listado con todas los productos q pertenecen a la gama ornamentales
 #y q tienen mas de 100 unidades en stock. El listado debera estar ordenado por su precio de venta,
@@ -18,7 +18,7 @@ def getAllProducto():
     return data
 
 def getProductCodigo(id):
-    peticion = requests.get(f"http://172.16.100.111:50006/productos/{id}")
+    peticion = requests.get(f"http://154.38.171.54:5008/productos/{id}")
     return [peticion.json()] if peticion.ok else[]
     # if(peticion.ok):
     #     return [peticion.json()]
@@ -26,7 +26,7 @@ def getProductCodigo(id):
     #     return[]
 
 def getProductCodigo2(codigo):
-    peticion = requests.get(f"http://172.16.100.111:50006/productos?codigo_producto={codigo.upper()}", timeout=10)
+    peticion = requests.get(f"http://154.38.171.54:5008/productos?codigo_producto={codigo.upper()}", timeout=10)
     return [peticion.json()] if peticion.ok else []
 
 def getProductId(codigo):

@@ -7,12 +7,12 @@ import modules.validaciones as vali
 
 def getAllDataPagos():
     #json-server storage/pago.json -b 50004
-    peticion = requests.get("http://172.16.100.111:50005/pago")
+    peticion = requests.get("http://154.38.171.54:5006/pagos")
     data = peticion.json()
     return data 
 
 def getPagoCodigo(codigo):
-    peticion = requests.get(f"http://172.16.100.111:50005/pago/{codigo}")
+    peticion = requests.get(f"http://154.38.171.54:5006/pagos/{codigo}")
     return peticion.json() if peticion.ok else []
 
 
@@ -25,7 +25,7 @@ def getPagoCodigo(codigo):
 #             "total": input("Ingrese el estado del pedido: "),
 #     }
 #     headers = {'Content-type': 'application/json', 'charset': 'UTF-8'}
-#     peticion = requests.post("http://172.16.100.111:50005/pago",headers=headers, data=json.dumps(cliente, indent=4).encode("UTF-8"))
+#     peticion = requests.post("http://154.38.171.54:5006/pagos",headers=headers, data=json.dumps(cliente, indent=4).encode("UTF-8"))
 #     res = peticion.json()
 #     res["Mensaje"] = "Pedido Guardado"
 #     return [res]
@@ -76,14 +76,14 @@ def postPagos():
             print(error)
     
     headers = {'Content-Type': 'application/json', 'charset': 'utf-8'}
-    peticion = requests.post("http://172.16.100.111:50005/pago", headers=headers, data=json.dumps(pago))
+    peticion = requests.post("http://154.38.171.54:5006/pagos", headers=headers, data=json.dumps(pago))
     res = peticion.json()
     return [res]
 
 def deletePagos(id):
     data = pstPagos.getPagosCodigo(id)
     if(len(data)):
-        peticion = requests.get(f"http://172.16.100.111:50005/pago/{id}")
+        peticion = requests.get(f"http://154.38.171.54:5006/pagos/{id}")
         if(peticion.status_code == 204):
             data.append({"mensage": "pago eliminado correctamente"})
             return {
@@ -186,7 +186,7 @@ def updatePago(id):
                 print(error)
         
         headers = {'Content-Type': 'application/json', 'charset': 'utf-8'}
-        peticion = requests.put(f"http://172.16.100.111:50005/pago/{id}", headers=headers, data=json.dumps(data))
+        peticion = requests.put(f"http://154.38.171.54:5006/pagos/{id}", headers=headers, data=json.dumps(data))
         res = peticion.json()
         return [res]
     else:

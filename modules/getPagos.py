@@ -6,7 +6,7 @@ import json
 
 def getAllPagos():
      #json-server storage/pago.json -b 50005 
-    peticion = requests.get("http://172.16.100.111:50005/pago")
+    peticion = requests.get("http://154.38.171.54:5006/pagos")
     data = peticion.json()
     return data
 

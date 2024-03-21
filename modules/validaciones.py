@@ -35,3 +35,7 @@ def validacionFecha(fecha):
 def validaiconTransccion(transccion):
     val = re.match(r'^[a-zA-Z]{2}-[a-zA-Z]{3}-\d{6}$', transccion)
     return val
+
+def validacionSiNo(confirmacion):
+    val = re.match(r'^[sn]$', confirmacion)
+    return val

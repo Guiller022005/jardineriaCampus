@@ -10,7 +10,7 @@ import modules.validaciones as vali
 
 def getAllDataPedido():
     #json-server storage/pedido.json -b 5503
-    peticion = requests.get("http://172.16.100.111:50004/pedido")
+    peticion = requests.get("http://154.38.171.54:5007/pedidos")
     data = peticion.json()
     return data 
 
@@ -24,7 +24,7 @@ def nuevoCodigoPedido():
         return 1
 
 def getCodigoPedido(codigo):
-    peticion = requests.get(f"http://172.16.100.111:50004/pedido/{codigo}")
+    peticion = requests.get(f"http://154.38.171.54:5007/pedidos/{codigo}")
     return peticion.json() if peticion.ok else []
 
 def updatePedido(id):
@@ -134,7 +134,7 @@ def updatePedido(id):
                 print(error)          
         
         headers = {'Content-Type': 'application/json', 'charset': 'utf-8'}
-        peticion = requests.put(f"http://172.16.100.111:50004/pedido/{id}", headers=headers, data=json.dumps(data))
+        peticion = requests.put(f"http://154.38.171.54:5007/pedidos/{id}", headers=headers, data=json.dumps(data))
         res = peticion.json()
         res["Mensaje"] = "Pedido Actualizado"
         return [res]
@@ -158,7 +158,7 @@ def postProducto():
             "codigo_cliente": int(input("Ingrese la codigo del cliente: ")),
 }
     headers = {'Content-type': 'application/json', 'charset': 'UTF-8'}
-    peticion = requests.post("http://172.16.100.111:50004/pedido",headers=headers, data=json.dumps(Pedido, indent=4).encode("UTF-8"))
+    peticion = requests.post("http://154.38.171.54:5007/pedidos",headers=headers, data=json.dumps(Pedido, indent=4).encode("UTF-8"))
     res = peticion.json()
     res["Mensaje"] = "Pedido Guardado"
     return [res]
@@ -166,7 +166,7 @@ def postProducto():
 def deletePedido(id):
     data = Pe.getPedidoCodigo(id)
     if(len(data)):
-        peticion = requests.get(f"http://172.16.100.111:50004/pedido/{id}")
+        peticion = requests.get(f"http://154.38.171.54:5007/pedidos/{id}")
         if(peticion.status_code == 204):
             data.append({"mensage": "pedido eliminado correctamente"})
             return {
@@ -233,7 +233,7 @@ def postPedido():
             print(error)
     
     headers = {'Content-Type': 'application/json', 'charset': 'utf-8'}
-    peticion = requests.post("http://172.16.100.111:50004/pedido", headers=headers, data=json.dumps(pedido))
+    peticion = requests.post("http://154.38.171.54:5007/pedidos", headers=headers, data=json.dumps(pedido))
     res = peticion.json()
     res["Mensaje"] = "Pedido Agregado"
     return [res]

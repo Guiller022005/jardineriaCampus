@@ -17,14 +17,14 @@ import modules.validaciones as vali
 #             "linea_direccion2": int(input("Ingrese el codigo del jefe del empleado: "))
 #     }
 #     headers = {'Content-type': 'application/json', 'charset': 'UTF-8'}
-#     peticion = requests.post("http://172.16.100.111:50002/oficina",headers=headers, data=json.dumps(oficina, indent=4).encode("UTF-8"))
+#     peticion = requests.post("http://154.38.171.54:5005/oficinas",headers=headers, data=json.dumps(oficina, indent=4).encode("UTF-8"))
 #     res = peticion.json()
 #     res["Mensaje"] = "Producto Guardado"
 #     return [res]
 
 def getAllDataOficina():
     #json-server storage/oficina.json -b 5505
-    peticion = requests.get("http://172.16.100.111:50002/oficina")
+    peticion = requests.get("http://154.38.171.54:5005/oficinas")
     data = peticion.json()
     return data 
 
@@ -50,7 +50,7 @@ def deleteOficina(id):
     data = pstOficina.getAllCodeByCode(id)
 
     if(len(data)):
-        peticion = requests.delete(f"http://172.16.100.111:50002/oficina/{id}")
+        peticion = requests.delete(f"http://154.38.171.54:5005/oficinas/{id}")
         if(peticion.status_code == 204):
             data.append({"mensage": "oficina eliminado correctamente"})
             return {
@@ -200,7 +200,7 @@ def updateOficina(id):
                 
 
         headers = {'Content-Type': 'application/json', 'charset': 'utf-8'}
-        peticion = requests.put(f"http://172.16.100.111:50002/oficina/{id}", headers=headers, data=json.dumps(data))
+        peticion = requests.put(f"http://154.38.171.54:5005/oficinas/{id}", headers=headers, data=json.dumps(data))
         res = peticion.json()
         res["Mensaje"] = "Oficina Actualizada"
         return [res]
@@ -278,7 +278,7 @@ def postOficina():
             print(error)
     
     headers = {'Content-Type': 'application/json', 'charset': 'utf-8'}
-    peticion = requests.post("http://172.16.100.111:50002/oficina", headers=headers, data=json.dumps(oficina))
+    peticion = requests.post("http://154.38.171.54:5005/oficinas", headers=headers, data=json.dumps(oficina))
     res = peticion.json()
     res["Mensaje"] = "Oficina Guardada"
     return [res]

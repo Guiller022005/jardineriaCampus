@@ -10,7 +10,7 @@ import modules.validaciones as vali
 
 def getAllCliente():
     #json-server storage/cliente.json -b 5507
-    peticion = requests.get("http://172.16.100.111:50001/clientes")
+    peticion = requests.get("http://154.38.171.54:5001/cliente")
     data = peticion.json()
     return data
 
@@ -26,7 +26,7 @@ def nuevoCodigoCliente():
 
 
 def getClienteCodigo(codigo):
-    peticion = requests.get(f"http://172.16.100.111:50001/clientes/{codigo}")
+    peticion = requests.get(f"http://154.38.171.54:5001/cliente/{codigo}")
     return peticion.json() if peticion.ok else []
 
 def getCodi(codigo):
@@ -134,7 +134,7 @@ def postClientes():
             print(error)
 
     headers = {'Content-Type': 'application/json', 'charset': 'utf-8'}
-    peticion = requests.post("http://172.16.100.111:50001/clientes", headers=headers, data=json.dumps(cliente))
+    peticion = requests.post("http://154.38.171.54:5001/cliente", headers=headers, data=json.dumps(cliente))
     res = peticion.json()
     res["Mensaje"] = "Cliente Agregado"
     return [res]
@@ -144,7 +144,7 @@ def deleteCliente(id):
     data = Cli.getAllCodeByCode(id)
     
     if(len(data)):
-        peticion = requests.delete(f"http://172.16.100.111:50001/clientes/{id}")
+        peticion = requests.delete(f"http://154.38.171.54:5001/cliente/{id}")
         if(peticion.status_code == 204):
             data.append({"message":"cliente eliminado correctamente"})
             return {
@@ -351,7 +351,7 @@ def updateCliente(id):
                 print(error)
 
         headers = {'Content-Type': 'application/json', 'charset': 'utf-8'}
-        peticion = requests.put(f"http://172.16.100.111:50001/clientes/{id}", headers=headers, data=json.dumps(data))
+        peticion = requests.put(f"http://154.38.171.54:5001/cliente/{id}", headers=headers, data=json.dumps(data).encode("UTF-8"))
         res = peticion.json()
         res["Mensaje"] = "Cliente Actualizado"
         return [res]
@@ -380,7 +380,7 @@ def updateCliente(id):
 #             "limite_credito": int(input("Ingrese el limite de credito: "))
 #     }
 #     headers = {'Content-type': 'application/json', 'charset': 'UTF-8'}
-#     peticion = requests.post("http://172.16.100.111:50001",headers=headers, data=json.dumps(cliente, indent=4).encode("UTF-8"))
+#     peticion = requests.post("http://172.16.103.38:50001",headers=headers, data=json.dumps(cliente, indent=4).encode("UTF-8"))
 #     res = peticion.json()
 #     res["Mensaje"] = "Producto Guardado"
 #     return [res]

@@ -13,7 +13,7 @@ import modules.crudProducto as pstProducto
 
 
 
-BASE_URL = "http://172.16.100.111:50006/productos"
+BASE_URL = "http://154.38.171.54:5008/productos"
 
 
 
@@ -31,7 +31,7 @@ def updateProductoNombre(codigo):
                 if (opc):
                     headers={'Content-type': 'application/json', 'charset':'UTF-8'}
                     producto[0]["nombre"] = input("Ingrese el nuevo nombre del producto")
-                    peticion = requests.put(f"http://172.16.100.111:50006/productos/{producto[0].get('id')}", headers= headers, data=json.dumps(producto[0]))
+                    peticion = requests.put(f"http://154.38.171.54:5008/productos/{producto[0].get('id')}", headers= headers, data=json.dumps(producto[0]))
                     data = peticion.json()
                     return [data]
                 else:
@@ -45,12 +45,12 @@ def updateProductoNombre(codigo):
 
 def getAllDataProducto():
     #json-server storage/producto.json -b 5501
-    peticion = requests.get("http://172.16.100.111:50006/productos")
+    peticion = requests.get("http://154.38.171.54:5008/productos")
     data = peticion.json()
     return data 
 
 def getProductoCodigo(codigo):
-    peticion = requests.get(f"http://172.16.100.111:50006/productos/{codigo}")
+    peticion = requests.get(f"http://154.38.171.54:5008/productos/{codigo}")
     return [peticion.json()] if peticion.ok else []
 
 def getCodi(codigo):
@@ -262,7 +262,7 @@ def postProducto():
 def deleteProducto(id):
     data = gP.getAllProducto(id)
     if(len(data)):
-        peticion = requests.get(f"http://172.16.100.111:50006/productos/{id}")
+        peticion = requests.get(f"http://154.38.171.54:5008/productos/{id}")
         if(peticion.status_code == 204):
             data.append({"mensage": "producto eliminado correctamente"})
             return {
@@ -380,7 +380,7 @@ def postProducto():
             print(error)
             
     headers = {'Content-Type': 'application/json', 'charset': 'utf-8'}
-    peticion = requests.post("http://172.16.100.111:50006/productos", headers=headers, data=json.dumps(producto))
+    peticion = requests.post("http://154.38.171.54:5008/productos", headers=headers, data=json.dumps(producto))
     res = peticion.json()
     res["Mensaje"] = "Producto Guardado"
     return [res]

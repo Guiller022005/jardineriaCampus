@@ -10,7 +10,7 @@ import modules.validaciones as vali
 
 def getAllDataEmpleado():
     #json-server storage/empleado.json -b 50003
-    peticion = requests.get("http://172.16.100.111:50003/empleados")
+    peticion = requests.get("http://154.38.171.54:5003/empleados")
     data = peticion.json()
     return data 
 
@@ -24,7 +24,7 @@ def nuevoCodigoEmpleado():
         return 1
     
 def getCodigoEmpleado(codigo):
-    peticion = requests.get(f"http://172.16.100.111:50003/empleados/{codigo}")
+    peticion = requests.get(f"http://154.38.171.54:5003/empleados/{codigo}")
     return peticion.json() if peticion.ok else []
 
 def postEmpleados():
@@ -91,7 +91,7 @@ def postEmpleados():
             print(error)
     
     headers = {'Content-Type': 'application/json', 'charset': 'utf-8'}
-    peticion = requests.post("http://172.16.100.111:50003/empleados", headers=headers, data=json.dumps(empleado))
+    peticion = requests.post("http://154.38.171.54:5003/empleados", headers=headers, data=json.dumps(empleado))
     res = peticion.json()
     res["Mensaje"] = "Empleado Agregado"
     return [res]
@@ -99,7 +99,7 @@ def postEmpleados():
 def deleteEmpleado(id):
     data = em.getAllCodeByCode(id)
     if(len(data)):
-        peticion = requests.delete(f"http://172.16.100.111:50003/empleados/{id}")
+        peticion = requests.delete(f"http://154.38.171.54:5003/empleados/{id}")
         if(peticion.status_code == 204):
             data.append({"mensage": "empleado eliminado correctamente"})
             return {
@@ -250,7 +250,7 @@ def updateEmpleado(id):
 
 
         headers = {'Content-Type': 'application/json', 'charset': 'utf-8'}
-        peticion = requests.put(f"http://172.16.100.111:50003/empleados/{id}", headers=headers, data=json.dumps(data))
+        peticion = requests.put(f"http://154.38.171.54:5003/empleados/{id}", headers=headers, data=json.dumps(data).encode("UTF-8"))
         res = peticion.json()
         res["Mensaje"] = "Empleado Actualizado"
         return [res]
@@ -273,7 +273,7 @@ def updateEmpleado(id):
 #             "codigo_jefe": int(input("Ingrese el codigo del jefe del empleado: "))
 #     }
 #     headers = {'Content-type': 'application/json', 'charset': 'UTF-8'}
-#     peticion = requests.post("http://172.16.100.111:50003/empleados",headers=headers, data=json.dumps(empleado, indent=4).encode("UTF-8"))
+#     peticion = requests.post("http://154.38.171.54:5003/empleados",headers=headers, data=json.dumps(empleado, indent=4).encode("UTF-8"))
 #     res = peticion.json()
 #     res["Mensaje"] = "Empleado Guardado"
 #     return [res]
